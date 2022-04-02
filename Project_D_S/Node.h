@@ -3,11 +3,15 @@ template<class T>
 class Node
 {
 	T Item;
-	Node<T>* next;
+	Node<T>* Next;
 public:
 	Node() {
-		next = nullptr;
+		Next = nullptr;
 	};
 	~Node() {}
+	Node<T>* GetNext() { return Next; }
+	void setNext(Node<T>* N) {
+		Next = N;
+	}
 };
 

@@ -3,12 +3,13 @@
 template<class T>
 class Queue
 {
-	Node<T>* front,rear;
+	Node<T>* Front,Rear;
 public:
 	Queue() {
-		front = rear = nullptr;
+		Front = Rear = nullptr;
 	}
-	bool Insert(T item) {}
+	bool Enqueue(T Item) {}
+	bool Dequeue(T &Item){}
 	~Queue() {}
 };
 
