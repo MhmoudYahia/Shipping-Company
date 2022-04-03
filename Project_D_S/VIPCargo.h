@@ -1,10 +1,10 @@
 #pragma once
 #include "Cargo.h"
-class VIBcargo :
+class VIPCargo :
     public Cargo
 {
 public:
-    VIBcargo() {}
-    ~VIBcargo() {}
+    VIPCargo() {}
+    ~VIPCargo() {}
 };
 

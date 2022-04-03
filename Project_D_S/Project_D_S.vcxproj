@@ -145,9 +145,9 @@
     <ClCompile Include="NormalCargo.cpp" />
     <ClCompile Include="Queue.cpp" />
     <ClCompile Include="QueueAdt.cpp" />
-    <ClCompile Include="SpCargo.cpp" />
+    <ClCompile Include="SpecialCargo.cpp" />
     <ClCompile Include="Truck.cpp" />
-    <ClCompile Include="VIBcargo.cpp" />
+    <ClCompile Include="VIPCargo.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Cargo.h" />
@@ -155,9 +155,9 @@
     <ClInclude Include="NormalCargo.h" />
     <ClInclude Include="Queue.h" />
     <ClInclude Include="QueueAdt.h" />
-    <ClInclude Include="SpCargo.h" />
+    <ClInclude Include="SpecialCargo.h" />
     <ClInclude Include="Truck.h" />
-    <ClInclude Include="VIBcargo.h" />
+    <ClInclude Include="VIPCargo.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

@@ -27,13 +27,13 @@
     <ClCompile Include="Cargo.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="VIBcargo.cpp">
+    <ClCompile Include="VIPCargo.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="NormalCargo.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="SpCargo.cpp">
+    <ClCompile Include="SpecialCargo.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="QueueAdt.cpp">
@@ -53,13 +53,13 @@
     <ClInclude Include="Cargo.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="VIBcargo.h">
+    <ClInclude Include="VIPCargo.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="NormalCargo.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="SpCargo.h">
+    <ClInclude Include="SpecialCargo.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="QueueAdt.h">
