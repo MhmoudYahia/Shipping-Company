@@ -146,6 +146,7 @@
     <ClCompile Include="Queue.cpp" />
     <ClCompile Include="QueueAdt.cpp" />
     <ClCompile Include="SpCargo.cpp" />
+    <ClCompile Include="Truck.cpp" />
     <ClCompile Include="VIBcargo.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -155,6 +156,7 @@
     <ClInclude Include="Queue.h" />
     <ClInclude Include="QueueAdt.h" />
     <ClInclude Include="SpCargo.h" />
+    <ClInclude Include="Truck.h" />
     <ClInclude Include="VIBcargo.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
