@@ -5,6 +5,7 @@ class SpCargo :
 {
 public:
     SpCargo() {}
+
     ~SpCargo(){}
 };
 
