@@ -3,11 +3,13 @@ template<class T>
 class Node
 {
 	T item;
+	int priority;
 	Node<T>* next;
 public:
 	Node() {
 		item = 0;
 		next = nullptr;
+		priority = 0;
 	}
 	void setitem(const T& item) {
 		this->item = item;
@@ -20,6 +22,12 @@ public:
 	}
 	T getitem() {
 		return item;
+	}
+	int GetPriority() {
+		return priority;
+	}
+	void SetPriority(int a) {
+		priority = a;
 	}
 	~Node() {}
 };

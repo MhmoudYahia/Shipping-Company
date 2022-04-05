@@ -143,9 +143,13 @@
     <ClCompile Include="MainTest.cpp" />
     <ClCompile Include="Node.cpp" />
     <ClCompile Include="NormalCargo.cpp" />
+    <ClCompile Include="PriorityQueue.cpp" />
+    <ClCompile Include="PriorityQueueAdt.cpp" />
     <ClCompile Include="Queue.cpp" />
     <ClCompile Include="QueueAdt.cpp" />
     <ClCompile Include="SpecialCargo.cpp" />
+    <ClCompile Include="Stack.cpp" />
+    <ClCompile Include="StackAdt.cpp" />
     <ClCompile Include="Truck.cpp" />
     <ClCompile Include="VIPCargo.cpp" />
   </ItemGroup>
@@ -153,9 +157,13 @@
     <ClInclude Include="Cargo.h" />
     <ClInclude Include="Node.h" />
     <ClInclude Include="NormalCargo.h" />
+    <ClInclude Include="PriorityQueue.h" />
+    <ClInclude Include="PriorityQueueAdt.h" />
     <ClInclude Include="Queue.h" />
     <ClInclude Include="QueueAdt.h" />
     <ClInclude Include="SpecialCargo.h" />
+    <ClInclude Include="Stack.h" />
+    <ClInclude Include="StackAdt.h" />
     <ClInclude Include="Truck.h" />
     <ClInclude Include="VIPCargo.h" />
   </ItemGroup>

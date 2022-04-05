@@ -1,34 +1,51 @@
 #pragma once
-#include"QueueADT.h"
+#include"Node.h"
+#include"PriorityQueueAdt.h"
 template<class T>
-class Queue :public QueueAdt<T>
+class PriorityQueue:public PriorityQueueAdt<T>
 {
 	Node<T>* front, * rear;
 public:
-	Queue() {
+	PriorityQueue() {
 		front = rear = nullptr;
 	}
-	bool iSempty()const {
-		if (front == nullptr)
-			return true;
-		return false;
-	}
-	bool enqueue(const T& val) {
+	bool enqueue(const T& item,int par) {
+		Node<T>* temp = front;
 		Node<T>* newnode = new Node<T>();
-		newnode->setitem(val);
-		if (!rear)
-		{
+		if (!newnode)
+			return false;
+		newnode->setitem(item);
+		newnode->SetPriority(par);
+		if (!front) {
 			front = rear = newnode;
-
-
+			return true;
 		}
-		else {
-			rear->setnext(newnode);
-			rear = rear->getnext();
-
+		if (front->GetPriority() < par) {
+			newnode->setnext(front);
+			front = newnode;
+			return true;
 		}
-		newnode->setnext(nullptr);
+		//while (temp->getnext()&&temp->getnext()->GetPriority()>par) {
+
+		//	temp = temp->getnext();
+
+		//}
+		//// 
+		while (temp->getnext() ) {
+			if (temp->getnext()->GetPriority() < par) {
+				//temp is now in the position
+					newnode->setnext(temp->getnext());
+					temp->setnext(newnode);
+					return true;
+			}
+			temp = temp->getnext();
+			}
+		rear->setnext(newnode);
+		rear = newnode;
 		return true;
+	}
+	bool iSempty()const {
+		return !front;
 	}
 	bool dequeue(T& val) {
 		if (iSempty())
@@ -53,7 +70,7 @@ public:
 		val = front->getitem();
 		return true;
 	}
-	Queue(const Queue<T>& q) {
+	PriorityQueue(const PriorityQueue<T>& q) {
 		Node<T>* ptr = q.front;
 		if (!ptr) {
 			front = rear = nullptr;
@@ -72,6 +89,6 @@ public:
 			ptr = ptr->getnext();
 		}
 	}
-	~Queue() {}
+	~PriorityQueue() {}
 };
 
