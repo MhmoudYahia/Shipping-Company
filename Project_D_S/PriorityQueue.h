@@ -9,7 +9,7 @@ public:
 	PriorityQueue() {
 		front = rear = nullptr;
 	}
-	bool enqueue(const T& item,int par) {
+	bool enqueue(const T& item,double par) {
 		Node<T>* temp = front;
 		Node<T>* newnode = new Node<T>();
 		if (!newnode)

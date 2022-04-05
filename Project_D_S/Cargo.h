@@ -5,6 +5,7 @@ using namespace std;
 
 class Cargo
 {
+protected:
 	pair<int, int>Per_T;
 	double Load_T;
 	double delvr_Dis;
@@ -12,11 +13,11 @@ class Cargo
 	int ID;
 public:
 	Cargo() ;  // will come back
-	void setPT(int d, int h);
-	void SetLT(double t);
-	void SetDdes(double d);
-	void SetCost(double c);
-	void SetID(int d);
+	virtual void setPT(int d, int h);
+	virtual void SetLT(double t);
+	virtual void SetDdes(double d);
+	virtual void SetCost(double c);
+    void SetID(int d);
 	int GetID();
 	~Cargo();
 };

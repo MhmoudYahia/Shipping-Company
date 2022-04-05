@@ -3,7 +3,7 @@ template<class T>
 class Node
 {
 	T item;
-	int priority;
+	double priority;
 	Node<T>* next;
 public:
 	Node() {
@@ -23,10 +23,10 @@ public:
 	T getitem() {
 		return item;
 	}
-	int GetPriority() {
+	double GetPriority() {
 		return priority;
 	}
-	void SetPriority(int a) {
+	void SetPriority(double a) {
 		priority = a;
 	}
 	~Node() {}
