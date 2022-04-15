@@ -54,6 +54,18 @@
     <ClCompile Include="PriorityQueueAdt.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="CancellationEvent.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Event.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="PreparationEvent.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="PromotionEvent.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Queue.h">
@@ -90,6 +102,18 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="PriorityQueueAdt.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="CancellationEvent.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Event.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="PreparationEvent.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="PromotionEvent.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

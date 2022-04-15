@@ -1,7 +1,6 @@
 #pragma once
 #include "Cargo.h"
-class NormalCargo :
-    public Cargo
+class NormalCargo :public Cargo
 {
 public:
     NormalCargo() {}

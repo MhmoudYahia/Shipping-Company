@@ -139,12 +139,16 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="CancellationEvent.cpp" />
     <ClCompile Include="Cargo.cpp" />
+    <ClCompile Include="Event.cpp" />
     <ClCompile Include="MainTest.cpp" />
     <ClCompile Include="Node.cpp" />
     <ClCompile Include="NormalCargo.cpp" />
+    <ClCompile Include="PreparationEvent.cpp" />
     <ClCompile Include="PriorityQueue.cpp" />
     <ClCompile Include="PriorityQueueAdt.cpp" />
+    <ClCompile Include="PromotionEvent.cpp" />
     <ClCompile Include="Queue.cpp" />
     <ClCompile Include="QueueAdt.cpp" />
     <ClCompile Include="SpecialCargo.cpp" />
@@ -154,11 +158,15 @@
     <ClCompile Include="VIPCargo.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="CancellationEvent.h" />
     <ClInclude Include="Cargo.h" />
+    <ClInclude Include="Event.h" />
     <ClInclude Include="Node.h" />
     <ClInclude Include="NormalCargo.h" />
+    <ClInclude Include="PreparationEvent.h" />
     <ClInclude Include="PriorityQueue.h" />
     <ClInclude Include="PriorityQueueAdt.h" />
+    <ClInclude Include="PromotionEvent.h" />
     <ClInclude Include="Queue.h" />
     <ClInclude Include="QueueAdt.h" />
     <ClInclude Include="SpecialCargo.h" />

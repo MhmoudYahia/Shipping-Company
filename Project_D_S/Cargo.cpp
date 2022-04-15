@@ -41,6 +41,26 @@ int Cargo::GetID()
 	return ID;
 }
 
+double Cargo::getDdes()
+{
+	return delvr_Dis;
+}
+
+double Cargo::getCost()
+{
+	return cost;
+}
+
+double Cargo::getLT()
+{
+	return Load_T;
+}
+
+pair<int, int> Cargo::getPT()
+{
+	return Per_T;
+}
+
 Cargo::~Cargo()
 {
 }

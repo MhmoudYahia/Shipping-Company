@@ -19,6 +19,10 @@ public:
 	virtual void SetCost(double c);
     void SetID(int d);
 	int GetID();
+	double getDdes();		//ismail
+	double getCost();		//ismail
+	double getLT();		//ismail
+	pair<int, int> getPT();		//ismail
 	~Cargo();
 };
 
