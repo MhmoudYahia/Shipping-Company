@@ -19,5 +19,5 @@ public:
 	void ChangeState(State S);
 	Truck(int T);
 	bool AddCargo(Cargo* C);
-
-}
+	virtual void Print() = 0;
+};
