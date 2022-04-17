@@ -14,5 +14,17 @@ class Company
 	Queue<Truck*> LoadingTrucks;
 	Queue<Truck*> EmptyTrucks;
 	Queue<Truck*> InCheckupTrucks;
+
+	//Trucks
+	Queue<Truck*>NormalTrucks;
+	Queue<Truck*>SpecialTrucks;
+	Queue<Truck*>VIPTrucks;
+
+	//Cargos
+	Queue<Cargo*>NormalCargos;
+	Queue<Cargo*>SpecialCargos;
+	Queue<Cargo*>VIPCargos;
+
+
 };
 
