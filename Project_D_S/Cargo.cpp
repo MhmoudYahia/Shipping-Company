@@ -10,6 +10,16 @@ Cargo::Cargo()
 	this->Per_T.second = 0;
 }
 
+void Cargo::ChangeState(State c)
+{
+	Cargostate = c;
+}
+
+State Cargo::GetState()
+{
+	return Cargostate;
+}
+
 void Cargo::setPT(int d, int h)
 {
 	this->Per_T.first =(d>0)? d:0;
