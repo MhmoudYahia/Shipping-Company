@@ -5,6 +5,6 @@
 using namespace std;
 int main() {
 	Mode m;
-	cin >> m;
+	
 	return 0;
 }
