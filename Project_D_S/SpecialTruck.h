@@ -3,5 +3,7 @@
 class SpecialTruck :
     public Truck
 {
+
+
 };
 
