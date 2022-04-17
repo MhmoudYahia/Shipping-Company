@@ -2,10 +2,11 @@
 #include<iostream>
 using namespace std;
 #include<utility>
-
+enum State { waiting, moving, delivered };
 class Cargo
 {
 protected:
+	State Cargostate;
 	pair<int, int>Per_T;
 	double Load_T;
 	double delvr_Dis;
@@ -13,6 +14,8 @@ protected:
 	int ID;
 public:
 	Cargo() ;  // will come back
+	void ChangeState(State c);
+	State GetState();
 	virtual void setPT(int d, int h);
 	virtual void SetLT(double t);
 	virtual void SetDdes(double d);

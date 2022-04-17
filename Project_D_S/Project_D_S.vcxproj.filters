@@ -128,17 +128,5 @@
     <ClInclude Include="PromotionEvent.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="VIPTruck.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="NormalTruck.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="SpecialTruck.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Company.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
   </ItemGroup>
 </Project>
