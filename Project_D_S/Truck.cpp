@@ -17,3 +17,8 @@ bool Truck::AddCargo(Cargo* C) {
 	CargoCount++;
 	return true;
 }
+bool Truck::RemoveCargo(Cargo* C) {
+	if (CargoCount == 0) return false;
+	TruckCargos.dequeue(C);
+	return true;
+}

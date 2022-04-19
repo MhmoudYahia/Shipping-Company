@@ -25,6 +25,16 @@ class Company
 	Queue<Cargo*>SpecialCargos;
 	Queue<Cargo*>VIPCargos;
 
+	int MaxW;
+	int CurrentHour;
 
+public:
+	void LoadCargos();
+	void IncrementHour();
+	void setMaxW(int);
+	bool isClosed();
+	bool AddtoVIPTruck(Cargo*);
+	bool AddtoNormalTruck(Cargo*);
+	bool AddtoSpecialTruck(Cargo*);
 };
 

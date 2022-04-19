@@ -11,6 +11,7 @@ protected:
 	double Load_T;
 	double delvr_Dis;
 	double cost;
+	int WaitingH;
 	int ID;
 public:
 	Cargo() ;  // will come back
@@ -20,6 +21,8 @@ public:
 	virtual void SetLT(double t);
 	virtual void SetDdes(double d);
 	virtual void SetCost(double c);
+	void IncrementWaitingHours();
+	int GetWaitingHours();
     void SetID(int d);
 	int GetID();
 	double getDdes();		//ismail
