@@ -9,7 +9,9 @@ using namespace std;
 #include"NormalCargo.h"
 #include"VIPCargo.h"
 #include"SpecialCargo.h"
-
+#include"VIPTruck.h"
+#include"SpecialTruck.h"
+#include"NormalTruck.h"
 
 enum Mode { interactive, step_by_step, silent };
 class UIClass
@@ -27,6 +29,6 @@ public:
 	void printWaitingCargos(PriorityQueue<Cargo*>* qWc);
 	void PrintMovingCargos(Queue<Cargo*>* qMc);
 	void printDeliveredCargo(Queue<Cargo*>* qDc);
-	void PrintIn_CheckupTrucks(Queue<Cargo*>* qCt);
+	void PrintIn_CheckupTrucks(Queue<Truck*>* qCt);
 };
 

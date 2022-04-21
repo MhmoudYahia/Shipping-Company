@@ -67,22 +67,26 @@ void UIClass::printWaitingCargos(PriorityQueue<Cargo*>* qWc)
 		}
 		//return origin qWl
 		while (tempQ.dequeue(Cptr))
-			qWc->enqueue(Cptr,Cptr->Getpriority());
+			qWc->enqueue(Cptr, Cptr->Getpriority());
 
 		//printing normal
-		cout << '[';
-		nrmQ.Print(this);
-		cout  << '] ';
-
+		if (nrmQ.GetCount() > 0) {
+			cout << '[';
+			nrmQ.Print(this);
+			cout << '] ';
+		}
 		//printing special
-		cout << '(';
-		spQ.Print(this);
-		cout << ') ';
-
+		if (spQ.GetCount() > 0) {
+			cout << '(';
+			spQ.Print(this);
+			cout << ') ';
+		}
 		//printing vip
-		cout << '{';
-		vipQ.Print(this);
-		cout <<'} ';
+		if (vipQ.GetCount() > 0) {
+			cout << '{';
+			vipQ.Print(this);
+			cout << '} ';
+		}
 	}
 	/*while (nrmQ.dequeue(Cptr)&&nrmQ.GetCount()!=1)
 		cout << Cptr->GetID() << ',';
@@ -127,25 +131,73 @@ void UIClass::printDeliveredCargo(Queue<Cargo*>* qDc)
 
 
 		//printing vip
-		cout << '{';
-		vipQ.Print(this);
-		cout << '} ';
-
-		//printing normal
-		cout << '[';
-		nrmQ.Print(this);
-		cout << '] ';
-
+		if (vipQ.GetCount() > 0) {
+			cout << '{';
+			vipQ.Print(this);
+			cout << '} ';
+		}
+		//normal
+		if (nrmQ.GetCount() > 0) {
+			cout << '[';
+			nrmQ.Print(this);
+			cout << '] ';
+		}
 		//printing special
+		if (spQ.GetCount() > 0) {
+			cout << '(';
+			spQ.Print(this);
+			cout << ') ';
+		}
+	}
+}
+
+
+
+void UIClass::PrintIn_CheckupTrucks(Queue<Truck*>* qCt)
+{
+	cout << qCt->GetCount() << " In_CheckupTrucks: ";
+	Queue<Truck*>tempQ{};
+	Queue<Truck*>vipQ;
+	Queue<Truck*>spQ;
+	Queue<Truck*>nrmQ;
+	Truck* Cptr;
+	while (!qCt->iSempty()) {
+		qCt->dequeue(Cptr);
+		tempQ.enqueue(Cptr);
+		if (dynamic_cast<NormalTruck*>(Cptr)) {
+			nrmQ.enqueue(Cptr);
+		}
+		if (dynamic_cast<VIPTruck*>(Cptr)) {
+			vipQ.enqueue(Cptr);
+		}
+		if (dynamic_cast<SpecialTruck*>(Cptr)) {
+			spQ.enqueue(Cptr);
+		}
+	}
+	//return origin qDl
+	while (tempQ.dequeue(Cptr))
+		qCt->enqueue(Cptr);
+
+
+	//printing normal
+	if(nrmQ.GetCount()>0)
+	cout << '[';
+	nrmQ.Print(this);
+	cout << '] ';
+
+	//printing special
+	if (spQ.GetCount()>0) {
 		cout << '(';
 		spQ.Print(this);
 		cout << ') ';
 	}
-}
 
-void UIClass::PrintIn_CheckupTrucks(Queue<Cargo*>* qCt)
-{
-
+	//printing vip
+	if (vipQ.GetCount() > 0) {
+		cout << '{';
+		vipQ.Print(this);
+		cout << '} ';
+	}
 }
 
 
