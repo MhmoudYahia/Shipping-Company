@@ -1,11 +1,11 @@
 #pragma once
 #include "Cargo.h"
-class SpCargo :
+class SpecialCargo :
     public Cargo
 {
 public:
-    SpCargo() {}
+    SpecialCargo() {}
 
-    ~SpCargo(){}
+    ~SpecialCargo(){}
 };
 

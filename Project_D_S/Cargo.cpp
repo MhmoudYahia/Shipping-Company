@@ -1,4 +1,5 @@
 #include "Cargo.h"
+#include "Truck.h"
 
 Cargo::Cargo()
 {
@@ -8,6 +9,7 @@ Cargo::Cargo()
 	this->Load_T = 0;
 	this->Per_T.first = 0;
 	this->Per_T.second = 0;
+	this->WaitingH = 0;
 }
 
 void Cargo::ChangeState(State c)
@@ -70,7 +72,12 @@ pair<int, int> Cargo::getPT()
 {
 	return Per_T;
 }
-
+void Cargo::IncrementWaitingHours() {
+	WaitingH++;
+}
+int Cargo::GetWaitingHours() {
+	return WaitingH;
+}
 Cargo::~Cargo()
 {
 }
