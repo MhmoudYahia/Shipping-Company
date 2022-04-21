@@ -16,6 +16,7 @@ class Truck
 	double DI; //Delivery Interval =(Distance of furthest cargo)/ speed + Sum of unload times of all its cargos + time to come back
 
 public:
+	int GetID();
 	void ChangeState(State S);
 	Truck(int T);
 	bool AddCargo(Cargo* C);

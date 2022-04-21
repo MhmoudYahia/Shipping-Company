@@ -9,6 +9,17 @@ public:
 	PriorityQueue() {
 		front = rear = nullptr;
 	}
+	int GetCount() {
+		if (iSempty())
+			return 0;
+		int cnt = 0;
+		Node<T>* ptr = front;
+		while (!ptr) {
+			cnt++;
+			ptr = ptr->getnext();
+		}
+		return cnt;
+	}
 	bool enqueue(const T& item,double par) {
 		Node<T>* temp = front;
 		Node<T>* newnode = new Node<T>();

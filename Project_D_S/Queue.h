@@ -1,4 +1,5 @@
 #pragma once
+#include"UIClass.h"
 #include"QueueADT.h"
 template<class T>
 class Queue :public QueueAdt<T>
@@ -7,6 +8,14 @@ class Queue :public QueueAdt<T>
 public:
 	Queue() {
 		front = rear = nullptr;
+	}
+	void Print(UIClass* PUI) {
+		
+		T Cptr;
+		while (dequeue(Cptr) && GetCount() != 1)
+		 PUI->PrintID(Cptr) << ',';
+		if (dequeue(Cptr));
+		cout << PUI->PrintID(Cptr);
 	}
 	bool iSempty()const {
 		if (front == nullptr)
@@ -46,6 +55,17 @@ public:
 		delete delptr;
 
 		return true;
+	}
+	int GetCount() {
+		if (iSempty())
+			return 0;
+		int cnt=0;
+		Node<T>* ptr = front;
+		while (!ptr) {
+			cnt++;
+			ptr = ptr->getnext();
+		}
+		return cnt;
 	}
 	bool peak(T& val)const {
 		if (iSempty())

@@ -5,9 +5,10 @@ using namespace std;
 #include"PriorityQueue.h"
 #include"Queue.h"
 #include"Cargo.h"
-//#include"NormalCargo.h"
-//#include"VIPCargo.h"
-//#include"SpecialCargo.h"
+#include"Truck.h"
+#include"NormalCargo.h"
+#include"VIPCargo.h"
+#include"SpecialCargo.h"
 
 
 enum Mode { interactive, step_by_step, silent };
@@ -19,9 +20,13 @@ public:
 	~UIClass();
 	void getKey();
 	Mode SelectMode();
+	void PrintID(Cargo*c);
+	void PrintID(Truck*t);
 	void PrintCurrentTime(pair<int, int>p);
 	// interactiveExcute
 	void printWaitingCargos(PriorityQueue<Cargo*>* qWc);
-
+	void PrintMovingCargos(Queue<Cargo*>* qMc);
+	void printDeliveredCargo(Queue<Cargo*>* qDc);
+	void PrintIn_CheckupTrucks(Queue<Cargo*>* qCt);
 };
 

@@ -1,5 +1,10 @@
 #include "Truck.h"
 
+int Truck::GetID()
+{
+	return ID;
+}
+
 void Truck:: ChangeState(State S) {
 	TruckState = S;
 	CargoCount = 0;

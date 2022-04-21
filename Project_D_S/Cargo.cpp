@@ -53,6 +53,11 @@ int Cargo::GetID()
 	return ID;
 }
 
+int Cargo::Getpriority()
+{
+	return 0;
+}
+
 double Cargo::getDdes()
 {
 	return delvr_Dis;

@@ -25,6 +25,7 @@ public:
 	int GetWaitingHours();
     void SetID(int d);
 	int GetID();
+	virtual int Getpriority();  //return 0 except in vip
 	double getDdes();		//ismail
 	double getCost();		//ismail
 	double getLT();		//ismail

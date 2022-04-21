@@ -2,11 +2,12 @@
 #include "Cargo.h"
 #include"Queue.h"
 #include"Stack.h"
-template<class T>
+
 class NormalCargo :public Cargo
 {
 public:
     NormalCargo() {}
+	template<class T>
 	bool N_Cargo_Cancellation(Queue<T>* ptr,int id)
 	{
 		T tem;

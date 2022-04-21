@@ -3,5 +3,7 @@
 class NormalTruck :
     public Truck
 {
+public:
+    
 };
 
