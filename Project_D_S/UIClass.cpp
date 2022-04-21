@@ -17,17 +17,30 @@ void UIClass::getKey()
 Mode UIClass::SelectMode()
 {
 	int i;
-	Mode M;
+	//Mode M;//as a default{}{}
 	cout << "if you want interactive or step-by-step or silent mode write 0 or 1 or 2 respectively\n";
 		cin >> i;
-		if (i == 0)M = interactive;
-		else if (i == 1)M = step_by_step;
-		else if (i == 2)M = silent;
+		if (i == 0)
+			return interactive;
+		else if (i == 1)
+			return step_by_step;
+		else if (i == 2)
+			return silent;
 		else cout << "NOT VALID\n";
-		return M;
+		
 }
 
 void UIClass::PrintCurrentTime(pair<int, int> p)
 {
 	cout << "Current Time (Day:Hour):" << p.first << ":" << p.second << endl;
 }
+
+void UIClass::printWaitingCargos(PriorityQueue<Cargo*>* qWc)
+{
+	Cargo* Cptr;
+	while (!qWc->iSempty()) {
+
+	}
+}
+
+

@@ -5,6 +5,7 @@
 #include "Truck.h"
 class Company
 {
+
 	// Cargos for Display
 	PriorityQueue<Cargo*> WaitingCargos;
 	Queue<Cargo*> MovingCargos;
@@ -14,5 +15,6 @@ class Company
 	Queue<Truck*> LoadingTrucks;
 	Queue<Truck*> EmptyTrucks;
 	Queue<Truck*> InCheckupTrucks;
+
 };
 

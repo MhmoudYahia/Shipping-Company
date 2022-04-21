@@ -4,7 +4,6 @@
 #include"UIClass.h"
 using namespace std;
 int main() {
-	Mode m;
 	
 	return 0;
 }
