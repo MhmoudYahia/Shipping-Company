@@ -1,6 +1,7 @@
 #pragma once
-#include"UIClass.h"
+//#include"UIClass.h"
 #include"QueueADT.h"
+#include "UIClass.h"
 template<class T>
 class Queue :public QueueAdt<T>
 {

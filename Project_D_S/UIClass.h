@@ -21,14 +21,24 @@ public:
 	UIClass();
 	~UIClass();
 	void getKey();
+	//general
 	Mode SelectMode();
+
 	void PrintID(Cargo*c);
+
 	void PrintID(Truck*t);
+
 	void PrintCurrentTime(pair<int, int>p);
-	// interactiveExcute
+
+	// interactiveExcute mode
 	void printWaitingCargos(PriorityQueue<Cargo*>* qWc);
+
 	void PrintMovingCargos(Queue<Cargo*>* qMc);
+
 	void printDeliveredCargo(Queue<Cargo*>* qDc);
+
 	void PrintIn_CheckupTrucks(Queue<Truck*>* qCt);
+
+	void PrintEmptytrucks(Queue<Truck*>* qEt);
 };
 
