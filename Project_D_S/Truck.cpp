@@ -27,3 +27,6 @@ bool Truck::RemoveCargo(Cargo* C) {
 	TruckCargos.dequeue(C);
 	return true;
 }
+void Truck::Print(UIClass * UI) {
+	TruckCargos.Print(UI);
+}

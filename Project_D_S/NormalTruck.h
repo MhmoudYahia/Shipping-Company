@@ -4,6 +4,5 @@ class NormalTruck :
     public Truck
 {
 public:
-    virtual void Print(UIClass * );
 };
 
