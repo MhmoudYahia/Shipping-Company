@@ -3,6 +3,7 @@
 class VIPTruck :
     public Truck
 {
+    void Print(UIClass* UI);
 
 };
 

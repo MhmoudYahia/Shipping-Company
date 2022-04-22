@@ -27,3 +27,20 @@ bool Truck::RemoveCargo(Cargo* C) {
 	TruckCargos.dequeue(C);
 	return true;
 }
+void Truck::Print(UIClass* UI) {
+	Cargo* CargoPtr;
+	TruckCargos.peak(CargoPtr);
+	Queue<Cargo* > temp;
+	while (CargoPtr != NULL) {
+		UI->PrintID(CargoPtr);
+		temp.enqueue(CargoPtr);
+		TruckCargos.dequeue(CargoPtr);
+		TruckCargos.peak(CargoPtr);
+	}
+	temp.peak(CargoPtr);
+	while (CargoPtr != NULL) {
+		TruckCargos.enqueue(CargoPtr);
+		temp.dequeue(CargoPtr);
+		temp.peak(CargoPtr);
+	}
+}
