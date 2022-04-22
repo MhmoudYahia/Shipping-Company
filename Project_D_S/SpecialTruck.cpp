@@ -2,7 +2,7 @@
 #include "Truck.h"
 
 void SpecialTruck::Print(UIClass* UI) {
-	cout << "[";
-	Truck::Print(UI);
-	cout << "]";
+	cout << "(";
+	TruckCargos.Print(UI);
+	cout << ")";
 }

@@ -1,6 +1,6 @@
 #include "VIPTruck.h"
 void NormalTruck::Print(UIClass* UI) {
-	cout << "[";
-	Truck::Print(UI);
-	cout << "]";
+	cout << "{";
+	TruckCargos.Print(UI);
+	cout << "}";
 }
