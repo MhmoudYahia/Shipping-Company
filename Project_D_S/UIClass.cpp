@@ -109,7 +109,7 @@ void UIClass::PrintMovingCargos(Queue<Cargo*>* qMc)
 
 }
 
-void UIClass::printDeliveredCargo(Queue<Cargo*>* qDc)
+void UIClass::PrintDeliveredCargo(Queue<Cargo*>* qDc)
 {
 	cout << qDc->GetCount() << " Delivered Cargo: ";
 	Queue<Cargo*>tempQ{};

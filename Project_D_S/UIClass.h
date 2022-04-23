@@ -23,14 +23,10 @@ public:
 	void getKey();
 	//general
 	Mode SelectMode();
-
 	void PrintLine();
-
 	//for Queue
 	void PrintID(Cargo*c);
-
 	void PrintID(Truck*t);
-
 	//time
 	void PrintCurrentTime(pair<int, int>p);
 
@@ -39,7 +35,7 @@ public:
 
 	void PrintMovingCargos(Queue<Cargo*>* qMc);
 
-	void printDeliveredCargo(Queue<Cargo*>* qDc);
+	void PrintDeliveredCargo(Queue<Cargo*>* qDc);
 
 	void PrintIn_CheckupTrucks(Queue<Truck*>* qCt);
 
@@ -49,7 +45,6 @@ public:
 
 	//Silent mode interface
 	void PrintSilentMode();
-
 	void PrintError(string);
 
 

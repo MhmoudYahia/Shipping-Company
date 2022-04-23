@@ -57,6 +57,7 @@ class Company
 	Queue<CancellationEvent*> CancellationEvents;
 	
 	Time CurrentTime;
+	UIClass* UIptr;
 
 public:
 	void LoadCargos();
