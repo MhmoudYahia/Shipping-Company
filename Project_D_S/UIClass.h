@@ -50,6 +50,8 @@ public:
 	//Silent mode interface
 	void PrintSilentMode();
 
+	void PrintError(string);
+
 
 };
 

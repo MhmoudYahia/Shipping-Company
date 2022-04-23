@@ -274,4 +274,7 @@ void UIClass::PrintSilentMode()
 	cout << "SilentMode\n" << "Simulation Starts...\n" << "Simulation ends, Output file created\n";
 }
 
+void UIClass::PrintError(string msg) {
+	cout << "Error: " << msg << endl;
+}
 

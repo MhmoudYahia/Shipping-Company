@@ -9,6 +9,7 @@ class PreparationEvent :public Event
 	int LT;
 	int Cost;
 public:
+	PreparationEvent(char, int, int, int);
 	void setType(char t);
 	void setDistance(int d);
 	void setLoadTime(int lt);

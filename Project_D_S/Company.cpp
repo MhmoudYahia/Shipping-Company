@@ -94,7 +94,36 @@ void Company::Loading_File()
 {
 	ifstream Lfile;
 	Lfile.open("CompFile.txt");      //start from here to read 
-									 //use "Lfile>>" instead of "cin>>" only
+									 
+	Lfile >> N >> S >> V;
+	Lfile >> NTruckSpeed >> STruckSpeed >> VTruckSpeed;
+	Lfile >> NTruckCapacity >> STruckCapacity >> VTruckCapacity;
+	Lfile >> JourneyCount>> NTruckCheckupDuration>>STruckCheckupDuration>>VTruckChekcupDuration;
+	Lfile >> AutoP >> MaxW;
+	Lfile >> EventCount;
+	char E;
+	for (int i = 0; i < EventCount; i++)
+	{
+		Lfile >> E;
+		switch (E)
+		{
+		case 'R':
+			char TYP;
+			Time ET;
+			int ID;
+			int DIST;
+			int LT;
+			int Cost;
+			Lfile >> TYP >> ET >> ID >> DIST >> LT >> Cost;
+
+
+			break;
+		default:
+			
+			break;
+		}
+	}
+
 	
 
 
