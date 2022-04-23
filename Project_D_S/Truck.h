@@ -6,6 +6,7 @@ enum State  {Loading, Empty, InCheckUp};
 
 class Truck
 {
+protected:
 	int ID; // 1 for VIP , 2 for Normal , 3 for Special 
 	int TC; //TruckCapacity
 	State TruckState;
@@ -21,5 +22,5 @@ public:
 	Truck(int T);
 	bool AddCargo(Cargo* C);
 	bool RemoveCargo(Cargo* C);
-	virtual void Print() = 0;
+	virtual void Print(UIClass*) = 0;
 };

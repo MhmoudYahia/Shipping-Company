@@ -1,9 +1,9 @@
 #include "Event.h"
 
-void Event::setEventTime(pair<int, int> evt)
+void Event::setEventTime(Time evt)
 {
-	this->event_time.first = evt.first;
-	this->event_time.second = evt.second;
+	this->event_time.sethour(evt.gethour());
+	this->event_time.setminute(evt.getminute());
 }
 
 void Event::setID(int id)
@@ -11,7 +11,7 @@ void Event::setID(int id)
 	this->ID = id;
 }
 
-pair<int, int> Event::getEventTime()
+Time Event::getEventTime()
 {
 	return this->event_time;
 }
