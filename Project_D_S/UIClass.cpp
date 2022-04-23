@@ -224,14 +224,14 @@ void UIClass::PrintEmptytrucks(Queue<Truck*>* qEt)
 		if (dynamic_cast<NormalTruck*>(Cptr)) {
 			cout << " [" << Cptr->GetID() << "]";
 		}
-		if (dynamic_cast<VIPTruck*>(Cptr)) {
+		else if (dynamic_cast<VIPTruck*>(Cptr)) {
 			cout << " {" << Cptr->GetID() << "}";
 		}
-		if (dynamic_cast<SpecialTruck*>(Cptr)) {
+		else if (dynamic_cast<SpecialTruck*>(Cptr)) {
 			cout << " (" << Cptr->GetID() << ")";
 		}
 	}
-	//return origin qDl
+	//return origin qEl
 	while (tempQ.dequeue(Cptr))
 		qEt->enqueue(Cptr);
 }
