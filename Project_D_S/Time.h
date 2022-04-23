@@ -1,14 +1,16 @@
 #pragma once
+#include"Time.h"
 class Time
 {
+	int DAY;
 	int HOUR;
-	int MINUTE;
 public:
 	Time();
 	void sethour(int h);
-	void setminute(int m);
+	void setDAY(int m);
 	int gethour();
-	int getminute();
+	int getDAY();
 	bool operator <= (Time t);
+	Time operator +(int h);
 };
 

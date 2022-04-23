@@ -3,7 +3,7 @@
 void Event::setEventTime(Time evt)
 {
 	this->event_time.sethour(evt.gethour());
-	this->event_time.setminute(evt.getminute());
+	this->event_time.setDAY(evt.getDAY());
 }
 
 void Event::setID(int id)

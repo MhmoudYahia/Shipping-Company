@@ -32,12 +32,13 @@ class Company
 	Queue<Cargo*>VIPCargos;
 	
 	//Events
-	Queue<Event*> Events;
+	Queue<PreparationEvent*> PreparationEvents;
+	Queue<PromotionEvent*> PromotionEvents;
+	Queue<CancellationEvent*> CancellationEvents;
 	int MaxW;
 	Time CurrentTime;
 
 public:
-	Company();
 	void LoadCargos();
 	void IncrementHour();
 	void setMaxW(int);

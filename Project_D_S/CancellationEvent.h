@@ -9,6 +9,5 @@ class CancellationEvent :public Event
 public:
 
 	void virtual Execute();
-
 };
 
