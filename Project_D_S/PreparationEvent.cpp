@@ -1,7 +1,7 @@
 #include "PreparationEvent.h"
 
 
-PreparationEvent::PreparationEvent(char typ, int dist, int lt, int cost) {
+PreparationEvent::PreparationEvent(char typ, int dist, int lt, int cost, Time ET,int ID):Event(ET,ID) {
 	setType(typ);
 	setDistance(dist);
 	setLoadTime(lt);

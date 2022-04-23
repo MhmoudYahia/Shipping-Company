@@ -109,23 +109,45 @@ void Company::Loading_File()
 		{
 		case 'R':
 			char TYP;
-			Time ET;
+			int H, D;
 			int ID;
 			int DIST;
 			int LT;
 			int Cost;
-			Lfile >> TYP >> ET >> ID >> DIST >> LT >> Cost;
-
-
+			char colon;
+			Lfile >> TYP >> D>>colon>>H >> ID >> DIST >> LT >> Cost;
+			Time ET(D,H);
+			PreparationEvent* PE = new PreparationEvent(TYP, DIST, LT, Cost, ET,ID);
+			PreparationEvents.enqueue(PE);
+			break;
+		case 'X':
+			int H, D;
+			int ID;
+			char colon;
+			Lfile  >> D >> colon >> H >> ID ;
+			Time ET(D, H);
+			CancellationEvent *CE = new CancellationEvent(ET,ID);
+			CancellationEvents.enqueue(CE);
+			break;
+		case 'P':
+			int H, D;
+			int ID;
+			char colon;
+			int ExtraMoney;
+			Lfile >> D >> colon >> H >> ID>>ExtraMoney;
+			Time ET(D, H);
+			PromotionEvent* PE = new PromotionEvent(ET, ID,ExtraMoney);
+			CancellationEvents.enqueue(CE);
 			break;
 		default:
-			
 			break;
 		}
 	}
-
-	
-
-
 	Lfile.close();
+}
+void Company::setMaxW(int M) {
+	if (M > 0) MaxW = M;
+}
+void Company::Simulate() {
+
 }

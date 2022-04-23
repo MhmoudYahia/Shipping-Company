@@ -70,5 +70,6 @@ public:
 	bool AddtoSpecialTruck(Cargo*);
 	void Update_UI_Interface();
 	void Loading_File();
+	void Simulate();
 };
 

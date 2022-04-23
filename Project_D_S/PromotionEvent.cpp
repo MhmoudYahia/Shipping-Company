@@ -23,3 +23,6 @@ VIPCargo* PromotionEvent::Execute(NormalCargo* & ptr)
 	delete ptr;
 	ptr = NULL;
 }
+PromotionEvent::PromotionEvent(Time ET, int ID, int exm):Event(ET,ID) {
+	setExtraMoney(exm);
+}
