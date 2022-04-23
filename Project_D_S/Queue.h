@@ -1,7 +1,7 @@
 #pragma once
 //#include"UIClass.h"
 #include"QueueADT.h"
-#include "UIClass.h"
+
 template<class T>
 class Queue :public QueueAdt<T>
 {
@@ -16,7 +16,7 @@ public:
 		while (dequeue(Cptr) && GetCount() != 1)
 		 PUI->PrintID(Cptr) << ',';
 		if (dequeue(Cptr));
-		cout << PUI->PrintID(Cptr);
+		 PUI->PrintID(Cptr);
 	}
 	bool iSempty()const {
 		if (front == nullptr)

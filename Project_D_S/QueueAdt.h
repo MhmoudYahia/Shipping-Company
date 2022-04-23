@@ -1,5 +1,6 @@
 #pragma once
 #include"Node.h"
+#include"UIClass.h"
 template<class T>
 class QueueAdt
 {
@@ -9,4 +10,5 @@ class QueueAdt
 		virtual bool iSempty()const = 0;
 		virtual bool peak(T& val)const = 0;
 		virtual int GetCount() = 0;
+		virtual void Print(UIClass* PUI) = 0;
 };
