@@ -47,12 +47,8 @@ int PreparationEvent::getCost()
 	return this->Cost;
 }
 
-void PreparationEvent::Execute()
+Cargo * PreparationEvent::Execute()
 {
-	Cargo c;
-	c.SetCost(this->getCost());
-	c.SetDdes(this->getDistance());
-	c.SetID(this->getID());
-	c.SetLT(this->getLoadTime());
-	c.setPT((this->getEventTime()).first, (this->getEventTime()).second);
+	Cargo *  Cargoptr = new Cargo();
+	return Cargoptr;
 }

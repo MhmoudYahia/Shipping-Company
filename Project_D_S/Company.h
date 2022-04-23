@@ -74,5 +74,6 @@ public:
 	void Loading_File();
 	void SimulateAutomatic();
 	void GeneralSimulate();
+	void OutputFile();
 };
 

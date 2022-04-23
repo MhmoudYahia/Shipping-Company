@@ -120,6 +120,11 @@ void Company::GeneralSimulate() {
 		SimulateAutomatic();
 		break;
 	}
+	case silent:
+	{
+		pUI->PrintSilentMode();
+		break;
+	}
 	}
 }
 
@@ -181,11 +186,14 @@ void Company::Loading_File()
 void Company::setMaxW(int M) {
 	if (M > 0) MaxW = M;
 }
-void Company::Simulate() {
-
-}
 bool Company::isClosed() {
 	int H = CurrentTime.gethour();
 	if (H >= 5 && H <= 23) return false;
 	return true;
+}
+void Company::OutputFile() {
+	ofstream Lfile;
+	Lfile.open("Output.txt");
+	Lfile << "CDT\t\tID\t\tWT\t\tTID\n";
+	Lfile <<
 }

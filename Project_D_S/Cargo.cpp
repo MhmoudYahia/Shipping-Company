@@ -12,6 +12,13 @@ Cargo::Cargo()
 	this->Per_T.second = 0;
 	this->WaitingH = 0;
 }
+Cargo::Cargo(Time PT, int cost, int LT, int WH, int ID) {
+	setPT(PT.getDAY(), PT.gethour());
+	SetCost(cost);
+	SetLT(LT);
+	set
+}
+
 
 int Cargo::GetTid()
 {
@@ -35,8 +42,8 @@ State Cargo::GetState()
 
 void Cargo::setPT(int d, int h)
 {
-	this->Per_T.first =(d>0)? d:0;
-	this->Per_T.second = (h >= 0 && h < 24) ? h : 0;
+	this->Per_T.Day =(d>0)? d:0;
+	this->Per_T.hour = (h >= 0 && h < 24) ? h : 0;
 }
 
 void Cargo::SetLT(double t)

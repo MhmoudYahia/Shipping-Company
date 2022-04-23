@@ -49,9 +49,6 @@ void UIClass::PrintCurrentTime(Time T)
 {
 	cout << "Current Time (Day:Hour):" << T.getDAY() << ":" << T.gethour() << endl;
 }
-
-
-
 void UIClass::printWaitingCargos(PriorityQueue<Cargo*>* qWc)
 {
 	cout << qWc->GetCount()<<" Waiting Cargo: ";
@@ -184,8 +181,6 @@ void UIClass::PrintIn_CheckupTrucks(Queue<Truck*>* qCt)
 	//return origin qDl
 	while (tempQ.dequeue(Cptr))
 		qCt->enqueue(Cptr);
-
-
 	//printing normal
 	if(nrmQ.GetCount()>0)
 	cout << '[';
