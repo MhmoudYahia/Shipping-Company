@@ -12,11 +12,12 @@ Cargo::Cargo()
 	this->Per_T.second = 0;
 	this->WaitingH = 0;
 }
-Cargo::Cargo(Time PT, int cost, int LT, int WH, int ID) {
-	setPT(PT.getDAY(), PT.gethour());
+Cargo::Cargo( int cost, int LT, int DIS,int ID, int H, int D) {
+	setPT(D, H);
 	SetCost(cost);
 	SetLT(LT);
-	set
+	SetDdes(DIS);
+	SetID(ID);
 }
 
 

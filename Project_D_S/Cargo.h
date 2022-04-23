@@ -16,7 +16,7 @@ protected:
 	int TrkId; // id of its truck(moving) <=> -1 if no truck(not moving) 
 public:
 	Cargo() ;  // will come back
-	Cargo(Time PT,int cost,int LT,int WH,int ID);
+	Cargo(int cost, int LT, int DIS, int ID, int H, int D);
 	int GetTid();
 	void SetTid(int i);
 	void ChangeState(State c);

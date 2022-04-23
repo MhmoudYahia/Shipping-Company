@@ -1,11 +1,15 @@
 #include "PreparationEvent.h"
 
 
-PreparationEvent::PreparationEvent(char typ, int dist, int lt, int cost, Time ET,int ID):Event(ET,ID) {
+PreparationEvent::PreparationEvent(char typ, int dist, int lt, int cost, Time ET,int ID,Cargo * C):Event(ET,ID) {
 	setType(typ);
 	setDistance(dist);
 	setLoadTime(lt);
 	setCost(cost);
+	setCargo(C);
+}
+void PreparationEvent::setCargo(Cargo* C) {
+	this->Cargoptr = C;
 }
 void PreparationEvent::setType(char t)
 {
@@ -47,8 +51,10 @@ int PreparationEvent::getCost()
 	return this->Cost;
 }
 
-Cargo * PreparationEvent::Execute()
+void PreparationEvent::Execute()
 {
-	Cargo *  Cargoptr = new Cargo();
-	return Cargoptr;
+	int D = getEventTime().getDAY();
+	int H = getEventTime().gethour();
+	int ID = getID();
+	this->Cargoptr = new Cargo(Cost, LT, DIST, ID, H, D);
 }

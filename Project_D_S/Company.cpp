@@ -155,8 +155,10 @@ void Company::Loading_File()
 			char colon;
 			Lfile >> TYP >> D>>colon>>H >> ID >> DIST >> LT >> Cost;
 			Time ET(D,H);
-			PreparationEvent* PE = new PreparationEvent(TYP, DIST, LT, Cost, ET,ID);
+			Cargo* C;
+			PreparationEvent* PE = new PreparationEvent(TYP, DIST, LT, Cost, ET,ID,C);
 			PreparationEvents.enqueue(PE);
+			WaitingCargos.enqueue(C, 0 );
 			break;
 		case 'X':
 			int H, D;
@@ -195,5 +197,4 @@ void Company::OutputFile() {
 	ofstream Lfile;
 	Lfile.open("Output.txt");
 	Lfile << "CDT\t\tID\t\tWT\t\tTID\n";
-	Lfile <<
 }
