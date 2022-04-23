@@ -138,8 +138,8 @@ void Company::Loading_File()
 			int ExtraMoney;
 			Lfile >> D >> colon >> H >> ID>>ExtraMoney;
 			Time ET(D, H);
-			PromotionEvent* PE = new PromotionEvent(ET, ID,ExtraMoney);
-			CancellationEvents.enqueue(CE);
+			PromotionEvent* PRE = new PromotionEvent(ET, ID,ExtraMoney);
+			PromotionEvents.enqueue(PRE);
 			break;
 		default:
 			break;
@@ -152,4 +152,9 @@ void Company::setMaxW(int M) {
 }
 void Company::Simulate() {
 
+}
+bool Company::isClosed() {
+	int H = CurrentTime.gethour();
+	if (H >= 5 && H <= 23) return false;
+	return true;
 }
