@@ -22,5 +22,5 @@ public:
 	Truck(int T);
 	bool AddCargo(Cargo* C);
 	bool RemoveCargo(Cargo* C);
-	virtual void Print(UIClass*) = 0;
+	virtual void Print(UIClass*);
 };

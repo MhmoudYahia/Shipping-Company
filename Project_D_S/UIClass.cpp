@@ -30,6 +30,11 @@ Mode UIClass::SelectMode()
 		
 }
 
+void UIClass::PrintLine()
+{
+	cout << "---------------------------------------------------------------------\n";
+}
+
 void UIClass::PrintID(Cargo*c)
 {
 	cout << c->GetID();
@@ -234,6 +239,39 @@ void UIClass::PrintEmptytrucks(Queue<Truck*>* qEt)
 	//return origin qEl
 	while (tempQ.dequeue(Cptr))
 		qEt->enqueue(Cptr);
+}
+
+void UIClass::PrintLoadingTrucks(Queue<Truck*>* qLt)
+{
+	cout << qLt->GetCount() << " LoadingTrucks: ";
+	Queue<Truck*>tempQ;
+	Truck* Cptr;
+	while (qLt->dequeue(Cptr)) {
+		tempQ.enqueue(Cptr);
+		if (dynamic_cast<NormalTruck*>(Cptr)) {
+			cout << Cptr->GetID() << "[";
+			Cptr->Print(this);
+			cout << "] ";
+		}
+		if (dynamic_cast<VIPTruck*>(Cptr)) {
+			cout << Cptr->GetID() << "{";
+			Cptr->Print(this);
+			cout << "} ";
+		}
+		if (dynamic_cast<SpecialTruck*>(Cptr)) {
+			cout << Cptr->GetID() << "(";
+			Cptr->Print(this);
+			cout << ") ";
+		}
+	}
+	//return origin qLt
+	while (tempQ.dequeue(Cptr))
+		qLt->enqueue(Cptr);
+}
+
+void UIClass::PrintSilentMode()
+{
+	cout << "SilentMode\n" << "Simulation Starts...\n" << "Simulation ends, Output file created\n";
 }
 
 

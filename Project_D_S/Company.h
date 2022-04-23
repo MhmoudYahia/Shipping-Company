@@ -8,6 +8,7 @@
 #include"CancellationEvent.h"
 #include"Event.h"
 #include"Time.h"
+#include<fstream>
 class Company
 {
 
@@ -47,5 +48,7 @@ public:
 	bool AddtoVIPTruck(Cargo*);
 	bool AddtoNormalTruck(Cargo*);
 	bool AddtoSpecialTruck(Cargo*);
+	void Update_UI_Interface();
+	void Loading_File();
 };
 

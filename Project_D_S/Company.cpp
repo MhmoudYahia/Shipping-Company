@@ -5,7 +5,7 @@
 
 Company::Company()
 {
-	this->CurrentHour = 0;
+	//this->CurrentHour = 0;                  //check this error //M
 }
 
 void Company::LoadCargos() {
@@ -85,4 +85,20 @@ void Company::setcurtime(Time time)
 Time Company::getcurtime()
 {
 	return this->CurrentTime;
+}
+
+void Company::Update_UI_Interface()
+{
+
+}
+
+void Company::Loading_File()
+{
+	ifstream Lfile;
+	Lfile.open("CompFile.txt");      //start from here to read 
+									 //use "Lfile>>" instead of "cin>>" only
+	
+
+
+	Lfile.close();
 }

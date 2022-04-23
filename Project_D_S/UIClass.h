@@ -24,13 +24,17 @@ public:
 	//general
 	Mode SelectMode();
 
+	void PrintLine();
+
+	//for Queue
 	void PrintID(Cargo*c);
 
 	void PrintID(Truck*t);
 
+	//time
 	void PrintCurrentTime(pair<int, int>p);
 
-	// interactiveExcute mode
+	//printing Cargos and Trucks Categories
 	void printWaitingCargos(PriorityQueue<Cargo*>* qWc);
 
 	void PrintMovingCargos(Queue<Cargo*>* qMc);
@@ -40,5 +44,12 @@ public:
 	void PrintIn_CheckupTrucks(Queue<Truck*>* qCt);
 
 	void PrintEmptytrucks(Queue<Truck*>* qEt);
+
+	void PrintLoadingTrucks(Queue<Truck*>* qLt);
+
+	//Silent mode interface
+	void PrintSilentMode();
+
+
 };
 
