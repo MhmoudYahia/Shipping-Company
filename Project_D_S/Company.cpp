@@ -3,10 +3,7 @@
 #include "SpecialCargo.h"
 #include "NormalCargo.h"
 
-Company::Company()
-{
-	//this->CurrentHour = 0;                  //check this error //M
-}
+
 
 void Company::LoadCargos() {
 	Cargo* Cargoptr;
@@ -67,19 +64,20 @@ void Company::LoadCargos() {
 void Company::IncrementHour()
 {
 	bool bo;
-	Event* ptr = NULL;
-	bo=this->Events.peak(ptr);
+	PromotionEvent* ptr=nullptr;
+	bo=this->PromotionEvents.peak(ptr);
 	if(bo)
 		while (this->getcurtime() <= ptr->getEventTime())
 		{
-
+			
+			this->setcurtime(this->getcurtime() + 1);
 		}
 }
 
 void Company::setcurtime(Time time)
 {
 	this->CurrentTime.sethour(time.gethour());
-	this->CurrentTime.setminute(time.getminute());
+	this->CurrentTime.setDAY(time.getDAY());
 }
 
 Time Company::getcurtime()
