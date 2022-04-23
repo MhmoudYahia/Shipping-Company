@@ -1,4 +1,5 @@
 #pragma once
+#include"UIClass.h"
 #include "Queue.h"
 #include "PriorityQueue.h"
 #include "Cargo.h"
@@ -38,8 +39,9 @@ class Company
 	Queue<CancellationEvent*> CancellationEvents;
 	int MaxW;
 	Time CurrentTime;
-
+	UIClass* pUI;
 public:
+	Company();
 	void LoadCargos();
 	void IncrementHour();
 	void setMaxW(int);
@@ -49,7 +51,7 @@ public:
 	bool AddtoVIPTruck(Cargo*);
 	bool AddtoNormalTruck(Cargo*);
 	bool AddtoSpecialTruck(Cargo*);
-	void Update_UI_Interface();
+	//void Update_UI_Interface(Time T);
 	void Loading_File();
 };
 

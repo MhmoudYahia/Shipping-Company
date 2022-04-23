@@ -13,8 +13,11 @@ protected:
 	double cost;
 	int WaitingH;
 	int ID;
+	int TrkId; // id of its truck(moving) <=> -1 if no truck(not moving) 
 public:
 	Cargo() ;  // will come back
+	int GetTid();
+	void SetTid(int i);
 	void ChangeState(State c);
 	State GetState();
 	virtual void setPT(int d, int h);

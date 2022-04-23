@@ -45,10 +45,12 @@ void UIClass::PrintID(Truck* t)
 	cout << t->GetID();
 }
 
-void UIClass::PrintCurrentTime(pair<int, int> p)
+void UIClass::PrintCurrentTime(Time T)
 {
-	cout << "Current Time (Day:Hour):" << p.first << ":" << p.second << endl;
+	cout << "Current Time (Day:Hour):" << T.getDAY() << ":" << T.gethour() << endl;
 }
+
+
 
 void UIClass::printWaitingCargos(PriorityQueue<Cargo*>* qWc)
 {

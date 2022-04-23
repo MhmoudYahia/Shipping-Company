@@ -5,6 +5,11 @@
 
 
 
+Company::Company()
+{
+	pUI = new UIClass();
+}
+
 void Company::LoadCargos() {
 	Cargo* Cargoptr;
 	WaitingCargos.peak(Cargoptr);
@@ -84,17 +89,40 @@ Time Company::getcurtime()
 {
 	return this->CurrentTime;
 }
-
-void Company::Update_UI_Interface()
-{
-
-}
+//
+//void Company::Update_UI_Interface(Time T)
+//{
+//	switch (pUI->SelectMode()) {
+//	case interactive:
+//	{
+//		pUI->PrintCurrentTime(T);
+//		pUI->printWaitingCargos(&this->WaitingCargos);
+//		pUI->PrintLine();
+//		pUI->PrintLoadingTrucks(&this->LoadingTrucks);
+//		pUI->PrintLine();
+//		pUI->PrintEmptytrucks(&this->EmptyTrucks);
+//		pUI->PrintLine();
+//		pUI->PrintMovingCargos(&this->MovingCargos);
+//		pUI->PrintLine();
+//		pUI->PrintIn_CheckupTrucks(&this->InCheckupTrucks);
+//		pUI->PrintLine();
+//		pUI->printDeliveredCargo(&this->DeliveredCargos);
+//		break;
+//	}
+//	case step_by_step: {
+//
+//
+//		break;
+//	}
+//	}
+//}
 
 void Company::Loading_File()
 {
 	ifstream Lfile;
 	Lfile.open("CompFile.txt");      //start from here to read 
-									 //use "Lfile>>" instead of "cin>>" only
+		
+								//use "Lfile>>" instead of "cin>>" only
 	
 
 

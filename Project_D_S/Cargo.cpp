@@ -4,12 +4,23 @@
 Cargo::Cargo()
 {
 	this->cost = 0;
-	this->ID = 0;
+	this->ID = -1;
+	this->TrkId = -1;
 	this->delvr_Dis = 0;
 	this->Load_T = 0;
 	this->Per_T.first = 0;
 	this->Per_T.second = 0;
 	this->WaitingH = 0;
+}
+
+int Cargo::GetTid()
+{
+	return TrkId;
+}
+
+void Cargo::SetTid(int i)
+{
+	this->TrkId = i;
 }
 
 void Cargo::ChangeState(State c)

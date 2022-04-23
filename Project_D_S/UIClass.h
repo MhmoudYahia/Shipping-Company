@@ -12,7 +12,7 @@ using namespace std;
 #include"VIPTruck.h"
 #include"SpecialTruck.h"
 #include"NormalTruck.h"
-
+#include"Time.h"
 enum Mode { interactive, step_by_step, silent };
 class UIClass
 	
@@ -32,7 +32,7 @@ public:
 	void PrintID(Truck*t);
 
 	//time
-	void PrintCurrentTime(pair<int, int>p);
+	void PrintCurrentTime(Time T);
 
 	//printing Cargos and Trucks Categories
 	void printWaitingCargos(PriorityQueue<Cargo*>* qWc);
