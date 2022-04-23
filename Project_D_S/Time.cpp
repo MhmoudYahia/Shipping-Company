@@ -5,6 +5,10 @@ Time::Time()
 	this->HOUR = 0;
 	this->DAY = 0;
 }
+Time::Time(int d, int h) {
+	setDAY(d);
+	sethour(h);
+}
 
 void Time::sethour(int h)
 {

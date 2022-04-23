@@ -6,6 +6,7 @@ class Time
 	int HOUR;
 public:
 	Time();
+	Time(int d ,int h);
 	void sethour(int h);
 	void setDAY(int m);
 	int gethour();

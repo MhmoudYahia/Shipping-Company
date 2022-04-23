@@ -12,6 +12,25 @@
 #include<fstream>
 class Company
 {
+	// Input file variables 
+	
+	int N; // Count of normal trucks 
+	int S;	//Count of special trucks
+	int V;	//Count of VIP trucks 
+	int NTruckSpeed;
+	int VTruckSpeed;
+	int STruckSpeed;
+	int NTruckCapacity;
+	int VTruckCapacity;
+	int STruckCapacity;
+	int NTruckCheckupDuration;
+	int STruckCheckupDuration; 
+	int VTruckChekcupDuration; 
+	int MaxW;
+	int AutoP; // time for automatic promotion 
+	int EventCount;
+	int JourneyCount;
+
 
 	// Cargos for Display
 	PriorityQueue<Cargo*> WaitingCargos;
@@ -37,7 +56,7 @@ class Company
 	Queue<PreparationEvent*> PreparationEvents;
 	Queue<PromotionEvent*> PromotionEvents;
 	Queue<CancellationEvent*> CancellationEvents;
-	int MaxW;
+	
 	Time CurrentTime;
 	UIClass* pUI;
 public:
@@ -53,5 +72,6 @@ public:
 	bool AddtoSpecialTruck(Cargo*);
 	//void Update_UI_Interface(Time T);
 	void Loading_File();
+	void Simulate();
 };
 

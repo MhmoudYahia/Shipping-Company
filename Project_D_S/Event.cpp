@@ -1,5 +1,9 @@
 #include "Event.h"
 
+
+Event::Event( Time ET) {
+	setEventTime(ET);
+}
 void Event::setEventTime(Time evt)
 {
 	this->event_time.sethour(evt.gethour());

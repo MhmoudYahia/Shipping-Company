@@ -8,6 +8,7 @@ private:
 	Time event_time;
 	int ID;
 public:
+	Event(Time, int);
 	void setEventTime(Time evt);
 	void setID(int id);
 	Time getEventTime();

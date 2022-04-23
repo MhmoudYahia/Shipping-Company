@@ -7,7 +7,8 @@
 class CancellationEvent :public Event
 {
 public:
-
+	Time ET;
+	CancellationEvent(Time ET,int ID);
 	void virtual Execute();
 };
 

@@ -2,6 +2,8 @@
 #include"VIPCargo.h"
 #include "SpecialCargo.h"
 #include "NormalCargo.h"
+#include <chrono>
+#include <thread>
 
 
 
@@ -121,10 +123,65 @@ void Company::Loading_File()
 {
 	ifstream Lfile;
 	Lfile.open("CompFile.txt");      //start from here to read 
-		
-								//use "Lfile>>" instead of "cin>>" only
-	
-
-
+									 
+	Lfile >> N >> S >> V;
+	Lfile >> NTruckSpeed >> STruckSpeed >> VTruckSpeed;
+	Lfile >> NTruckCapacity >> STruckCapacity >> VTruckCapacity;
+	Lfile >> JourneyCount>> NTruckCheckupDuration>>STruckCheckupDuration>>VTruckChekcupDuration;
+	Lfile >> AutoP >> MaxW;
+	Lfile >> EventCount;
+	char E;
+	for (int i = 0; i < EventCount; i++)
+	{
+		Lfile >> E;
+		switch (E)
+		{
+		case 'R':
+			char TYP;
+			int H, D;
+			int ID;
+			int DIST;
+			int LT;
+			int Cost;
+			char colon;
+			Lfile >> TYP >> D>>colon>>H >> ID >> DIST >> LT >> Cost;
+			Time ET(D,H);
+			PreparationEvent* PE = new PreparationEvent(TYP, DIST, LT, Cost, ET,ID);
+			PreparationEvents.enqueue(PE);
+			break;
+		case 'X':
+			int H, D;
+			int ID;
+			char colon;
+			Lfile  >> D >> colon >> H >> ID ;
+			Time ET(D, H);
+			CancellationEvent *CE = new CancellationEvent(ET,ID);
+			CancellationEvents.enqueue(CE);
+			break;
+		case 'P':
+			int H, D;
+			int ID;
+			char colon;
+			int ExtraMoney;
+			Lfile >> D >> colon >> H >> ID>>ExtraMoney;
+			Time ET(D, H);
+			PromotionEvent* PRE = new PromotionEvent(ET, ID,ExtraMoney);
+			PromotionEvents.enqueue(PRE);
+			break;
+		default:
+			break;
+		}
+	}
 	Lfile.close();
+}
+void Company::setMaxW(int M) {
+	if (M > 0) MaxW = M;
+}
+void Company::Simulate() {
+
+}
+bool Company::isClosed() {
+	int H = CurrentTime.gethour();
+	if (H >= 5 && H <= 23) return false;
+	return true;
 }

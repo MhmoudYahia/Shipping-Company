@@ -7,8 +7,10 @@ class PromotionEvent :public Event
 {
 	int ExtraMoney;
 public:
+	PromotionEvent(Time ET, int ID, int exm);
 	void setExtraMoney(int exm);
 	int getExtraMoney();
 	VIPCargo* Execute(NormalCargo* & ptr);
+	virtual void Execute();
 };
 
