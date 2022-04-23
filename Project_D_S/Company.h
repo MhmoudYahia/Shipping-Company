@@ -3,6 +3,11 @@
 #include "PriorityQueue.h"
 #include "Cargo.h"
 #include "Truck.h"
+#include"PreparationEvent.h"
+#include"PromotionEvent.h"
+#include"CancellationEvent.h"
+#include"Event.h"
+#include"Time.h"
 class Company
 {
 
@@ -25,14 +30,19 @@ class Company
 	Queue<Cargo*>NormalCargos;
 	Queue<Cargo*>SpecialCargos;
 	Queue<Cargo*>VIPCargos;
-
+	
+	//Events
+	Queue<Event*> Events;
 	int MaxW;
-	int CurrentHour;
+	Time CurrentTime;
 
 public:
+	Company();
 	void LoadCargos();
 	void IncrementHour();
 	void setMaxW(int);
+	void setcurtime(Time time);
+	Time getcurtime();
 	bool isClosed();
 	bool AddtoVIPTruck(Cargo*);
 	bool AddtoNormalTruck(Cargo*);

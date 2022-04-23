@@ -3,6 +3,11 @@
 #include "SpecialCargo.h"
 #include "NormalCargo.h"
 
+Company::Company()
+{
+	this->CurrentHour = 0;
+}
+
 void Company::LoadCargos() {
 	Cargo* Cargoptr;
 	WaitingCargos.peak(Cargoptr);
@@ -57,4 +62,27 @@ void Company::LoadCargos() {
 		}
 
 	}
+}
+
+void Company::IncrementHour()
+{
+	bool bo;
+	Event* ptr = NULL;
+	bo=this->Events.peak(ptr);
+	if(bo)
+		while (this->getcurtime() <= ptr->getEventTime())
+		{
+
+		}
+}
+
+void Company::setcurtime(Time time)
+{
+	this->CurrentTime.sethour(time.gethour());
+	this->CurrentTime.setminute(time.getminute());
+}
+
+Time Company::getcurtime()
+{
+	return this->CurrentTime;
 }

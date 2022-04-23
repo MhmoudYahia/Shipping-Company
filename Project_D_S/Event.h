@@ -1,16 +1,16 @@
 #pragma once
 #include<iostream>
+#include"Time.h" 
 using namespace std;
-#include<utility>
 class Event
 {
 private:
-	pair<int, int> event_time;
+	Time event_time;
 	int ID;
 public:
-	void setEventTime(pair<int, int> evt);
+	void setEventTime(Time evt);
 	void setID(int id);
-	pair<int, int> getEventTime();
+	Time getEventTime();
 	int getID();
 	void virtual Execute() = 0;
 };

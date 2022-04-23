@@ -157,6 +157,7 @@
     <ClCompile Include="SpecialTruck.cpp" />
     <ClCompile Include="Stack.cpp" />
     <ClCompile Include="StackAdt.cpp" />
+    <ClCompile Include="Time.cpp" />
     <ClCompile Include="Truck.cpp" />
     <ClCompile Include="UIClass.cpp" />
     <ClCompile Include="VIPCargo.cpp" />
@@ -180,6 +181,7 @@
     <ClInclude Include="SpecialTruck.h" />
     <ClInclude Include="Stack.h" />
     <ClInclude Include="StackAdt.h" />
+    <ClInclude Include="Time.h" />
     <ClInclude Include="Truck.h" />
     <ClInclude Include="UIClass.h" />
     <ClInclude Include="VIPCargo.h" />
