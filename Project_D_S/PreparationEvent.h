@@ -8,9 +8,8 @@ class PreparationEvent :public Event
 	int DIST;
 	int LT;
 	int Cost;
-	Cargo* Cargoptr;
 public:
-	PreparationEvent(char typ,	int dist, int lt, int cost, Time ET, int ID, Cargo * C);
+	PreparationEvent(char typ,	int dist, int lt, int cost, Time ET, int ID, Company * C);
 	void setType(char t);
 	void setDistance(int d);
 	void setLoadTime(int lt);
@@ -19,8 +18,6 @@ public:
 	int getDistance();
 	int getLoadTime();
 	int getCost();
-	void setCargo(Cargo*);
-	Cargo* getCargo();
 	virtual void  Execute();
 };
 
