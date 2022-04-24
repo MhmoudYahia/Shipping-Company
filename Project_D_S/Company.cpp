@@ -229,7 +229,8 @@ void Company:: ExecuteEvents() {
 				WaitingCargos.enqueue(C,C->Getpriority());
 			}
 			if (PROE) {
-				VIPCargo * C = PROE->
+				NormalCargo* NC = PROE->getNormalCargo();
+				UpdatetoVIP(NC->GetID());
 			}
 			Events.dequeue(Eptr);
 			Events.peak(Eptr);
