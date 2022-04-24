@@ -74,5 +74,7 @@ public:
 	void GeneralSimulate();
 	void OutputFile();
 	void ExecuteEvents();
+	void PrintConsole();
+	void SimulateStepbyStep();
 };
 

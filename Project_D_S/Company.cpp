@@ -94,30 +94,44 @@ Time Company::getcurtime()
 
 void Company::SimulateAutomatic()
 {
-		pUI->PrintCurrentTime(this->CurrentTime);
-		pUI->printWaitingCargos(&this->WaitingCargos);
-		pUI->PrintLine();
-		pUI->PrintLoadingTrucks(&this->LoadingTrucks);
-		pUI->PrintLine();
-		pUI->PrintEmptytrucks(&this->EmptyTrucks);
-		pUI->PrintLine();
-		pUI->PrintMovingCargos(&this->MovingCargos);
-		pUI->PrintLine();
-		pUI->PrintIn_CheckupTrucks(&this->InCheckupTrucks);
-		pUI->PrintLine();
-		pUI->PrintDeliveredCargo(&this->DeliveredCargos);
-		IncrementHour();
+	bool simulate = true;
+	while (simulate) {
+		ExecuteEvents();
+		PrintConsole();
+		CurrentTime++;
+	}
+}
+void Company::PrintConsole() {
+	pUI->PrintCurrentTime(this->CurrentTime);
+	pUI->printWaitingCargos(&this->WaitingCargos);
+	pUI->PrintLine();
+	pUI->PrintLoadingTrucks(&this->LoadingTrucks);
+	pUI->PrintLine();
+	pUI->PrintEmptytrucks(&this->EmptyTrucks);
+	pUI->PrintLine();
+	pUI->PrintMovingCargos(&this->MovingCargos);
+	pUI->PrintLine();
+	pUI->PrintIn_CheckupTrucks(&this->InCheckupTrucks);
+	pUI->PrintLine();
+	pUI->PrintDeliveredCargo(&this->DeliveredCargos);
+}
+void Company::SimulateStepbyStep() {
+	while (true) {
+		ExecuteEvents();
+		PrintConsole();
+		CurrentTime++;
+		pUI->getKey();
+	}
 }
 void Company::GeneralSimulate() {
 	switch (pUI->SelectMode()) {
 	case interactive:
 	{	
 		SimulateAutomatic();
-		pUI->getKey();
-		break;
+		break;	
 	}
 	case step_by_step: {
-		SimulateAutomatic();
+		SimulateStepbyStep();
 		break;
 	}
 	case silent:
@@ -200,11 +214,14 @@ void Company::OutputFile() {
 	Lfile << "CDT\t\tID\t\tWT\t\tTID\n";
 }
 void Company:: ExecuteEvents() {
+	if (isClosed()) {
+		return;
+	}
 	Event* Eptr;
 	Events.peak(Eptr);
-	while (Eptr) {
-		Eptr->Execute();
-		Events.dequeue(Eptr);
-		Events.peak(Eptr);
+	while (Eptr && Eptr->getEventTime() == CurrentTime) {
+			Eptr->Execute();
+			Events.dequeue(Eptr);
+			Events.peak(Eptr);
 	}
 }
