@@ -91,33 +91,35 @@ Time Company::getcurtime()
 {
 	return this->CurrentTime;
 }
-//
-//void Company::Update_UI_Interface(Time T)
-//{
-//	switch (pUI->SelectMode()) {
-//	case interactive:
-//	{
-//		pUI->PrintCurrentTime(T);
-//		pUI->printWaitingCargos(&this->WaitingCargos);
-//		pUI->PrintLine();
-//		pUI->PrintLoadingTrucks(&this->LoadingTrucks);
-//		pUI->PrintLine();
-//		pUI->PrintEmptytrucks(&this->EmptyTrucks);
-//		pUI->PrintLine();
-//		pUI->PrintMovingCargos(&this->MovingCargos);
-//		pUI->PrintLine();
-//		pUI->PrintIn_CheckupTrucks(&this->InCheckupTrucks);
-//		pUI->PrintLine();
-//		pUI->printDeliveredCargo(&this->DeliveredCargos);
-//		break;
-//	}
-//	case step_by_step: {
-//
-//
-//		break;
-//	}
-//	}
-//}
+
+void Company::Update_UI_Interface(Time T)
+{
+	switch (pUI->SelectMode()) {
+	case interactive:
+	{
+		pUI->PrintCurrentTime(T);
+		pUI->printWaitingCargos(&this->WaitingCargos);
+		pUI->PrintLine();
+		pUI->PrintLoadingTrucks(&this->LoadingTrucks);
+		pUI->PrintLine();
+		pUI->PrintEmptytrucks(&this->EmptyTrucks);
+		pUI->PrintLine();
+		pUI->PrintMovingCargos(&this->MovingCargos);
+		pUI->PrintLine();
+		pUI->PrintIn_CheckupTrucks(&this->InCheckupTrucks);
+		pUI->PrintLine();
+		pUI->PrintDeliveredCargo(&this->DeliveredCargos);
+		break;
+	}
+	case step_by_step: {
+
+
+		break;
+	}
+	case silent:
+		pUI->PrintSilentMode();
+	}
+}
 
 void Company::Loading_File()
 {

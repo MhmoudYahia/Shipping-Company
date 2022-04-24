@@ -70,7 +70,7 @@ public:
 	bool AddtoVIPTruck(Cargo*);
 	bool AddtoNormalTruck(Cargo*);
 	bool AddtoSpecialTruck(Cargo*);
-	//void Update_UI_Interface(Time T);
+	void Update_UI_Interface(Time T);
 	void Loading_File();
 	void Simulate();
 };

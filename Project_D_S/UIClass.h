@@ -4,6 +4,7 @@ using namespace std;
 #include<string>
 #include"PriorityQueue.h"
 #include"Queue.h"
+#include"List.h"
 #include"Cargo.h"
 #include"Truck.h"
 #include"NormalCargo.h"

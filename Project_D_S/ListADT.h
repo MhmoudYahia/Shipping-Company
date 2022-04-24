@@ -5,7 +5,9 @@ template<class T>
 class ListADT
 {
 public:
-	void Print(UIClass* PUI)=0;
-	bool DeleteNode(const T& value) = 0;
+	virtual void Print(UIClass* PUI)=0;
+	virtual bool Remove(const T& value) = 0;
+	virtual bool IsEmpty() = 0;
+	virtual int GetCount() = 0;
 };
 

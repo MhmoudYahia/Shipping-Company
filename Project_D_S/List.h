@@ -20,7 +20,32 @@ public:
 		if (temp)
 		   PUI->PrintID(temp->getitem());
 	}
-	bool DeleteNode(const T& value) {
+	bool isEmpty() {
+		return !Head;
+	}
+	int GetCount() {
+		if (iSempty())
+			return 0;
+		int cnt = 0;
+		Node<T>* ptr = front;
+		while (!ptr) {
+			cnt++;
+			ptr = ptr->getnext();
+		}
+		return cnt;
+	}
+	int GetCount() {
+		if (isEmpty())
+			return 0;
+		int cnt = 0;
+		Node<T>* ptr = Head;
+		while (!ptr) {
+			cnt++;
+			ptr = ptr->getnext();
+		}
+		return cnt;
+	}
+	bool Remove(const T& value) {
 		Node<T>* temp = Head;
 		while (temp) {
 			if (temp->getItem() == value)
