@@ -10,6 +10,6 @@ public:
 	PromotionEvent(Time ET, int ID, int exm);
 	void setExtraMoney(int exm);
 	int getExtraMoney();
-	virtual void Execute(Cargo * C);
+	virtual void Execute();
 };
 

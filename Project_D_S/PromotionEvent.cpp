@@ -9,6 +9,9 @@ int PromotionEvent::getExtraMoney()
 {
 	return this->ExtraMoney;
 }
+void PromotionEvent::Execute() {
+
+}
 
 VIPCargo* PromotionEvent::Execute(NormalCargo* & ptr)
 {

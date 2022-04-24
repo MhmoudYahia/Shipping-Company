@@ -131,8 +131,7 @@ void Company::GeneralSimulate() {
 void Company::Loading_File()
 {
 	ifstream Lfile;
-	Lfile.open("CompFile.txt");      //start from here to read 
-									 
+	Lfile.open("CompFile.txt");      //start from here to read 			 
 	Lfile >> N >> S >> V;
 	Lfile >> NTruckSpeed >> STruckSpeed >> VTruckSpeed;
 	Lfile >> NTruckCapacity >> STruckCapacity >> VTruckCapacity;
@@ -157,8 +156,8 @@ void Company::Loading_File()
 			Time ET(D,H);
 			Cargo* C;
 			PreparationEvent* PE = new PreparationEvent(TYP, DIST, LT, Cost, ET,ID,C);
-			PreparationEvents.enqueue(PE);
-			WaitingCargos.enqueue(C, 0 );
+			double priority = -((D - 1) * 24 + H);
+			Events.enqueue(PE, priority);
 			break;
 		case 'X':
 			int H, D;
@@ -167,7 +166,8 @@ void Company::Loading_File()
 			Lfile  >> D >> colon >> H >> ID ;
 			Time ET(D, H);
 			CancellationEvent *CE = new CancellationEvent(ET,ID);
-			CancellationEvents.enqueue(CE);
+			double priority = -((D - 1) * 24 + H);
+			Events.enqueue(CE, priority);
 			break;
 		case 'P':
 			int H, D;
@@ -177,7 +177,8 @@ void Company::Loading_File()
 			Lfile >> D >> colon >> H >> ID>>ExtraMoney;
 			Time ET(D, H);
 			PromotionEvent* PRE = new PromotionEvent(ET, ID,ExtraMoney);
-			PromotionEvents.enqueue(PRE);
+			double priority = -((D - 1) * 24 + H);
+			Events.enqueue(PRE,priority);	
 			break;
 		default:
 			break;

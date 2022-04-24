@@ -53,9 +53,7 @@ class Company
 	Queue<Cargo*>VIPCargos;
 	
 	//Events
-	Queue<PreparationEvent*> PreparationEvents;
-	Queue<PromotionEvent*> PromotionEvents;
-	Queue<CancellationEvent*> CancellationEvents;
+	PriorityQueue<Event*> Events;
 	
 	Time CurrentTime;
 	UIClass* pUI;

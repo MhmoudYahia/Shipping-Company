@@ -10,7 +10,7 @@ class PreparationEvent :public Event
 	int Cost;
 	Cargo* Cargoptr;
 public:
-	PreparationEvent(char typ, int dist, int lt, int cost, Time ET, int ID, Cargo * C);
+	PreparationEvent(char typ,	int dist, int lt, int cost, Time ET, int ID, Cargo * C);
 	void setType(char t);
 	void setDistance(int d);
 	void setLoadTime(int lt);
