@@ -7,15 +7,16 @@ class Cargo
 {
 protected:
 	State Cargostate;
-	pair<int, int>Per_T;
-	double Load_T;
+	Time Per_T;
+	int Load_T;
 	double delvr_Dis;
-	double cost;
+	int cost;
 	int WaitingH;
 	int ID;
 	int TrkId; // id of its truck(moving) <=> -1 if no truck(not moving) 
 public:
 	Cargo() ;  // will come back
+	Cargo(int cost, int LT, int DIS, int ID, int H, int D);
 	int GetTid();
 	void SetTid(int i);
 	void ChangeState(State c);

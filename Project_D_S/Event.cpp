@@ -1,8 +1,9 @@
 #include "Event.h"
+#include "Time.h"
 
-
-Event::Event( Time ET) {
+Event::Event( Time ET,int ID) {
 	setEventTime(ET);
+	setID(ID);
 }
 void Event::setEventTime(Time evt)
 {

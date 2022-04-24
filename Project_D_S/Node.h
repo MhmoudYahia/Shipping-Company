@@ -11,6 +11,9 @@ public:
 		next = nullptr;
 		priority = 0;
 	}
+	Node(T t ) {
+		item = t;
+	}
 	void setitem(const T& item) {
 		this->item = item;
 	}

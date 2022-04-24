@@ -92,12 +92,9 @@ Time Company::getcurtime()
 	return this->CurrentTime;
 }
 
-void Company::Update_UI_Interface(Time T)
+void Company::SimulateAutomatic()
 {
-	switch (pUI->SelectMode()) {
-	case interactive:
-	{
-		pUI->PrintCurrentTime(T);
+		pUI->PrintCurrentTime(this->CurrentTime);
 		pUI->printWaitingCargos(&this->WaitingCargos);
 		pUI->PrintLine();
 		pUI->PrintLoadingTrucks(&this->LoadingTrucks);
@@ -109,15 +106,25 @@ void Company::Update_UI_Interface(Time T)
 		pUI->PrintIn_CheckupTrucks(&this->InCheckupTrucks);
 		pUI->PrintLine();
 		pUI->PrintDeliveredCargo(&this->DeliveredCargos);
+		IncrementHour();
+}
+void Company::GeneralSimulate() {
+	switch (pUI->SelectMode()) {
+	case interactive:
+	{	
+		SimulateAutomatic();
+		pUI->getKey();
 		break;
 	}
 	case step_by_step: {
-
-
+		SimulateAutomatic();
 		break;
 	}
 	case silent:
+	{
 		pUI->PrintSilentMode();
+		break;
+	}
 	}
 }
 
@@ -148,8 +155,10 @@ void Company::Loading_File()
 			char colon;
 			Lfile >> TYP >> D>>colon>>H >> ID >> DIST >> LT >> Cost;
 			Time ET(D,H);
-			PreparationEvent* PE = new PreparationEvent(TYP, DIST, LT, Cost, ET,ID);
+			Cargo* C;
+			PreparationEvent* PE = new PreparationEvent(TYP, DIST, LT, Cost, ET,ID,C);
 			PreparationEvents.enqueue(PE);
+			WaitingCargos.enqueue(C, 0 );
 			break;
 		case 'X':
 			int H, D;
@@ -179,11 +188,13 @@ void Company::Loading_File()
 void Company::setMaxW(int M) {
 	if (M > 0) MaxW = M;
 }
-void Company::Simulate() {
-
-}
 bool Company::isClosed() {
 	int H = CurrentTime.gethour();
 	if (H >= 5 && H <= 23) return false;
 	return true;
+}
+void Company::OutputFile() {
+	ofstream Lfile;
+	Lfile.open("Output.txt");
+	Lfile << "CDT\t\tID\t\tWT\t\tTID\n";
 }

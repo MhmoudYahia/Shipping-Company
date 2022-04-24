@@ -1,6 +1,7 @@
 #pragma once
 #include<iostream>
 #include"Time.h" 
+#include "Cargo.h"
 using namespace std;
 class Event
 {
