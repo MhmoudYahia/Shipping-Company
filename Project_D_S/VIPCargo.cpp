@@ -4,6 +4,16 @@ VIPCargo::VIPCargo()
 {
 	Priority = 0;
 }
+VIPCargo::VIPCargo(int ID, double P, int d, int h, double lt, double c, int dis) {
+	SetID(ID);
+	Priority = P;
+	UpdatePriority();
+	setPT(d, h);
+	SetLT(lt);
+	SetDis(dis);
+	SetCost(c);
+
+}
 
 int VIPCargo::Getpriority()
 {
@@ -12,8 +22,8 @@ int VIPCargo::Getpriority()
 
 void VIPCargo::UpdatePriority()
 {
-	if (Per_T.first != 0 && Per_T.second != 0) {
-		Priority = cost + delvr_Dis + 1.0 / (Per_T.first + Per_T.second);
+	if (Per_T.getDAY() != 0 && Per_T.gethour() != 0) {
+		Priority = cost + delvr_Dis + 1.0 / (Per_T.getDAY() + Per_T.gethour());
 	}
 }
 
@@ -31,7 +41,7 @@ void VIPCargo::SetLT(double t)
 
 }
 
-void VIPCargo::SetDdes(double d)
+void VIPCargo::SetDis(double d)
 {
 	this->delvr_Dis = (d > 0) ? d : 0;
 	UpdatePriority();

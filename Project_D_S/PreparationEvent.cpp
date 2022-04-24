@@ -58,3 +58,6 @@ void PreparationEvent::Execute()
 	int ID = getID();
 	this->Cargoptr = new Cargo(Cost, LT, DIST, ID, H, D);
 }
+Cargo* PreparationEvent::getCargo() {
+	return Cargoptr;
+}

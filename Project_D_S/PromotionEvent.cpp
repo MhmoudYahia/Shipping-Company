@@ -12,7 +12,13 @@ int PromotionEvent::getExtraMoney()
 void PromotionEvent::Execute() {
 
 }
-
+VIPCargo* PromotionEvent::getVIPCargo() {
+	return VCargoptr;
+}
+NormalCargo* PromotionEvent::getNormalCargo() {
+	return NCargoptr;
+}
+/*
 VIPCargo* PromotionEvent::Execute(NormalCargo* & ptr)
 {
 	VIPCargo* temp=new VIPCargo;
@@ -25,7 +31,11 @@ VIPCargo* PromotionEvent::Execute(NormalCargo* & ptr)
 	ptr = NULL;			//LAST NODE -> NULL
 	delete ptr;
 	ptr = NULL;
+}*/
+void PromotionEvent::Execute() {
+	
 }
-PromotionEvent::PromotionEvent(Time ET, int ID, int exm):Event(ET,ID) {
+PromotionEvent::PromotionEvent(Time ET, int ID, int exm, NormalCargo* NC) :Event(ET, ID) {
 	setExtraMoney(exm);
+	NCargoptr = NC;
 }

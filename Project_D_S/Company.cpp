@@ -219,9 +219,55 @@ void Company:: ExecuteEvents() {
 	}
 	Event* Eptr;
 	Events.peak(Eptr);
+	PreparationEvent* PE = dynamic_cast <PreparationEvent*> (Eptr);
 	while (Eptr && Eptr->getEventTime() == CurrentTime) {
+		PreparationEvent* PE = dynamic_cast <PreparationEvent*> (Eptr);
+		PromotionEvent* PROE = dynamic_cast <PromotionEvent*> (Eptr);
 			Eptr->Execute();
+			if (PE) {
+				Cargo* C = PE->getCargo();
+				WaitingCargos.enqueue(C,C->Getpriority());
+			}
+			if (PROE) {
+				VIPCargo * C = PROE->
+			}
 			Events.dequeue(Eptr);
 			Events.peak(Eptr);
 	}
+}
+void Company::AddCargotoWaiting(Cargo* C) {
+	WaitingCargos.enqueue(C, C->Getpriority());
+}
+bool Company::UpdatetoVIP(int ID) {
+	Cargo* C = NULL;
+	Cargo* Search = NULL;
+	WaitingCargos.peak(C);
+	PriorityQueue<Cargo* > temp;
+	while(C ) {
+		if (C->GetID() == ID) {
+			Search = C;
+		}
+		else temp.enqueue(C, C->Getpriority());
+		WaitingCargos.dequeue(C);
+		WaitingCargos.peak(C);
+	}
+	temp.peak(C);
+	while (C) {
+		WaitingCargos.enqueue(C, C->Getpriority());
+		temp.dequeue(C);
+		temp.peak(C);
+	}
+	if (Search) {
+		int id = Search->GetID();
+		int h = Search->getPT().gethour();
+		int d = Search->getPT().getDAY();
+		int lt = Search->getLT();
+		double p = Search->Getpriority();
+		double dis = Search->getDdes();
+		double c = Search->getCost();
+		VIPCargo* VC = new VIPCargo(id, p, d, h, lt, c, dis);
+		WaitingCargos.enqueue(VC, VC->Getpriority());
+		return true;
+	}
+	return false;
 }

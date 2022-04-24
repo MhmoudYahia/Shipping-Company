@@ -70,6 +70,8 @@ public:
 	bool AddtoSpecialTruck(Cargo*);
 	void Update_UI_Interface(Time T);
 	void Loading_File();
+	void AddCargotoWaiting(Cargo*);
+	bool UpdatetoVIP(int ID);
 	void SimulateAutomatic();
 	void GeneralSimulate();
 	void OutputFile();

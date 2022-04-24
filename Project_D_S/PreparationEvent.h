@@ -20,6 +20,7 @@ public:
 	int getLoadTime();
 	int getCost();
 	void setCargo(Cargo*);
+	Cargo* getCargo();
 	virtual void  Execute();
 };
 
