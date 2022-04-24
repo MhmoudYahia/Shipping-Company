@@ -219,18 +219,16 @@ void Company:: ExecuteEvents() {
 	}
 	Event* Eptr;
 	Events.peak(Eptr);
-	PreparationEvent* PE = dynamic_cast <PreparationEvent*> (Eptr);
 	while (Eptr && Eptr->getEventTime() == CurrentTime) {
 		PreparationEvent* PE = dynamic_cast <PreparationEvent*> (Eptr);
 		PromotionEvent* PROE = dynamic_cast <PromotionEvent*> (Eptr);
 			Eptr->Execute();
 			if (PE) {
 				Cargo* C = PE->getCargo();
-				WaitingCargos.enqueue(C,C->Getpriority());
+				AddCargotoWaiting(C);
 			}
 			if (PROE) {
-				NormalCargo* NC = PROE->getNormalCargo();
-				UpdatetoVIP(NC->GetID());
+				UpdatetoVIP(PROE->getID());
 			}
 			Events.dequeue(Eptr);
 			Events.peak(Eptr);
