@@ -1,5 +1,5 @@
 #pragma once
-#include"UIClass.h"
+class UIClass;
 #include"Node.h"
 template<class T>
 class ListADT

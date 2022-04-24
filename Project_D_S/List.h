@@ -1,17 +1,17 @@
 #pragma once
 
 #include "ListADT.h"
+class UIClass;
 template<class T>
-class List :
-    public ListADT
+class List : public ListADT<T>
 {
     Node<T>* Head;
 public:
     List() {
         Head = nullptr;
     }
-	void Print(UIClass* PUI) {
 
+	void Print(UIClass* PUI) {
 		Node<T>* temp = Head;
 		while (temp->getnext()) {
 			PUI->PrintID(temp->getitem()) << ',';
@@ -23,7 +23,7 @@ public:
 	bool isEmpty() {
 		return !Head;
 	}
-	int GetCount() {
+	/*int GetCount() {
 		if (iSempty())
 			return 0;
 		int cnt = 0;
@@ -33,7 +33,7 @@ public:
 			ptr = ptr->getnext();
 		}
 		return cnt;
-	}
+	}*/
 	int GetCount() {
 		if (isEmpty())
 			return 0;
@@ -45,7 +45,7 @@ public:
 		}
 		return cnt;
 	}
-	bool Remove(const T& value) {
+	/*bool Remove(const T& value) {
 		Node<T>* temp = Head;
 		while (temp) {
 			if (temp->getItem() == value)
@@ -61,7 +61,7 @@ public:
 			this->DeleteFirst();
 		}
 		return true;
-	}
+	}*/
 
 
 

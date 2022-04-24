@@ -3,6 +3,7 @@
 using namespace std;
 #include<utility>
 enum State { waiting, moving, delivered };
+#include"Time.h"
 class Cargo
 {
 protected:
@@ -33,7 +34,7 @@ public:
 	double getDdes();		//ismail
 	double getCost();		//ismail
 	double getLT();		//ismail
-	pair<int, int> getPT();		//ismail
+    Time getPT();		//ismail
 	~Cargo();
 };
 

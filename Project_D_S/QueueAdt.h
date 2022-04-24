@@ -1,6 +1,6 @@
 #pragma once
 #include"Node.h"
-#include"UIClass.h"
+class UIclass;
 template<class T>
 class QueueAdt
 {

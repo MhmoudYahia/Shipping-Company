@@ -8,8 +8,8 @@ Cargo::Cargo()
 	this->TrkId = -1;
 	this->delvr_Dis = 0;
 	this->Load_T = 0;
-	this->Per_T.first = 0;
-	this->Per_T.second = 0;
+	this->Per_T.setDAY(0);
+	this->Per_T.sethour(0);
 	this->WaitingH = 0;
 }
 Cargo::Cargo( int cost, int LT, int DIS,int ID, int H, int D) {
@@ -43,8 +43,8 @@ State Cargo::GetState()
 
 void Cargo::setPT(int d, int h)
 {
-	this->Per_T.Day =(d>0)? d:0;
-	this->Per_T.hour = (h >= 0 && h < 24) ? h : 0;
+	this->Per_T.setDAY((d > 0) ? d : 0);
+	this->Per_T.sethour((h >= 0 && h < 24) ? h : 0) ;
 }
 
 void Cargo::SetLT(double t)
@@ -92,7 +92,7 @@ double Cargo::getLT()
 	return Load_T;
 }
 
-pair<int, int> Cargo::getPT()
+Time  Cargo::getPT()
 {
 	return Per_T;
 }
