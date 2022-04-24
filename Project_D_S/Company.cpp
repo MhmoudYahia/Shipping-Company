@@ -199,3 +199,12 @@ void Company::OutputFile() {
 	Lfile.open("Output.txt");
 	Lfile << "CDT\t\tID\t\tWT\t\tTID\n";
 }
+void Company:: ExecuteEvents() {
+	Event* Eptr;
+	Events.peak(Eptr);
+	while (Eptr) {
+		Eptr->Execute();
+		Events.dequeue(Eptr);
+		Events.peak(Eptr);
+	}
+}

@@ -73,5 +73,6 @@ public:
 	void SimulateAutomatic();
 	void GeneralSimulate();
 	void OutputFile();
+	void ExecuteEvents();
 };
 
