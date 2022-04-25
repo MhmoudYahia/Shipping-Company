@@ -3,14 +3,14 @@
 class VIPCargo :
     public Cargo
 {
-    int Priority;
+    double Priority;
 public:
     VIPCargo();
-    VIPCargo(int ID, double P, int d, int h, double lt, double c,int dis);
-    int Getpriority();
+    VIPCargo(int ID, int d, int h, int lt, double c,double dis);
+    double Getpriority();
     void UpdatePriority();
     virtual void setPT(int d, int h);
-    virtual void SetLT(double t);
+    virtual void SetLT(int t);
     virtual void SetDis(double d);
     virtual void SetCost(double c);
     ~VIPCargo();

@@ -2,12 +2,12 @@
 #include<iostream>
 using namespace std;
 #include<utility>
-enum State { waiting, moving, delivered };
+//enum State { waiting, moving, delivered };
 #include"Time.h"
 class Cargo
 {
 protected:
-	State Cargostate;
+	//State Cargostate;
 	Time Per_T;
 	int Load_T;
 	double delvr_Dis;
@@ -20,8 +20,8 @@ public:
 	Cargo(int cost, int LT, int DIS, int ID, int H, int D);
 	int GetTid();
 	void SetTid(int i);
-	void ChangeState(State c);
-	State GetState();
+	//void ChangeState(State c);
+	//State GetState();
 	virtual void setPT(int d, int h);
 	virtual void SetLT(double t);
 	virtual void SetDdes(double d);
@@ -30,7 +30,7 @@ public:
 	int GetWaitingHours();
     void SetID(int d);
 	int GetID();
-	virtual int Getpriority();  //return 0 except in vip
+	virtual double Getpriority();  //return 0 except in vip
 	double getDdes();		//ismail
 	double getCost();		//ismail
 	double getLT();		//ismail

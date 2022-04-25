@@ -26,23 +26,27 @@ public:
 	Mode SelectMode();
 	void PrintLine();
 	//for Queue
-	void PrintID(Cargo*c);
-	void PrintID(Truck*t);
+	template<class t>
+	void Print(t c);
+	template<>
+	void Print(Cargo*c);
+	template<>
+	void Print(Truck*t);
 	//time
 	void PrintCurrentTime(Time T);
 
 	//printing Cargos and Trucks Categories
-	void printWaitingCargos(PriorityQueue<Cargo*>* qWc);
+	void printWaitingCargos(PriorityQueue<Cargo*> qWc);
 
-	void PrintMovingCargos(Queue<Cargo*>* qMc);
+	void PrintMovingCargos(Queue<Cargo*> qMc);
 
-	void PrintDeliveredCargo(Queue<Cargo*>* qDc);
+	void PrintDeliveredCargo(Queue<Cargo*> qDc);
 
-	void PrintIn_CheckupTrucks(Queue<Truck*>* qCt);
+	void PrintIn_CheckupTrucks(Queue<Truck*> qCt);
 
-	void PrintEmptytrucks(Queue<Truck*>* qEt);
+	void PrintEmptytrucks(Queue<Truck*> qEt);
 
-	void PrintLoadingTrucks(Queue<Truck*>* qLt);
+	void PrintLoadingTrucks(Queue<Truck*> qLt);
 
 	//Silent mode interface
 	void PrintSilentMode();

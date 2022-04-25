@@ -5,10 +5,10 @@ int Truck::GetID()
 	return ID;
 }
 
-void Truck:: ChangeState(State S) {
-	TruckState = S;
-	CargoCount = 0;
-}
+//void Truck:: ChangeState(State S) {
+//	TruckState = S;
+	//CargoCount = 0;
+//}
 Truck::Truck(int T) {
 	if (T > 0) TC = T;
 

@@ -11,14 +11,15 @@ public:
 	Queue() {
 		front = rear = nullptr;
 	}
-	void Print(UIClass* PUI) {
+	void Print(UIClass * PUI) {
 		
 		T Cptr;
 		while (dequeue(Cptr) && GetCount() != 1)
-		 PUI->PrintID(Cptr) << ',';
+		 PUI->Print(Cptr) << ',';
 		if (dequeue(Cptr));
-		 PUI->PrintID(Cptr);
+		 PUI->Print(Cptr);
 	}
+
 	bool iSempty()const {
 		if (front == nullptr)
 			return true;

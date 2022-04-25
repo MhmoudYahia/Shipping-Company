@@ -98,28 +98,28 @@ void Company::SimulateAutomatic()
 	while (simulate) {
 		ExecuteEvents();
 		PrintConsole();
-		CurrentTime++;
+		++CurrentTime;
 	}
 }
 void Company::PrintConsole() {
 	pUI->PrintCurrentTime(this->CurrentTime);
-	pUI->printWaitingCargos(&this->WaitingCargos);
+	pUI->printWaitingCargos(this->WaitingCargos);
 	pUI->PrintLine();
-	pUI->PrintLoadingTrucks(&this->LoadingTrucks);
+	pUI->PrintLoadingTrucks(this->LoadingTrucks);
 	pUI->PrintLine();
-	pUI->PrintEmptytrucks(&this->EmptyTrucks);
+	pUI->PrintEmptytrucks(this->EmptyTrucks);
 	pUI->PrintLine();
-	pUI->PrintMovingCargos(&this->MovingCargos);
+	pUI->PrintMovingCargos(this->MovingCargos);
 	pUI->PrintLine();
-	pUI->PrintIn_CheckupTrucks(&this->InCheckupTrucks);
+	pUI->PrintIn_CheckupTrucks(this->InCheckupTrucks);
 	pUI->PrintLine();
-	pUI->PrintDeliveredCargo(&this->DeliveredCargos);
+	pUI->PrintDeliveredCargo(this->DeliveredCargos);
 }
 void Company::SimulateStepbyStep() {
 	while (true) {
 		ExecuteEvents();
 		PrintConsole();
-		CurrentTime++;
+		++CurrentTime;
 		pUI->getKey();
 	}
 }
@@ -158,7 +158,7 @@ void Company::Loading_File()
 		Lfile >> E;
 		switch (E)
 		{
-		case 'R':
+		case 'R': {
 			char TYP;
 			int H, D;
 			int ID;
@@ -166,34 +166,34 @@ void Company::Loading_File()
 			int LT;
 			int Cost;
 			char colon;
-			Lfile >> TYP >> D>>colon>>H >> ID >> DIST >> LT >> Cost;
-			Time ET(D,H);
+			Lfile >> TYP >> D >> colon >> H >> ID >> DIST >> LT >> Cost;
+			Time ET(D, H);
 			Cargo* C;
-			PreparationEvent* PE = new PreparationEvent(TYP, DIST, LT, Cost, ET,ID,C);
+			PreparationEvent* PE = new PreparationEvent(TYP, DIST, LT, Cost, ET, ID, C);
 			double priority = -((D - 1) * 24 + H);
 			Events.enqueue(PE, priority);
-			break;
-		case 'X':
+			break; }
+		case 'X': {
 			int H, D;
 			int ID;
 			char colon;
-			Lfile  >> D >> colon >> H >> ID ;
+			Lfile >> D >> colon >> H >> ID;
 			Time ET(D, H);
-			CancellationEvent *CE = new CancellationEvent(ET,ID);
+			CancellationEvent* CE = new CancellationEvent(ET, ID);
 			double priority = -((D - 1) * 24 + H);
 			Events.enqueue(CE, priority);
-			break;
-		case 'P':
+			break; }
+		case 'P': {
 			int H, D;
 			int ID;
 			char colon;
 			int ExtraMoney;
-			Lfile >> D >> colon >> H >> ID>>ExtraMoney;
+			Lfile >> D >> colon >> H >> ID >> ExtraMoney;
 			Time ET(D, H);
-			PromotionEvent* PRE = new PromotionEvent(ET, ID,ExtraMoney);
+			PromotionEvent* PRE = new PromotionEvent(ET, ID, ExtraMoney);
 			double priority = -((D - 1) * 24 + H);
-			Events.enqueue(PRE,priority);	
-			break;
+			Events.enqueue(PRE, priority);
+			break; }
 		default:
 			break;
 		}
@@ -261,10 +261,10 @@ bool Company::UpdatetoVIP(int ID) {
 		int h = Search->getPT().gethour();
 		int d = Search->getPT().getDAY();
 		int lt = Search->getLT();
-		double p = Search->Getpriority();
+	//	double p = Search->Getpriority();  //M
 		double dis = Search->getDdes();
 		double c = Search->getCost();
-		VIPCargo* VC = new VIPCargo(id, p, d, h, lt, c, dis);
+		VIPCargo* VC = new VIPCargo(id/*, p*/, d, h, lt, c, dis);
 		WaitingCargos.enqueue(VC, VC->Getpriority());
 		return true;
 	}

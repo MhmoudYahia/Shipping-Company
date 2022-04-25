@@ -34,13 +34,18 @@ void UIClass::PrintLine()
 {
 	cout << "---------------------------------------------------------------------\n";
 }
-
-void UIClass::PrintID(Cargo*c)
+template<class t>
+void UIClass::Print(t c)
+{
+	cout << c;
+}
+template<>
+void UIClass::Print(Cargo*c)
 {
 	cout << c->GetID();
 }
-
-void UIClass::PrintID(Truck* t)
+template<>
+void UIClass::Print(Truck* t)
 {
 	cout << t->GetID();
 }
@@ -49,17 +54,21 @@ void UIClass::PrintCurrentTime(Time T)
 {
 	cout << "Current Time (Day:Hour):" << T.getDAY() << ":" << T.gethour() << endl;
 }
-void UIClass::printWaitingCargos(PriorityQueue<Cargo*>* qWc)
+void UIClass::printWaitingCargos(PriorityQueue<Cargo*> qWc)
 {
-	cout << qWc->GetCount()<<" Waiting Cargo: ";
-	Queue<Cargo*>tempQ{};
+	///*List<Cargo*>l;
+	//for (auto it : l) {
+
+	//}*/
+	cout << qWc.GetCount()<<" Waiting Cargo: ";
+	//Queue<Cargo*>tempQ{};
 	Queue<Cargo*>vipQ;
 	Queue<Cargo*>spQ;
 	Queue<Cargo*>nrmQ;
 	Cargo* Cptr;
-	while (!qWc->iSempty()) {
-		qWc->dequeue(Cptr);
-		tempQ.enqueue(Cptr);
+	while (!qWc.iSempty()) {
+		qWc.dequeue(Cptr);
+	//	tempQ.enqueue(Cptr);
 		if (dynamic_cast<NormalCargo*>(Cptr)) {
 			nrmQ.enqueue(Cptr);
 		}
@@ -70,8 +79,8 @@ void UIClass::printWaitingCargos(PriorityQueue<Cargo*>* qWc)
 			spQ.enqueue(Cptr);
 		}
 		//return origin qWl
-		while (tempQ.dequeue(Cptr))
-			qWc->enqueue(Cptr, Cptr->Getpriority());
+	//	while (tempQ.dequeue(Cptr))
+			//qWc->enqueue(Cptr, Cptr->Getpriority());
 
 		//printing normal
 		if (nrmQ.GetCount() > 0) {
@@ -103,22 +112,22 @@ void UIClass::printWaitingCargos(PriorityQueue<Cargo*>* qWc)
 			if (spQ.dequeue(Cptr));*/
 }
 
-void UIClass::PrintMovingCargos(Queue<Cargo*>* qMc)
+void UIClass::PrintMovingCargos(Queue<Cargo*> qMc)
 {
 
 }
 
-void UIClass::PrintDeliveredCargo(Queue<Cargo*>* qDc)
+void UIClass::PrintDeliveredCargo(Queue<Cargo*>qDc)
 {
-	cout << qDc->GetCount() << " Delivered Cargo: ";
-	Queue<Cargo*>tempQ{};
+	cout << qDc.GetCount() << " Delivered Cargo: ";
+	//Queue<Cargo*>tempQ{};
 	Queue<Cargo*>vipQ;
 	Queue<Cargo*>spQ;
 	Queue<Cargo*>nrmQ;
 	Cargo* Cptr;
-	while (!qDc->iSempty()) {
-		qDc->dequeue(Cptr);
-		tempQ.enqueue(Cptr);
+	while (!qDc.iSempty()) {
+		qDc.dequeue(Cptr);
+		//tempQ.enqueue(Cptr);
 		if (dynamic_cast<NormalCargo*>(Cptr)) {
 			nrmQ.enqueue(Cptr);
 		}
@@ -130,8 +139,8 @@ void UIClass::PrintDeliveredCargo(Queue<Cargo*>* qDc)
 		}
 
 		//return origin qDl
-		while (tempQ.dequeue(Cptr))
-			qDc->enqueue(Cptr);
+	///	while (tempQ.dequeue(Cptr))
+		///	qDc->enqueue(Cptr);
 
 
 		//printing vip
@@ -157,17 +166,17 @@ void UIClass::PrintDeliveredCargo(Queue<Cargo*>* qDc)
 
 
 
-void UIClass::PrintIn_CheckupTrucks(Queue<Truck*>* qCt)
+void UIClass::PrintIn_CheckupTrucks(Queue<Truck*> qCt)
 {
-	cout << qCt->GetCount() << " In_CheckupTrucks: ";
-	Queue<Truck*>tempQ{};
+	cout << qCt.GetCount() << " In_CheckupTrucks: ";
+//	Queue<Truck*>tempQ{};
 	Queue<Truck*>vipQ;
 	Queue<Truck*>spQ;
 	Queue<Truck*>nrmQ;
 	Truck* Cptr;
-	while (!qCt->iSempty()) {
-		qCt->dequeue(Cptr);
-		tempQ.enqueue(Cptr);
+	while (!qCt.iSempty()) {
+		qCt.dequeue(Cptr);
+	//	tempQ.enqueue(Cptr);
 		if (dynamic_cast<NormalTruck*>(Cptr)) {
 			nrmQ.enqueue(Cptr);
 		}
@@ -179,8 +188,8 @@ void UIClass::PrintIn_CheckupTrucks(Queue<Truck*>* qCt)
 		}
 	}
 	//return origin qDl
-	while (tempQ.dequeue(Cptr))
-		qCt->enqueue(Cptr);
+	/*while (tempQ.dequeue(Cptr))
+		qCt->enqueue(Cptr);*/
 	//printing normal
 	if(nrmQ.GetCount()>0)
 	cout << '[';
@@ -202,14 +211,14 @@ void UIClass::PrintIn_CheckupTrucks(Queue<Truck*>* qCt)
 	}
 }
 
-void UIClass::PrintEmptytrucks(Queue<Truck*>* qEt)
+void UIClass::PrintEmptytrucks(Queue<Truck*>qEt)
 {
-	cout << qEt->GetCount() << " Empty Trucks: ";
-	Queue<Truck*>tempQ;
+	cout << qEt.GetCount() << " Empty Trucks: ";
+//	Queue<Truck*>tempQ;
 	Truck* Cptr;
-	while (qEt->GetCount()>1) {
-		qEt->dequeue(Cptr);
-		tempQ.enqueue(Cptr);
+	while (qEt.GetCount()>1) {
+		qEt.dequeue(Cptr);
+	//tempQ.enqueue(Cptr);
 		if (dynamic_cast<NormalTruck*>(Cptr)) {
 			cout << " [" << Cptr->GetID() << "],";
 		}
@@ -221,8 +230,8 @@ void UIClass::PrintEmptytrucks(Queue<Truck*>* qEt)
 		}
 	}
 	//as we do not want ',' to appear in last printing op.
-	if (qEt->dequeue(Cptr)) {   
-		tempQ.enqueue(Cptr);
+	if (qEt.dequeue(Cptr)) {   
+//	tempQ.enqueue(Cptr);
 		if (dynamic_cast<NormalTruck*>(Cptr)) {
 			cout << " [" << Cptr->GetID() << "]";
 		}
@@ -234,17 +243,17 @@ void UIClass::PrintEmptytrucks(Queue<Truck*>* qEt)
 		}
 	}
 	//return origin qEl
-	while (tempQ.dequeue(Cptr))
-		qEt->enqueue(Cptr);
+	/*while (tempQ.dequeue(Cptr))
+		qEt->enqueue(Cptr);*/
 }
 
-void UIClass::PrintLoadingTrucks(Queue<Truck*>* qLt)
+void UIClass::PrintLoadingTrucks(Queue<Truck*> qLt)
 {
-	cout << qLt->GetCount() << " LoadingTrucks: ";
-	Queue<Truck*>tempQ;
+	cout << qLt.GetCount() << " LoadingTrucks: ";
+//	Queue<Truck*>tempQ;
 	Truck* Cptr;
-	while (qLt->dequeue(Cptr)) {
-		tempQ.enqueue(Cptr);
+	while (qLt.dequeue(Cptr)) {
+		//tempQ.enqueue(Cptr);
 		if (dynamic_cast<NormalTruck*>(Cptr)) {
 			cout << Cptr->GetID() << "[";
 			Cptr->Print(this);
@@ -262,8 +271,8 @@ void UIClass::PrintLoadingTrucks(Queue<Truck*>* qLt)
 		}
 	}
 	//return origin qLt
-	while (tempQ.dequeue(Cptr))
-		qLt->enqueue(Cptr);
+	//while (tempQ.dequeue(Cptr))
+		//qLt->enqueue(Cptr);
 }
 
 void UIClass::PrintSilentMode()

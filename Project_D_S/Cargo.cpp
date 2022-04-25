@@ -30,16 +30,16 @@ void Cargo::SetTid(int i)
 {
 	this->TrkId = i;
 }
-
-void Cargo::ChangeState(State c)
-{
-	Cargostate = c;
-}
-
-State Cargo::GetState()
-{
-	return Cargostate;
-}
+//
+//void Cargo::ChangeState(State c)
+//{
+//	Cargostate = c;
+//}
+//
+//State Cargo::GetState()
+//{
+//	return Cargostate;
+//}
 
 void Cargo::setPT(int d, int h)
 {

@@ -10,15 +10,18 @@ public:
     List() {
         Head = nullptr;
     }
-
+	Node<T>* begin() {
+		Node<T>* temp = Head;
+		return temp;
+	}
 	void Print(UIClass* PUI) {
 		Node<T>* temp = Head;
 		while (temp->getnext()) {
-			PUI->PrintID(temp->getitem()) << ',';
+			PUI->Print(temp->getitem()) << ',';
 			temp = temp->getnext();
 		}
 		if (temp)
-		   PUI->PrintID(temp->getitem());
+		   PUI->Print(temp->getitem());
 	}
 	bool isEmpty() {
 		return !Head;

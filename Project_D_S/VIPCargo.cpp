@@ -4,10 +4,8 @@ VIPCargo::VIPCargo()
 {
 	Priority = 0;
 }
-VIPCargo::VIPCargo(int ID, double P, int d, int h, double lt, double c, int dis) {
+VIPCargo::VIPCargo(int ID, int d, int h, int lt, double c, double dis) {
 	SetID(ID);
-	Priority = P;
-	UpdatePriority();
 	setPT(d, h);
 	SetLT(lt);
 	SetDis(dis);
@@ -15,7 +13,7 @@ VIPCargo::VIPCargo(int ID, double P, int d, int h, double lt, double c, int dis)
 
 }
 
-int VIPCargo::Getpriority()
+double VIPCargo::Getpriority()
 {
 	return Priority;
 }
@@ -29,12 +27,12 @@ void VIPCargo::UpdatePriority()
 
 void VIPCargo::setPT(int d, int h)
 {
-	this->Per_T.first = (d > 0) ? d : 0;
-	this->Per_T.second = (h >= 0 && h < 24) ? h : 0;
+	this->Per_T.setDAY((d > 0) ? d : 0);
+	this->Per_T.sethour((h >= 0 && h < 24) ? h : 0) ;
 	UpdatePriority();
 }
 
-void VIPCargo::SetLT(double t)
+void VIPCargo::SetLT(int t)
 {
 	this->Load_T = (t > 0) ? t : 0;
 	UpdatePriority();
