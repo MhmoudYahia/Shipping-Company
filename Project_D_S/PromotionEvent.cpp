@@ -10,7 +10,7 @@ int PromotionEvent::getExtraMoney()
 	return this->ExtraMoney;
 }
 void PromotionEvent::Execute() {
-
+	Cptr->UpdatetoVIP(getID());
 }
 VIPCargo* PromotionEvent::getVIPCargo() {
 	return VCargoptr;

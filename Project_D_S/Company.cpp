@@ -68,18 +68,18 @@ void Company::LoadCargos() {
 	}
 }
 
-void Company::IncrementHour()
-{
-	bool bo;
-	PromotionEvent* ptr=nullptr;
-	bo=this->PromotionEvents.peak(ptr);
-	if(bo)
-		while (this->getcurtime() <= ptr->getEventTime())
-		{
-			
-			this->setcurtime(this->getcurtime() + 1);
-		}
-}
+//void Company::IncrementHour()
+//{
+//	bool bo;
+//	PromotionEvent* ptr=nullptr;
+//	bo=this->PromotionEvents.peak(ptr);
+//	if(bo)
+//		while (this->getcurtime() <= ptr->getEventTime())
+//		{
+//			
+//			this->setcurtime(this->getcurtime() + 1);
+//		}
+//}
 
 void Company::setcurtime(Time time)
 {
@@ -169,7 +169,7 @@ void Company::Loading_File()
 			Lfile >> TYP >> D >> colon >> H >> ID >> DIST >> LT >> Cost;
 			Time ET(D, H);
 			Cargo* C;
-			PreparationEvent* PE = new PreparationEvent(TYP, DIST, LT, Cost, ET, ID, C);
+			PreparationEvent* PE = new PreparationEvent(TYP, DIST, LT, Cost, ET, ID, this);
 			double priority = -((D - 1) * 24 + H);
 			Events.enqueue(PE, priority);
 			break; }
@@ -220,16 +220,7 @@ void Company:: ExecuteEvents() {
 	Event* Eptr;
 	Events.peak(Eptr);
 	while (Eptr && Eptr->getEventTime() == CurrentTime) {
-		PreparationEvent* PE = dynamic_cast <PreparationEvent*> (Eptr);
-		PromotionEvent* PROE = dynamic_cast <PromotionEvent*> (Eptr);
 			Eptr->Execute();
-			if (PE) {
-				Cargo* C = PE->getCargo();
-				AddCargotoWaiting(C);
-			}
-			if (PROE) {
-				UpdatetoVIP(PROE->getID());
-			}
 			Events.dequeue(Eptr);
 			Events.peak(Eptr);
 	}
