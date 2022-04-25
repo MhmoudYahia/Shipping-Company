@@ -1,6 +1,6 @@
 #include "Event.h"
 #include "Time.h"
-
+#include "Company.h"	
 Event::Event( Time ET,int ID,Company * C) {
 	setEventTime(ET);
 	setID(ID);

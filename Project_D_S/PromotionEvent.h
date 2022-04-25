@@ -8,7 +8,7 @@ class PromotionEvent :public Event
 	int ExtraMoney;
 	VIPCargo* VCargoptr;
 public:
-	PromotionEvent(Time ET, int ID, int ex);
+	PromotionEvent(Time ET, int ID, int ex,Company * C);
 	void setExtraMoney(int exm);
 	int getExtraMoney();
 	NormalCargo* NCargoptr;

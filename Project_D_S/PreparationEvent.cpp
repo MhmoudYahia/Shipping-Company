@@ -1,5 +1,5 @@
 #include "PreparationEvent.h"
-
+#include "Company.h"
 
 PreparationEvent::PreparationEvent(char typ, int dist, int lt, int cost, Time ET,int ID,Company * C):Event(ET,ID, C) {
 	setType(typ);

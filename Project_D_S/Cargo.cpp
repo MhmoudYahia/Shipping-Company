@@ -72,7 +72,7 @@ int Cargo::GetID()
 	return ID;
 }
 
-int Cargo::Getpriority()
+double Cargo::Getpriority()
 {
 	return 0;
 }

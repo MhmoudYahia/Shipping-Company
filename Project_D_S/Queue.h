@@ -1,8 +1,6 @@
 #pragma once
-//#include"UIClass.h"
 #include"QueueADT.h"
-//#include "UIClass.h"
-class UIClass;
+#include "UIClass.h"
 template<class T>
 class Queue :public QueueAdt<T>
 {
@@ -11,14 +9,14 @@ public:
 	Queue() {
 		front = rear = nullptr;
 	}
-	void Print(UIClass * PUI) {
+	/*void PrintQ(UIClass * PUI) {
 		
 		T Cptr;
 		while (dequeue(Cptr) && GetCount() != 1)
 		 PUI->Print(Cptr) << ',';
 		if (dequeue(Cptr));
 		 PUI->Print(Cptr);
-	}
+	}*/
 
 	bool iSempty()const {
 		if (front == nullptr)

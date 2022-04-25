@@ -2,7 +2,7 @@
 #include<iostream>
 #include"Time.h" 
 #include "Cargo.h"
-#include "Company.h"
+class Company;
 using namespace std;
 class Event
 {
@@ -10,7 +10,7 @@ private:
 	Time event_time;
 	int ID;
 protected:
-	Company* Cptr;
+	Company * Cptr;
 public:
 	Event(Time, int,Company *);
 	void setEventTime(Time evt);

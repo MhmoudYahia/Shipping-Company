@@ -1,5 +1,11 @@
 #include "UIClass.h"
-
+#include "Queue.h"
+#include "NormalTruck.h"
+#include "VIPTruck.h"
+#include "SpecialTruck.h"
+template<class T>
+class Queue;
+class Truck;
 UIClass::UIClass()
 {
 }
@@ -85,19 +91,19 @@ void UIClass::printWaitingCargos(PriorityQueue<Cargo*> qWc)
 		//printing normal
 		if (nrmQ.GetCount() > 0) {
 			cout << '[';
-			nrmQ.Print(this);
+			PrintQ(nrmQ);
 			cout << '] ';
 		}
 		//printing special
 		if (spQ.GetCount() > 0) {
 			cout << '(';
-			spQ.Print(this);
+			PrintQ(spQ);
 			cout << ') ';
 		}
 		//printing vip
 		if (vipQ.GetCount() > 0) {
 			cout << '{';
-			vipQ.Print(this);
+			PrintQ(vipQ);
 			cout << '} ';
 		}
 	}
@@ -146,19 +152,19 @@ void UIClass::PrintDeliveredCargo(Queue<Cargo*>qDc)
 		//printing vip
 		if (vipQ.GetCount() > 0) {
 			cout << '{';
-			vipQ.Print(this);
+			PrintQ(vipQ);
 			cout << '} ';
 		}
 		//normal
 		if (nrmQ.GetCount() > 0) {
 			cout << '[';
-			nrmQ.Print(this);
+			PrintQ(nrmQ);
 			cout << '] ';
 		}
 		//printing special
 		if (spQ.GetCount() > 0) {
 			cout << '(';
-			spQ.Print(this);
+			PrintQ(spQ);
 			cout << ') ';
 		}
 	}
@@ -193,20 +199,20 @@ void UIClass::PrintIn_CheckupTrucks(Queue<Truck*> qCt)
 	//printing normal
 	if(nrmQ.GetCount()>0)
 	cout << '[';
-	nrmQ.Print(this);
+	PrintQ(nrmQ);
 	cout << '] ';
 
 	//printing special
 	if (spQ.GetCount()>0) {
 		cout << '(';
-		spQ.Print(this);
+		PrintQ(spQ);
 		cout << ') ';
 	}
 
 	//printing vip
 	if (vipQ.GetCount() > 0) {
 		cout << '{';
-		vipQ.Print(this);
+		PrintQ(vipQ);
 		cout << '} ';
 	}
 }
@@ -283,4 +289,21 @@ void UIClass::PrintSilentMode()
 void UIClass::PrintError(string msg) {
 	cout << "Error: " << msg << endl;
 }
-
+void UIClass::PrintQ(Queue<Cargo*  > Cptr) {
+	Cargo* C;
+	while (Cptr.dequeue(C) && Cptr.GetCount() != 1) {
+		Print(C);
+		cout<< ',';
+	}
+	if (Cptr.dequeue(C));
+	Print(C);
+}
+void UIClass::PrintQ(Queue<Truck*  > Cptr) {
+	Truck* C;
+	while (Cptr.dequeue(C) && Cptr.GetCount() != 1) {
+		Print(C);
+		cout << ',';
+	}
+	if (Cptr.dequeue(C));
+	Print(C);
+}

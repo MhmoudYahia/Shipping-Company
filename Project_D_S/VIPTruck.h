@@ -3,6 +3,5 @@
 class VIPTruck :
     public Truck
 {
-
 };
 

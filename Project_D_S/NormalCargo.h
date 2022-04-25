@@ -1,8 +1,8 @@
 #pragma once
 #include "Cargo.h"
-#include"Queue.h"
 #include"Stack.h"
-
+template<class T>
+class Queue;
 class NormalCargo :public Cargo
 {
 public:

@@ -1,7 +1,10 @@
 #pragma once
-
+template<class T>
+class Queue;
 #include "Queue.h"
 #include "Cargo.h"
+class UIClass;
+
 //enum State  {Loading, Empty, InCheckUp};
 
 class Truck
@@ -13,13 +16,13 @@ protected:
 	int CargoCount;
 	int MaintenanceTime; // In hours
 	double Speed; //In Km/Hour 
-	Queue<Cargo* > TruckCargos;
+	Queue <Cargo* > * TruckCargos;
 	double DI; //Delivery Interval =(Distance of furthest cargo)/ speed + Sum of unload times of all its cargos + time to come back
 
 public:
 	int GetID();
 	//void ChangeState(State S);
-	Truck(int T);
+	//Truck(int T);
 	bool AddCargo(Cargo* C);
 	bool RemoveCargo(Cargo* C);
 	virtual void Print(UIClass*);

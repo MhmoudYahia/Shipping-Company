@@ -1,6 +1,7 @@
 #pragma once
 
 #include "ListADT.h"
+//#include "UIClass.h"
 class UIClass;
 template<class T>
 class List : public ListADT<T>
@@ -14,15 +15,15 @@ public:
 		Node<T>* temp = Head;
 		return temp;
 	}
-	void Print(UIClass* PUI) {
-		Node<T>* temp = Head;
-		while (temp->getnext()) {
-			PUI->Print(temp->getitem()) << ',';
-			temp = temp->getnext();
-		}
-		if (temp)
-		   PUI->Print(temp->getitem());
-	}
+	//void Print(UIClass* PUI) {
+	//	Node<T>* temp = Head;
+	//	while (temp->getnext()) {
+	//		PUI->Print(temp->getitem()) << ',';
+	//		temp = temp->getnext();
+	//	}
+	//	if (temp)
+	//	   PUI->Print(temp->getitem());
+	//}
 	bool isEmpty() {
 		return !Head;
 	}

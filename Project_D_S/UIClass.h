@@ -3,17 +3,15 @@
 using namespace std;
 #include<string>
 #include"PriorityQueue.h"
-#include"Queue.h"
 #include"List.h"
 #include"Cargo.h"
-#include"Truck.h"
 #include"NormalCargo.h"
 #include"VIPCargo.h"
 #include"SpecialCargo.h"
-#include"VIPTruck.h"
-#include"SpecialTruck.h"
-#include"NormalTruck.h"
 #include"Time.h"
+class Truck;
+template<class T>
+class Queue;
 enum Mode { interactive, step_by_step, silent };
 class UIClass
 	
@@ -31,7 +29,10 @@ public:
 	template<>
 	void Print(Cargo*c);
 	template<>
-	void Print(Truck*t);
+	void Print(Truck * t);
+	void PrintQ(Queue < Cargo*>);
+	void PrintQ(Queue < Truck*>);
+
 	//time
 	void PrintCurrentTime(Time T);
 
@@ -46,7 +47,7 @@ public:
 
 	void PrintEmptytrucks(Queue<Truck*> qEt);
 
-	void PrintLoadingTrucks(Queue<Truck*> qLt);
+	void PrintLoadingTrucks(Queue<Truck*>);
 
 	//Silent mode interface
 	void PrintSilentMode();

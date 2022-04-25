@@ -4,8 +4,8 @@
 #include "NormalCargo.h"
 #include <chrono>
 #include <thread>
-
-
+#include "Event.h"
+class Event;
 
 Company::Company()
 {
@@ -13,7 +13,7 @@ Company::Company()
 }
 
 void Company::LoadCargos() {
-	Cargo* Cargoptr;
+	/*Cargo* Cargoptr;
 	WaitingCargos.peak(Cargoptr);
 	bool Assigned = false;
 	while (Cargoptr)
@@ -65,7 +65,7 @@ void Company::LoadCargos() {
 			Cargoptr->IncrementWaitingHours();
 		}
 
-	}
+	}*/
 }
 
 //void Company::IncrementHour()
@@ -170,8 +170,9 @@ void Company::Loading_File()
 			Time ET(D, H);
 			Cargo* C;
 			PreparationEvent* PE = new PreparationEvent(TYP, DIST, LT, Cost, ET, ID, this);
+			Event* E = PE;
 			double priority = -((D - 1) * 24 + H);
-			Events.enqueue(PE, priority);
+			Events.enqueue(E, priority);
 			break; }
 		case 'X': {
 			int H, D;
@@ -179,9 +180,10 @@ void Company::Loading_File()
 			char colon;
 			Lfile >> D >> colon >> H >> ID;
 			Time ET(D, H);
-			CancellationEvent* CE = new CancellationEvent(ET, ID);
+			CancellationEvent* CE = new CancellationEvent(ET, ID, this);
+			Event* E = CE;
 			double priority = -((D - 1) * 24 + H);
-			Events.enqueue(CE, priority);
+			Events.enqueue(E, priority);
 			break; }
 		case 'P': {
 			int H, D;
@@ -190,9 +192,10 @@ void Company::Loading_File()
 			int ExtraMoney;
 			Lfile >> D >> colon >> H >> ID >> ExtraMoney;
 			Time ET(D, H);
-			PromotionEvent* PRE = new PromotionEvent(ET, ID, ExtraMoney);
+			PromotionEvent* PRE = new PromotionEvent(ET, ID, ExtraMoney, this );
 			double priority = -((D - 1) * 24 + H);
-			Events.enqueue(PRE, priority);
+			Event* E = PRE;
+			Events.enqueue(E, priority);
 			break; }
 		default:
 			break;

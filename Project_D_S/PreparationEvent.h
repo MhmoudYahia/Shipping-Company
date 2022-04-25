@@ -2,6 +2,7 @@
 #include"Event.h"
 #include"Cargo.h"
 #include"NormalCargo.h"
+class Company;
 class PreparationEvent :public Event
 {
 	char TYP;

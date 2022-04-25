@@ -1,5 +1,5 @@
 #include "PromotionEvent.h"
-
+#include "Company.h"
 void PromotionEvent::setExtraMoney(int exm)
 {
 	this->ExtraMoney = exm;
@@ -29,9 +29,7 @@ VIPCargo* PromotionEvent::Execute(NormalCargo* & ptr)
 	delete ptr;
 	ptr = NULL;
 }*/
-void PromotionEvent::Execute() {
-	
-}
-PromotionEvent::PromotionEvent(Time ET, int ID, int exm) :Event(ET, ID) {
+
+PromotionEvent::PromotionEvent(Time ET, int ID, int exm , Company * C) :Event(ET, ID,C) {
 	setExtraMoney(exm);
 }
