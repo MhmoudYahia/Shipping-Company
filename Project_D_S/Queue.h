@@ -9,14 +9,16 @@ public:
 	Queue() {
 		front = rear = nullptr;
 	}
-	/*void PrintQ(UIClass * PUI) {
+	void PrintQ(UIClass * PUI) {
 		
 		T Cptr;
-		while (dequeue(Cptr) && GetCount() != 1)
-		 PUI->Print(Cptr) << ',';
+		while (dequeue(Cptr) && GetCount() != 1) {
+			PUI->Print(Cptr);
+			cout << ',';
+		}
 		if (dequeue(Cptr));
 		 PUI->Print(Cptr);
-	}*/
+	}
 
 	bool iSempty()const {
 		if (front == nullptr)

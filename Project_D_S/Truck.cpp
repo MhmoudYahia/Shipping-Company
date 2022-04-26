@@ -27,5 +27,5 @@ bool Truck::RemoveCargo(Cargo* C) {
 	return true;
 }
 void Truck::Print(UIClass * UI) {
-	//TruckCargos.PrintQ(UI);
+	TruckCargos->PrintQ(UI);
 }
