@@ -127,11 +127,13 @@ void Company::GeneralSimulate() {
 	switch (pUI->SelectMode()) {
 	case interactive:
 	{	
-		SimulateAutomatic();
+	//	SimulateAutomatic();
+		SimulateStepbyStep();
 		break;	
 	}
 	case step_by_step: {
-		SimulateStepbyStep();
+		//SimulateStepbyStep();
+		SimulateAutomatic();
 		break;
 	}
 	case silent:

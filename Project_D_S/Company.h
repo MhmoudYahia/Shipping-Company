@@ -57,6 +57,11 @@ class Company
 	
 	Time CurrentTime;
 	UIClass* pUI;
+	
+	//Utility functions
+	void SimulateAutomatic();
+	void PrintConsole();
+	void SimulateStepbyStep();
 public:
 	Company();
 	void LoadCargos();
@@ -65,18 +70,16 @@ public:
 	void setcurtime(Time time);
 	Time getcurtime();
 	bool isClosed();
-	bool AddtoVIPTruck(Cargo*);
+	/*bool AddtoVIPTruck(Cargo*);
 	bool AddtoNormalTruck(Cargo*);
-	bool AddtoSpecialTruck(Cargo*);
-	void Update_UI_Interface(Time T);
+	bool AddtoSpecialTruck(Cargo*);*/
+//	void Update_UI_Interface(Time T);
 	void Loading_File();
 	void AddCargotoWaiting(Cargo*);
 	bool UpdatetoVIP(int ID);
-	void SimulateAutomatic();
 	void GeneralSimulate();
 	void OutputFile();
 	void ExecuteEvents();
-	void PrintConsole();
-	void SimulateStepbyStep();
+	
 };
 

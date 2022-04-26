@@ -17,6 +17,7 @@ UIClass::~UIClass()
 void UIClass::getKey()
 {
 	string s;
+	cout <<"\nenter any key to continue\n";
 	cin >> s;
 }
 
@@ -24,8 +25,9 @@ Mode UIClass::SelectMode()
 {
 	int i;
 	//Mode M;//as a default{}{}
-	cout << "if you want interactive or step-by-step or silent mode write 0 or 1 or 2 respectively\n";
-		cin >> i;
+	//cout << "if you want interactive or step-by-step or silent mode write 0 or 1 or 2 respectively\n";
+	cout << "choose what you want\n0=====>iteractive mode\n1=====>stepBystep mode\n2=====>silent mode\n";
+	cin >> i;
 		if (i == 0)
 			return interactive;
 		else if (i == 1)
@@ -38,7 +40,7 @@ Mode UIClass::SelectMode()
 
 void UIClass::PrintLine()
 {
-	cout << "---------------------------------------------------------------------\n";
+	cout << "\n---------------------------------------------------------------------\n";
 }
 template<class t>
 void UIClass::Print(t c)
@@ -58,7 +60,7 @@ void UIClass::Print(Truck* t)
 
 void UIClass::PrintCurrentTime(Time T)
 {
-	cout << "Current Time (Day:Hour):" << T.getDAY() << ":" << T.gethour() << endl;
+	cout << "\nCurrent Time (Day:Hour):" << T.getDAY() << ":" << T.gethour() << endl;
 }
 void UIClass::printWaitingCargos(PriorityQueue<Cargo*> qWc)
 {
@@ -121,7 +123,7 @@ void UIClass::printWaitingCargos(PriorityQueue<Cargo*> qWc)
 			if (spQ.dequeue(Cptr));*/
 }
 
-void UIClass::PrintMovingCargos(Queue<Cargo*> qMc)
+void UIClass::PrintMovingCargos(Queue<Cargo*> qMc)//phase 2
 {
 
 }
