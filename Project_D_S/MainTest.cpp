@@ -7,6 +7,8 @@ using namespace std;
 int main() {
 	Company* CompanyTest = new Company;
 	CompanyTest->Loading_File();
-	CompanyTest->GeneralSimulate();
+	//CompanyTest->GeneralSimulate();
+	CompanyTest->PrintEvents();
+	
 	return 0;
 }

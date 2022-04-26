@@ -14,7 +14,7 @@ public:
 			return 0;
 		int cnt = 0;
 		Node<T>* ptr = front;
-		while (!ptr) {
+		while (ptr) {
 			cnt++;
 			ptr = ptr->getnext();
 		}
@@ -65,14 +65,12 @@ public:
 			val = rear->getitem();
 			delete rear;
 			rear = front = nullptr;
-
 			return true;
 		}
 		Node<T>* delptr = front;
 		front = front->getnext();
 		val = delptr->getitem();
 		delete delptr;
-
 		return true;
 	}
 	bool peak(T& val)const {

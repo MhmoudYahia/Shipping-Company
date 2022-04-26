@@ -29,7 +29,7 @@ public:
 				t=temp->enqueue(tocancel);
 			}
 		}
-		while (!temp->iSempty())
+		while (!temp->isEmpty())
 		{
 			t = temp->dequeue(tocancel);
 			t = ptr->enqueue(tocancel);

@@ -53,7 +53,8 @@ class Company
 	Queue<Cargo*>VIPCargos;
 	
 	//Events
-	PriorityQueue<Event*> Events;
+	PriorityQueue<Event*> EventsPQ;
+	Queue<Event*> Events;
 	
 	Time CurrentTime;
 	UIClass* pUI;
@@ -80,6 +81,7 @@ public:
 	void GeneralSimulate();
 	void OutputFile();
 	void ExecuteEvents();
+	void PrintEvents();
 	
 };
 

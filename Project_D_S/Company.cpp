@@ -5,7 +5,6 @@
 #include <chrono>
 #include <thread>
 #include "Event.h"
-class Event;
 
 Company::Company()
 {
@@ -147,7 +146,7 @@ void Company::GeneralSimulate() {
 void Company::Loading_File()
 {
 	ifstream Lfile;
-	Lfile.open("CompFile.txt");      //start from here to read 			 
+	Lfile.open("Text.txt");      //start from here to read 			 
 	Lfile >> N >> S >> V;
 	Lfile >> NTruckSpeed >> STruckSpeed >> VTruckSpeed;
 	Lfile >> NTruckCapacity >> STruckCapacity >> VTruckCapacity;
@@ -174,7 +173,7 @@ void Company::Loading_File()
 			PreparationEvent* PE = new PreparationEvent(TYP, DIST, LT, Cost, ET, ID, this);
 			Event* E = PE;
 			double priority = -((D - 1) * 24 + H);
-			Events.enqueue(E, priority);
+			EventsPQ.enqueue(E, priority);
 			break; }
 		case 'X': {
 			int H, D;
@@ -185,7 +184,7 @@ void Company::Loading_File()
 			CancellationEvent* CE = new CancellationEvent(ET, ID, this);
 			Event* E = CE;
 			double priority = -((D - 1) * 24 + H);
-			Events.enqueue(E, priority);
+			EventsPQ.enqueue(E, priority);
 			break; }
 		case 'P': {
 			int H, D;
@@ -197,7 +196,7 @@ void Company::Loading_File()
 			PromotionEvent* PRE = new PromotionEvent(ET, ID, ExtraMoney, this );
 			double priority = -((D - 1) * 24 + H);
 			Event* E = PRE;
-			Events.enqueue(E, priority);
+			EventsPQ.enqueue(E, priority);
 			break; }
 		default:
 			break;
@@ -223,11 +222,11 @@ void Company:: ExecuteEvents() {
 		return;
 	}
 	Event* Eptr;
-	Events.peak(Eptr);
-	while (Eptr && Eptr->getEventTime() == CurrentTime) {
+	EventsPQ.peak(Eptr);
+	while (Eptr) {
 			Eptr->Execute();
-			Events.dequeue(Eptr);
-			Events.peak(Eptr);
+			EventsPQ.dequeue(Eptr);
+			EventsPQ.peak(Eptr);
 	}
 }
 void Company::AddCargotoWaiting(Cargo* C) {
@@ -265,4 +264,18 @@ bool Company::UpdatetoVIP(int ID) {
 		return true;
 	}
 	return false;
+}
+void Company::PrintEvents() {
+	Event* E;
+	int cnt = 0;
+	EventsPQ.peak(E);
+	while (E) {
+		if (dynamic_cast<PromotionEvent*> (E)) cout << "PRE";
+		if (dynamic_cast<CancellationEvent*> (E)) cout << "CE";
+		if (dynamic_cast<PreparationEvent*> (E)) cout << "PE";
+		cout << cnt << endl;
+		EventsPQ.dequeue(E);
+		EventsPQ.peak(E);
+	}
+	cout << N << " " << S << " " << V;
 }

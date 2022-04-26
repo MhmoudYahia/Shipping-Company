@@ -136,7 +136,7 @@ void UIClass::PrintDeliveredCargo(Queue<Cargo*>qDc)
 	Queue<Cargo*>spQ;
 	Queue<Cargo*>nrmQ;
 	Cargo* Cptr;
-	while (!qDc.iSempty()) {
+	while (!qDc.isEmpty()) {
 		qDc.dequeue(Cptr);
 		//tempQ.enqueue(Cptr);
 		if (dynamic_cast<NormalCargo*>(Cptr)) {
@@ -188,7 +188,7 @@ void UIClass::PrintIn_CheckupTrucks(Queue<Truck*> qCt)
 	Queue<Truck*>spQ;
 	Queue<Truck*>nrmQ;
 	Truck* Cptr;
-	while (!qCt.iSempty()) {
+	while (!qCt.isEmpty()) {
 		qCt.dequeue(Cptr);
 		//	tempQ.enqueue(Cptr);
 		if (dynamic_cast<NormalTruck*>(Cptr)) {
