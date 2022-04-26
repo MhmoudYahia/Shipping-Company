@@ -9,6 +9,8 @@
 Company::Company()
 {
 	pUI = new UIClass();
+	CurrentTime.sethour(1);
+	CurrentTime.setDAY(1);
 }
 
 void Company::LoadCargos() {
@@ -91,7 +93,7 @@ Time Company::getcurtime()
 	return this->CurrentTime;
 }
 
-void Company::SimulateAutomatic()
+void Company::StepbyStepSimulation()
 {
 	bool simulate = true;
 	while (simulate) {
@@ -114,8 +116,9 @@ void Company::PrintConsole() {
 	pUI->PrintLine();
 	pUI->PrintDeliveredCargo(this->DeliveredCargos);
 }
-void Company::SimulateStepbyStep() {
-	while (true) {
+void Company::InteractiveSimulation() {
+	int cnt = 10;
+	while (cnt) {
 		ExecuteEvents();
 		PrintConsole();
 		++CurrentTime;
@@ -126,13 +129,11 @@ void Company::GeneralSimulate() {
 	switch (pUI->SelectMode()) {
 	case interactive:
 	{	
-	//	SimulateAutomatic();
-		SimulateStepbyStep();
+		InteractiveSimulation();
 		break;	
 	}
 	case step_by_step: {
-		//SimulateStepbyStep();
-		SimulateAutomatic();
+		StepbyStepSimulation();
 		break;
 	}
 	case silent:
@@ -223,21 +224,21 @@ void Company:: ExecuteEvents() {
 	}
 	Event* Eptr;
 	EventsPQ.peak(Eptr);
-	while (Eptr) {
-			Eptr->Execute();
-			EventsPQ.dequeue(Eptr);
-			EventsPQ.peak(Eptr);
+	while (EventsPQ.GetCount()>0){
+		cout << "Current EventCount: " << EventsPQ.GetCount() << endl;
+		EventsPQ.dequeue(Eptr);
+		Eptr->Execute();
 	}
 }
 void Company::AddCargotoWaiting(Cargo* C) {
-	WaitingCargos.enqueue(C, C->Getpriority());
+	WaitingCargos.enqueue(C,0);
 }
 bool Company::UpdatetoVIP(int ID) {
 	Cargo* C = NULL;
 	Cargo* Search = NULL;
 	WaitingCargos.peak(C);
 	PriorityQueue<Cargo* > temp;
-	while(C ) {
+	while(WaitingCargos.GetCount()>0) {
 		if (C->GetID() == ID) {
 			Search = C;
 		}
@@ -246,7 +247,7 @@ bool Company::UpdatetoVIP(int ID) {
 		WaitingCargos.peak(C);
 	}
 	temp.peak(C);
-	while (C) {
+	while (temp.GetCount()>0) {
 		WaitingCargos.enqueue(C, C->Getpriority());
 		temp.dequeue(C);
 		temp.peak(C);
@@ -269,13 +270,14 @@ void Company::PrintEvents() {
 	Event* E;
 	int cnt = 0;
 	EventsPQ.peak(E);
-	while (E) {
+	while (EventsPQ.GetCount()>0) {
+		cnt++;
 		if (dynamic_cast<PromotionEvent*> (E)) cout << "PRE";
 		if (dynamic_cast<CancellationEvent*> (E)) cout << "CE";
 		if (dynamic_cast<PreparationEvent*> (E)) cout << "PE";
 		cout << cnt << endl;
 		EventsPQ.dequeue(E);
-		EventsPQ.peak(E);
+		//EventsPQ.peak(E);
 	}
 	cout << N << " " << S << " " << V;
 }

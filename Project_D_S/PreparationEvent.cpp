@@ -49,9 +49,28 @@ int PreparationEvent::getCost()
 
 void PreparationEvent::Execute()
 {
+	cout << "Event Executed \n";
 	int D = getEventTime().getDAY();
 	int H = getEventTime().gethour();
 	int ID = getID();
 	Cargo* Cargoptr = new Cargo(Cost, LT, DIST, ID, H, D);
-	Cptr->AddCargotoWaiting(Cargoptr);
+	NormalCargo* NC = new NormalCargo(Cost, LT, DIST, ID, H, D);
+	VIPCargo* VC = new VIPCargo(Cost, LT, DIST, ID, H, D);
+	SpecialCargo* SC = new SpecialCargo(Cost, LT, DIST, ID, H, D);
+
+	switch (TYP)
+	{
+	case 'N':
+		Cptr->AddCargotoWaiting(NC);
+		break;
+	case 'V':
+		Cptr->AddCargotoWaiting(VC);
+		break;
+	case 'S':
+		Cptr->AddCargotoWaiting(SC);
+		break;
+	default:
+		Cptr->AddCargotoWaiting(Cargoptr);
+		break;
+	}
 }

@@ -6,18 +6,12 @@ class PriorityQueue:public PriorityQueueAdt<T>
 {
 	Node<T>* front, * rear;
 public:
+	int cnt;
 	PriorityQueue() {
 		front = rear = nullptr;
+		cnt = 0;
 	}
 	int GetCount() {
-		if (iSempty())
-			return 0;
-		int cnt = 0;
-		Node<T>* ptr = front;
-		while (ptr) {
-			cnt++;
-			ptr = ptr->getnext();
-		}
 		return cnt;
 	}
 	bool enqueue(const T& item,double par) {
@@ -29,11 +23,13 @@ public:
 		newnode->SetPriority(par);
 		if (!front) {
 			front = rear = newnode;
+			cnt++;
 			return true;
 		}
 		if (front->GetPriority() < par) {
 			newnode->setnext(front);
 			front = newnode;
+			cnt++;
 			return true;
 		}
 		//while (temp->getnext()&&temp->getnext()->GetPriority()>par) {
@@ -47,12 +43,14 @@ public:
 				//temp is now in the position
 					newnode->setnext(temp->getnext());
 					temp->setnext(newnode);
+					cnt++;
 					return true;
 			}
 			temp = temp->getnext();
 			}
 		rear->setnext(newnode);
 		rear = newnode;
+		cnt++;
 		return true;
 	}
 	bool iSempty()const {
@@ -61,16 +59,14 @@ public:
 	bool dequeue(T& val) {
 		if (iSempty())
 			return false;
-		if (front == rear) {
-			val = rear->getitem();
-			delete rear;
-			rear = front = nullptr;
-			return true;
-		}
-		Node<T>* delptr = front;
+		Node<T>* tobeDeleted = front; 
+		val = front->getitem();
 		front = front->getnext();
-		val = delptr->getitem();
-		delete delptr;
+		if (tobeDeleted == rear) {
+			rear = nullptr;
+		}
+		delete tobeDeleted;
+		cnt--;
 		return true;
 	}
 	bool peak(T& val)const {

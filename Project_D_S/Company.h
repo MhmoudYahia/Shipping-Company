@@ -60,9 +60,9 @@ class Company
 	UIClass* pUI;
 	
 	//Utility functions
-	void SimulateAutomatic();
+	void StepbyStepSimulation();
 	void PrintConsole();
-	void SimulateStepbyStep();
+	void InteractiveSimulation();
 public:
 	Company();
 	void LoadCargos();

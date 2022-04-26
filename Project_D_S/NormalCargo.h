@@ -39,6 +39,14 @@ public:
 			return true;
 		return false;
 	}
+	NormalCargo(int cost, int LT, int DIS, int ID, int H, int D) {
+		setPT(D, H);
+		SetCost(cost);
+		SetLT(LT);
+		SetDdes(DIS);
+		SetID(ID);
+	}
+
     ~NormalCargo(){}
 };
 
