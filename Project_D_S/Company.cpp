@@ -5,6 +5,11 @@
 #include <chrono>
 #include <thread>
 #include "Event.h"
+#ifdef _WIN32
+#include <Windows.h>
+#else
+#include <unistd.h>
+#endif
 
 Company::Company()
 {
@@ -99,6 +104,7 @@ void Company::StepbyStepSimulation()
 	while (simulate) {
 		ExecuteEvents();
 		PrintConsole();
+		Sleep(1500);
 		++CurrentTime;
 	}
 }
