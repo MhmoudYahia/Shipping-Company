@@ -100,12 +100,18 @@ Time Company::getcurtime()
 
 void Company::StepbyStepSimulation()
 {
-	bool simulate = true;
-	while (simulate) {
+	int cnt = 10;
+	while (10) {
 		ExecuteEvents();
 		PrintConsole();
 		Sleep(1500);
 		++CurrentTime;
+		//to move cago from waiting to delivered every 5 times
+		if (cnt % 5 == 0) {
+			Cargo* Cptr;
+			WaitingCargos.dequeue(Cptr);
+			this->DeliveredCargos.enqueue(Cptr);
+		}
 	}
 }
 void Company::PrintConsole() {
@@ -124,11 +130,18 @@ void Company::PrintConsole() {
 }
 void Company::InteractiveSimulation() {
 	int cnt = 10;
-	while (cnt) {
+	while (cnt++) {
 		ExecuteEvents();
 		PrintConsole();
 		++CurrentTime;
 		pUI->getKey();
+		int v = 5;
+		//to move cago from waiting to delivered every 5 times
+		if (cnt % 5 == 0) {               
+			Cargo* Cptr;
+			WaitingCargos.dequeue(Cptr);
+			this->DeliveredCargos.enqueue(Cptr);
+		}
 	}
 }
 void Company::GeneralSimulate() {
@@ -171,7 +184,7 @@ void Company::Loading_File()
 			int H, D;
 			int ID;
 			int DIST;
-			int LT;
+			double LT;
 			int Cost;
 			char colon;
 			Lfile >> TYP >> D >> colon >> H >> ID >> DIST >> LT >> Cost;

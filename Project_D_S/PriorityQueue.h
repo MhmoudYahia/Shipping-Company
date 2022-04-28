@@ -1,19 +1,41 @@
 #pragma once
 #include"Node.h"
+
 #include"PriorityQueueAdt.h"
 template<class T>
 class PriorityQueue:public PriorityQueueAdt<T>
 {
 	Node<T>* front, * rear;
 public:
-	int cnt;
+	//int cnt=0;
+	/*void PrintPriQ(UIClass* PUI) {
+		int Cptr;
+		while (dequeue(Cptr) && GetCount() != 1) {
+			cout<<;
+			cout << ',';
+		}
+		if (dequeue(Cptr));
+		PUI->Print(Cptr);
+	}*/
 	PriorityQueue() {
 		front = rear = nullptr;
-		cnt = 0;
+		//cnt = 0;
 	}
 	int GetCount() {
+		if (iSempty())
+			return 0;
+		int cnt = 0;
+		Node<T>* ptr = front;
+		while (ptr) {
+			cnt++;
+			ptr = ptr->getnext();
+		}
 		return cnt;
 	}
+	//int GetCount() {
+	//	return cnt;
+	//}
+
 	bool enqueue(const T& item,double par) {
 		Node<T>* temp = front;
 		Node<T>* newnode = new Node<T>();
@@ -23,13 +45,13 @@ public:
 		newnode->SetPriority(par);
 		if (!front) {
 			front = rear = newnode;
-			cnt++;
+			//cnt++;
 			return true;
 		}
 		if (front->GetPriority() < par) {
 			newnode->setnext(front);
 			front = newnode;
-			cnt++;
+			//cnt++;
 			return true;
 		}
 		//while (temp->getnext()&&temp->getnext()->GetPriority()>par) {
@@ -43,14 +65,14 @@ public:
 				//temp is now in the position
 					newnode->setnext(temp->getnext());
 					temp->setnext(newnode);
-					cnt++;
+					//cnt++;
 					return true;
 			}
 			temp = temp->getnext();
 			}
 		rear->setnext(newnode);
 		rear = newnode;
-		cnt++;
+		//cnt++;
 		return true;
 	}
 	bool iSempty()const {
@@ -66,7 +88,7 @@ public:
 			rear = nullptr;
 		}
 		delete tobeDeleted;
-		cnt--;
+	//	cnt--;
 		return true;
 	}
 	bool peak(T& val)const {
@@ -83,12 +105,14 @@ public:
 		}
 		Node<T>* newnode = new Node<T>();
 		newnode->setitem(ptr->getitem());
+		newnode->SetPriority(ptr->GetPriority());
 		ptr = ptr->getnext();
 		front = rear = newnode;
 		while (ptr) {
 			//enqueue(ptr->getitem());
 			Node<T>* newnode = new Node<T>();
 			newnode->setitem(ptr->getitem());
+			newnode->SetPriority(ptr->GetPriority());
 			rear->setnext(newnode);
 			rear = rear->getnext();
 			ptr = ptr->getnext();

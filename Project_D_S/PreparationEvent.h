@@ -7,10 +7,10 @@ class PreparationEvent :public Event
 {
 	char TYP;
 	int DIST;
-	int LT;
+	double LT;
 	int Cost;
 public:
-	PreparationEvent(char typ,	int dist, int lt, int cost, Time ET, int ID, Company * C);
+	PreparationEvent(char typ,	int dist, double lt, int cost, Time ET, int ID, Company * C);
 	void setType(char t);
 	void setDistance(int d);
 	void setLoadTime(int lt);

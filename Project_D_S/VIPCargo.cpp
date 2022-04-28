@@ -3,8 +3,8 @@
 VIPCargo::VIPCargo()
 {
 	Priority = 0;
-}
-VIPCargo::VIPCargo(int ID, int d, int h, int lt, double c, double dis) {
+}//int cost, int LT, int DIS, int ID, int H, int D
+VIPCargo::VIPCargo(int c, int lt, double dis,int ID,int h,int d) {
 	SetID(ID);
 	setPT(d, h);
 	SetLT(lt);

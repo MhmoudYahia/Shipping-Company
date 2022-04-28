@@ -23,9 +23,10 @@ public:
 	//void ChangeState(State c);
 	//State GetState();
 	virtual void setPT(int d, int h);
-	virtual void SetLT(double t);
+	virtual void SetLT(int t);
 	virtual void SetDdes(double d);
-	virtual void SetCost(double c);
+	
+	virtual void SetCost(int c);
 	void IncrementWaitingHours();
 	int GetWaitingHours();
     void SetID(int d);

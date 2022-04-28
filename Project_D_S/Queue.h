@@ -14,7 +14,7 @@ public:
 	void PrintQ(UIClass * PUI) {
 		
 		T Cptr;
-		while (dequeue(Cptr) && GetCount() != 1) {
+		while (GetCount() != 1&&dequeue(Cptr)  ) {
 			PUI->Print(Cptr);
 			cout << ',';
 		}

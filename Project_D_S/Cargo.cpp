@@ -47,7 +47,7 @@ void Cargo::setPT(int d, int h)
 	this->Per_T.sethour((h >= 0 && h < 24) ? h : 0) ;
 }
 
-void Cargo::SetLT(double t)
+void Cargo::SetLT(int  t)
 {
 	this->Load_T = (t > 0) ? t : 0;
 }
@@ -57,7 +57,7 @@ void Cargo::SetDdes(double d)
 	this->delvr_Dis = (d > 0) ? d : 0;
 }
 
-void Cargo::SetCost(double c)
+void Cargo::SetCost(int c)
 {
 	this->cost = (c > 0) ? c : 0;
 }

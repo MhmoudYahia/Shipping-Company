@@ -73,10 +73,10 @@ void UIClass::printWaitingCargos(PriorityQueue<Cargo*> qWc)
 	Queue<Cargo*>vipQ;
 	Queue<Cargo*>spQ;
 	Queue<Cargo*>nrmQ;
-	Cargo* Cptr;
-	while (!qWc.iSempty()) {
-		qWc.dequeue(Cptr);
-	//	tempQ.enqueue(Cptr);
+	Cargo* Cptr=nullptr;
+	while (qWc.dequeue(Cptr)) {
+
+		//	tempQ.enqueue(Cptr);
 		if (dynamic_cast<NormalCargo*>(Cptr)) {
 			nrmQ.enqueue(Cptr);
 		}
@@ -89,27 +89,27 @@ void UIClass::printWaitingCargos(PriorityQueue<Cargo*> qWc)
 		//return origin qWl
 	//	while (tempQ.dequeue(Cptr))
 			//qWc->enqueue(Cptr, Cptr->Getpriority());
-
+	}
 		//printing normal
 		if (nrmQ.GetCount() > 0) {
 			cout << '[';
 			nrmQ.PrintQ(this);
 			//PrintQ(nrmQ);
-			cout << '] ';
+			cout << "] ";
 		}
 		//printing special
 		if (spQ.GetCount() > 0) {
 			cout << '(';
 			spQ.PrintQ(this);
 			//PrintQ(spQ);
-			cout << ') ';
+			cout << ") ";
 		}
 		//printing vip
 		if (vipQ.GetCount() > 0) {
 			cout << '{';
 			vipQ.PrintQ(this);
 			//PrintQ(vipQ);
-			cout << '} ';
+			cout << "} ";
 		}
 	}
 	/*while (nrmQ.dequeue(Cptr)&&nrmQ.GetCount()!=1)
@@ -121,7 +121,7 @@ void UIClass::printWaitingCargos(PriorityQueue<Cargo*> qWc)
 		/*while (spQ.dequeue(Cptr) && spQ.GetCount() != 1)
 				cout << Cptr->GetID() << ',';
 			if (spQ.dequeue(Cptr));*/
-}
+
 
 void UIClass::PrintMovingCargos(Queue<Cargo*> qMc)//phase 2
 {
@@ -159,21 +159,21 @@ void UIClass::PrintDeliveredCargo(Queue<Cargo*>qDc)
 			cout << '{';
 			vipQ.PrintQ(this);
 			//PrintQ(vipQ);
-			cout << '} ';
+			cout << "} ";
 		}
 		//normal
 		if (nrmQ.GetCount() > 0) {
 			cout << '[';
 			nrmQ.PrintQ(this);
 			//PrintQ(nrmQ);
-			cout << '] ';
+			cout << "] ";
 		}
 		//printing special
 		if (spQ.GetCount() > 0) {
 			cout << '(';
 			spQ.PrintQ(this);
 			//PrintQ(spQ);
-			cout << ') ';
+			cout << ") ";
 		}
 	}
 }
@@ -210,14 +210,14 @@ void UIClass::PrintIn_CheckupTrucks(Queue<Truck*> qCt)
 		cout << '[';
 		nrmQ.PrintQ(this);
 		//PrintQ(nrmQ);
-		cout << '] ';
+		cout << "] ";
 	}
 	//printing special
 	if (spQ.GetCount()>0) {
 		cout << '(';
 		spQ.PrintQ(this);
 	//	PrintQ(spQ);
-		cout << ') ';
+		cout << ") ";
 	}
 
 	//printing vip
@@ -225,7 +225,7 @@ void UIClass::PrintIn_CheckupTrucks(Queue<Truck*> qCt)
 		cout << '{';
 		vipQ.PrintQ(this);
 		//PrintQ(vipQ);
-		cout << '} ';
+		cout << "} ";
 	}
 }
 
