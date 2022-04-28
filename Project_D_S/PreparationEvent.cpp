@@ -53,23 +53,22 @@ void PreparationEvent::Execute()
 	int D = getEventTime().getDAY();
 	int H = getEventTime().gethour();
 	int ID = getID();
-	Cargo* Cargoptr = new Cargo(Cost, LT, DIST, ID, H, D);
-	NormalCargo* NC = new NormalCargo(Cost, LT, DIST, ID, H, D);
-	VIPCargo* VC = new VIPCargo(Cost, LT, DIST, ID, H, D);
-	SpecialCargo* SC = new SpecialCargo(Cost, LT, DIST, ID, H, D);
-
 	switch (TYP)
 	{
 	case 'N':
+		NormalCargo * NC = new NormalCargo(Cost, LT, DIST, ID, H, D);
 		Cptr->AddCargotoWaiting(NC);
 		break;
 	case 'V':
+		VIPCargo * VC = new VIPCargo(Cost, LT, DIST, ID, H, D);
 		Cptr->AddCargotoWaiting(VC);
 		break;
 	case 'S':
+		SpecialCargo * SC = new SpecialCargo(Cost, LT, DIST, ID, H, D);
 		Cptr->AddCargotoWaiting(SC);
 		break;
 	default:
+		Cargo* Cargoptr = new Cargo(Cost, LT, DIST, ID, H, D);
 		Cptr->AddCargotoWaiting(Cargoptr);
 		break;
 	}
