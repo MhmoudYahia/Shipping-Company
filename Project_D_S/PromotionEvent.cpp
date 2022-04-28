@@ -9,26 +9,26 @@ int PromotionEvent::getExtraMoney()
 {
 	return this->ExtraMoney;
 }
-void PromotionEvent::Execute() {
-	Cptr->UpdatetoVIP(getID());
-}
+//void PromotionEvent::Execute() {
+//	Cptr->UpdatetoVIP(getID());
+//}
 VIPCargo* PromotionEvent::getVIPCargo() {
 	return VCargoptr;
 }
-/*
-VIPCargo* PromotionEvent::Execute(NormalCargo* & ptr)
+
+void PromotionEvent::Execute()
 {
-	VIPCargo* temp=new VIPCargo;
-	temp->SetCost(ptr->getCost() + this->getExtraMoney());
-	temp->SetDdes(ptr->getDdes());
-	temp->SetID(ptr->GetID());
-	temp->SetLT(ptr->getLT());
-	temp->setPT(ptr->getPT().first, ptr->getPT().second);
-	return temp;
-	ptr = NULL;			//LAST NODE -> NULL
-	delete ptr;
-	ptr = NULL;
-}*/
+	NormalCargo *Nptr= Cptr->GetNormalCargo(ID);
+	if (Nptr) {
+		VIPCargo* temp = new VIPCargo;
+		temp->SetCost(Nptr->getCost() + this->getExtraMoney());
+		temp->SetDdes(Nptr->getDdes());
+		temp->SetID(Nptr->GetID());
+		temp->SetLT(Nptr->getLT());
+		temp->setPT(Nptr->getPT().getDAY(), Nptr->getPT().gethour());
+		Cptr->AddCargotoWaiting(temp);
+	}
+}
 
 PromotionEvent::PromotionEvent(Time ET, int ID, int exm , Company * C) :Event(ET, ID,C) {
 	setExtraMoney(exm);

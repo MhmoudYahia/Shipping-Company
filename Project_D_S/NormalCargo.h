@@ -7,7 +7,7 @@ class NormalCargo :public Cargo
 {
 public:
     NormalCargo() {}
-	template<class T>
+	/*template<class T>
 	bool N_Cargo_Cancellation(Queue<T>* ptr,int id)
 	{
 		T tem;
@@ -38,7 +38,7 @@ public:
 		if (DONE)
 			return true;
 		return false;
-	}
+	}*/
 	NormalCargo(int cost, int LT, int DIS, int ID, int H, int D) {
 		setPT(D, H);
 		SetCost(cost);

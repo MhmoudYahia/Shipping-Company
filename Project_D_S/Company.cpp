@@ -101,7 +101,7 @@ Time Company::getcurtime()
 void Company::StepbyStepSimulation()
 {
 	int cnt = 10;
-	while (10) {
+	while (cnt++) {
 		ExecuteEvents();
 		PrintConsole();
 		Sleep(1500);
@@ -127,6 +127,7 @@ void Company::PrintConsole() {
 	pUI->PrintIn_CheckupTrucks(this->InCheckupTrucks);
 	pUI->PrintLine();
 	pUI->PrintDeliveredCargo(this->DeliveredCargos);
+	pUI->PrintLine();
 }
 void Company::InteractiveSimulation() {
 	int cnt = 10;
@@ -205,7 +206,8 @@ void Company::Loading_File()
 			Event* E = CE;
 			double priority = -((D - 1) * 24 + H);
 			EventsPQ.enqueue(E, priority);
-			break; }
+			break;
+		}
 		case 'P': {
 			int H, D;
 			int ID;
@@ -217,7 +219,8 @@ void Company::Loading_File()
 			double priority = -((D - 1) * 24 + H);
 			Event* E = PRE;
 			EventsPQ.enqueue(E, priority);
-			break; }
+			break;
+		}
 		default:
 			break;
 		}
@@ -299,4 +302,31 @@ void Company::PrintEvents() {
 		//EventsPQ.peak(E);
 	}
 	cout << N << " " << S << " " << V;
+}
+
+void Company::cancellID(int id)
+{
+	Queue<Cargo*>Q;
+	Cargo* Cptr;
+	while (WaitingCargos.dequeue(Cptr)) {
+		if (Cptr->GetID() != id) {
+			Q.enqueue(Cptr);
+		}
+	}
+	while (Q.dequeue(Cptr))
+		WaitingCargos.enqueue(Cptr, Cptr->Getpriority());
+}
+NormalCargo* Company::GetNormalCargo(int id) {
+	Queue<Cargo*>Q;
+	NormalCargo* temp=nullptr;
+	Cargo* Cptr;
+	while (WaitingCargos.dequeue(Cptr)) {
+		Q.enqueue(Cptr);
+		if (Cptr->GetID() == id) {
+			temp=dynamic_cast<NormalCargo*> (Cptr);
+		}
+	}
+	while (Q.dequeue(Cptr))
+		WaitingCargos.enqueue(Cptr, Cptr->Getpriority());
+	return temp;
 }

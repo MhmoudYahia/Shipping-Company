@@ -8,9 +8,10 @@ class Event
 {
 private:
 	Time event_time;
-	int ID;
+	
 protected:
 	Company * Cptr;
+	int ID;
 public:
 	Event(Time, int,Company *);
 	void setEventTime(Time evt);

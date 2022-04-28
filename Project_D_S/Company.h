@@ -82,6 +82,7 @@ public:
 	void OutputFile();
 	void ExecuteEvents();
 	void PrintEvents();
-	
+	void cancellID(int id);
+	NormalCargo* GetNormalCargo(int id);
 };
 
