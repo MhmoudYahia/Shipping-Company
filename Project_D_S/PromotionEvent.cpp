@@ -18,6 +18,7 @@ VIPCargo* PromotionEvent::getVIPCargo() {
 
 void PromotionEvent::Execute()
 {
+
 	NormalCargo *Nptr= Cptr->GetNormalCargo(ID);
 	if (Nptr) {
 		VIPCargo* temp = new VIPCargo;
