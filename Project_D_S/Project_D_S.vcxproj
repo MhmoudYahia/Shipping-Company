@@ -150,6 +150,7 @@
     <ClCompile Include="NormalCargo.cpp" />
     <ClCompile Include="NormalTruck.cpp" />
     <ClCompile Include="PreparationEvent.cpp" />
+    <ClCompile Include="PriorityList.cpp" />
     <ClCompile Include="PriorityQueue.cpp" />
     <ClCompile Include="PriorityQueueAdt.cpp" />
     <ClCompile Include="PromotionEvent.cpp" />
@@ -176,6 +177,7 @@
     <ClInclude Include="NormalCargo.h" />
     <ClInclude Include="NormalTruck.h" />
     <ClInclude Include="PreparationEvent.h" />
+    <ClInclude Include="PriorityList.h" />
     <ClInclude Include="PriorityQueue.h" />
     <ClInclude Include="PriorityQueueAdt.h" />
     <ClInclude Include="PromotionEvent.h" />

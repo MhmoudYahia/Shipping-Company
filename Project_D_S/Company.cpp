@@ -255,39 +255,39 @@ void Company:: ExecuteEvents() {
 void Company::AddCargotoWaiting(Cargo* C) {
 	WaitingCargos.enqueue(C,0);
 }
-bool Company::UpdatetoVIP(int ID) {
-	Cargo* C = NULL;
-	Cargo* Search = NULL;
-	WaitingCargos.peak(C);
-	PriorityQueue<Cargo* > temp;
-	while(WaitingCargos.GetCount()>0) {
-		if (C->GetID() == ID) {
-			Search = C;
-		}
-		else temp.enqueue(C, C->Getpriority());
-		WaitingCargos.dequeue(C);
-		WaitingCargos.peak(C);
-	}
-	temp.peak(C);
-	while (temp.GetCount()>0) {
-		WaitingCargos.enqueue(C, C->Getpriority());
-		temp.dequeue(C);
-		temp.peak(C);
-	}
-	if (Search) {
-		int id = Search->GetID();
-		int h = Search->getPT().gethour();
-		int d = Search->getPT().getDAY();
-		int lt = Search->getLT();
-	//	double p = Search->Getpriority();  //M
-		double dis = Search->getDdes();
-		double c = Search->getCost();
-		VIPCargo* VC = new VIPCargo(id/*, p*/, d, h, lt, c, dis);
-		WaitingCargos.enqueue(VC, VC->Getpriority());
-		return true;
-	}
-	return false;
-}
+//bool Company::UpdatetoVIP(int ID) {                //notworking, see getnormalCargo func and its excute 
+//	Cargo* C = NULL;
+//	Cargo* Search = NULL;
+//	WaitingCargos.peak(C);
+//	PriorityQueue<Cargo* > temp;
+//	while(WaitingCargos.GetCount()>0) {
+//		if (C->GetID() == ID) {
+//			Search = C;
+//		}
+//		else temp.enqueue(C, C->Getpriority());
+//		WaitingCargos.dequeue(C);
+//		WaitingCargos.peak(C);
+//	}
+//	temp.peak(C);
+//	while (temp.GetCount()>0) {
+//		WaitingCargos.enqueue(C, C->Getpriority());
+//		temp.dequeue(C);
+//		temp.peak(C);
+//	}
+//	if (Search) {
+//		int id = Search->GetID();
+//		int h = Search->getPT().gethour();
+//		int d = Search->getPT().getDAY();
+//		int lt = Search->getLT();
+//	//	double p = Search->Getpriority();  //M
+//		double dis = Search->getDdes();
+//		double c = Search->getCost();
+//		VIPCargo* VC = new VIPCargo(id/*, p*/, d, h, lt, c, dis);
+//		WaitingCargos.enqueue(VC, VC->Getpriority());
+//		return true;
+//	}
+//	return false;
+//}
 void Company::PrintEvents() {
 	Event* E;
 	int cnt = 0;

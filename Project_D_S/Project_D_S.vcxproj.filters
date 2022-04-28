@@ -90,6 +90,9 @@
     <ClCompile Include="SpecialTruck.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="PriorityList.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Queue.h">
@@ -162,6 +165,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="SpecialTruck.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="PriorityList.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
