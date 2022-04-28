@@ -48,7 +48,7 @@ Time Time::operator+(int h)
 	this->sethour(this->gethour() + h);
 	return *this;
 }
-bool Time::operator==(Time Another) {
+bool Time::operator==(Time & Another) {
 	if (Another.DAY == DAY && Another.HOUR == HOUR) return true;
 	return false; 
 }

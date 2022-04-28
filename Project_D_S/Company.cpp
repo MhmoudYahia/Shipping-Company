@@ -107,7 +107,7 @@ void Company::StepbyStepSimulation()
 		Sleep(1500);
 		++CurrentTime;
 		//to move cago from waiting to delivered every 5 times
-		if (cnt % 5 == 0) {
+		if (cnt % 5 == 0 &&WaitingCargos.GetCount()>0) {
 			Cargo* Cptr;
 			WaitingCargos.dequeue(Cptr);
 			this->DeliveredCargos.enqueue(Cptr);
@@ -138,11 +138,11 @@ void Company::InteractiveSimulation() {
 		pUI->getKey();
 		int v = 5;
 		//to move cago from waiting to delivered every 5 times
-		if (cnt % 5 == 0) {               
+		/*if (cnt % 5 == 0) {               
 			Cargo* Cptr;
 			WaitingCargos.dequeue(Cptr);
 			this->DeliveredCargos.enqueue(Cptr);
-		}
+		}*/
 	}
 }
 void Company::GeneralSimulate() {
@@ -241,15 +241,20 @@ void Company::OutputFile() {
 	Lfile << "CDT\t\tID\t\tWT\t\tTID\n";
 }
 void Company:: ExecuteEvents() {
-	if (isClosed()) {
-		return;
-	}
+	//if (isClosed()) {
+	//	return;
+	//}
 	Event* Eptr;
 	EventsPQ.peak(Eptr);
-	while (EventsPQ.GetCount()>0){
+	if (!Eptr ||EventsPQ.GetCount()==0) return;
+	Time X = Eptr->getEventTime();
+	if (!(X==CurrentTime)) return;
+	while (EventsPQ.GetCount()>0 &&  Eptr->getEventTime()== CurrentTime)
+		{
 		cout << "Current EventCount: " << EventsPQ.GetCount() << endl;
 		EventsPQ.dequeue(Eptr);
 		Eptr->Execute();
+		EventsPQ.peak(Eptr);
 	}
 }
 void Company::AddCargotoWaiting(Cargo* C) {
@@ -299,6 +304,7 @@ void Company::PrintEvents() {
 		if (dynamic_cast<PreparationEvent*> (E)) cout << "PE";
 		cout << cnt << endl;
 		EventsPQ.dequeue(E);
+		cout << "ID: " << E->getID() << endl;
 		//EventsPQ.peak(E);
 	}
 	cout << N << " " << S << " " << V;

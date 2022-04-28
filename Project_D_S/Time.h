@@ -13,7 +13,7 @@ public:
 	int getDAY();
 	bool operator <= (Time t);
 	Time operator +(int h);
-	bool operator ==(Time T);
+	bool operator ==(Time & T);
 	void operator ++();
 };
 

@@ -16,7 +16,7 @@ int main() {
 	Company* CompanyTest = new Company;
 	CompanyTest->Loading_File();
 	CompanyTest->GeneralSimulate();
-	CompanyTest->PrintEvents();
+	//CompanyTest->PrintEvents();
 	//PriorityQueue<Cargo*>priQ;
 	//Cargo* c2 = new VIPCargo();
 	//c2->SetID(10);

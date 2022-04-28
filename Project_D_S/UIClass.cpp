@@ -131,13 +131,15 @@ void UIClass::PrintMovingCargos(Queue<Cargo*> qMc)//phase 2
 void UIClass::PrintDeliveredCargo(Queue<Cargo*>qDc)
 {
 	cout << qDc.GetCount() << " Delivered Cargo: ";
+	if (qDc.GetCount() == 0)return;
 	//Queue<Cargo*>tempQ{};
 	Queue<Cargo*>vipQ;
 	Queue<Cargo*>spQ;
 	Queue<Cargo*>nrmQ;
 	Cargo* Cptr;
-	while (!qDc.isEmpty()) {
+	while (!qDc.isEmpty() &&qDc.GetCount()>0) {
 		qDc.dequeue(Cptr);
+		if (!Cptr) return;
 		//tempQ.enqueue(Cptr);
 		if (dynamic_cast<NormalCargo*>(Cptr)) {
 			nrmQ.enqueue(Cptr);
@@ -148,6 +150,7 @@ void UIClass::PrintDeliveredCargo(Queue<Cargo*>qDc)
 		if (dynamic_cast<SpecialCargo*>(Cptr)) {
 			spQ.enqueue(Cptr);
 		}
+		
 
 		//return origin qDl
 	///	while (tempQ.dequeue(Cptr))
