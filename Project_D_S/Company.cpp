@@ -137,12 +137,11 @@ void Company::InteractiveSimulation() {
 		++CurrentTime;
 		pUI->getKey();
 		int v = 5;
-		//to move cago from waiting to delivered every 5 times
-		/*if (cnt % 5 == 0) {               
+		if (cnt % 5 == 0 && WaitingCargos.GetCount() > 0) {
 			Cargo* Cptr;
 			WaitingCargos.dequeue(Cptr);
 			this->DeliveredCargos.enqueue(Cptr);
-		}*/
+		}
 	}
 }
 void Company::GeneralSimulate() {
