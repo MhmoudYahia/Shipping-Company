@@ -326,10 +326,10 @@ NormalCargo* Company::GetNormalCargo(int id) {
 	NormalCargo* temp=nullptr;
 	Cargo* Cptr;
 	while (WaitingCargos.dequeue(Cptr)) {
-		Q.enqueue(Cptr);
 		if (Cptr->GetID() == id) {
 			temp=dynamic_cast<NormalCargo*> (Cptr);
 		}
+		else Q.enqueue(Cptr);
 	}
 	while (Q.dequeue(Cptr))
 		WaitingCargos.enqueue(Cptr, Cptr->Getpriority());

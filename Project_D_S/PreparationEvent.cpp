@@ -58,23 +58,27 @@ void PreparationEvent::Execute()
 		int ID = getID();
 		switch (TYP)
 		{
-		case 'N':
-			NormalCargo * NC = new NormalCargo(Cost, LT, DIST, ID, H, D);
+		case 'N': {
+			NormalCargo* NC = new NormalCargo(Cost, LT, DIST, ID, H, D);
 			Cptr->AddCargotoWaiting(NC);
 			break;
-		case 'V':
-			VIPCargo * VC = new VIPCargo(Cost, LT, DIST, ID, H, D);
+		}
+		case 'V': {
+			VIPCargo* VC = new VIPCargo(Cost, LT, DIST, ID, H, D);
 			Cptr->AddCargotoWaiting(VC);
 			break;
-		case 'S':
-			SpecialCargo * SC = new SpecialCargo(Cost, LT, DIST, ID, H, D);
+		}
+		case 'S': {
+			SpecialCargo* SC = new SpecialCargo(Cost, LT, DIST, ID, H, D);
 			Cptr->AddCargotoWaiting(SC);
 			break;
-		default:
+		}
+		default: {
 			Cargo* Cargoptr = new Cargo(Cost, LT, DIST, ID, H, D);
 
 			Cptr->AddCargotoWaiting(Cargoptr);
 			break;
+		}
 		}
 	}
 
