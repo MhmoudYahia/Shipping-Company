@@ -1,74 +1,209 @@
 #pragma once
-
-#include "ListADT.h"
-//#include "UIClass.h"
+#include "UIClass.h"
+#include"Cargo.h"
+#include"Node.h"
+//#include "ListADT.h"
 class UIClass;
+//class Cargo;
 template<class T>
-class List : public ListADT<T>
+class List 
 {
     Node<T>* Head;
 public:
     List() {
         Head = nullptr;
     }
-	Node<T>* begin() {
+	void InsertEnd(const T& data) {
+		Node<T>* newN = new Node<T>();
+		newN->setitem(data);
+		newN->setnext(nullptr);
 		Node<T>* temp = Head;
-		return temp;
+		if (temp) {
+			while (temp->getnext())
+				temp = temp->getnext();
+			temp->setnext(newN);
+		}
+		else Head = newN;
 	}
-	//void Print(UIClass* PUI) {
-	//	Node<T>* temp = Head;
-	//	while (temp->getnext()) {
-	//		PUI->Print(temp->getitem()) << ',';
-	//		temp = temp->getnext();
-	//	}
-	//	if (temp)
-	//	   PUI->Print(temp->getitem());
-	//}
+	bool DeleteFirst(T&item) {
+		if (!Head)
+			return false;
+		Node<T>* delptr = Head;
+		Head = Head->getnext();
+		item = delptr->getitem();
+		delptr->setnext(nullptr);
+		delete delptr;
+		delptr = nullptr;
+		return true;
+	}
+	void Print(UIClass* PUI) {
+		Node<T>* temp = Head;
+		while (temp->getnext()) {
+			PUI->Print(temp->getitem());
+			PUI->Printcomma();
+			temp = temp->getnext();
+		}
+		if (temp)
+		   PUI->Print(temp->getitem());
+	}
 	bool isEmpty() {
 		return !Head;
 	}
-	/*int GetCount() {
-		if (iSempty())
-			return 0;
-		int cnt = 0;
-		Node<T>* ptr = front;
-		while (!ptr) {
-			cnt++;
-			ptr = ptr->getnext();
-		}
-		return cnt;
-	}*/
+	
 	int GetCount() {
 		if (isEmpty())
 			return 0;
 		int cnt = 0;
 		Node<T>* ptr = Head;
-		while (!ptr) {
+		while (ptr) {
 			cnt++;
 			ptr = ptr->getnext();
 		}
 		return cnt;
 	}
-	/*bool Remove(const T& value) {
-		Node<T>* temp = Head;
-		while (temp) {
-			if (temp->getItem() == value)
-				break;
-			temp = temp->getNext();
-		}
-		if (!temp)
-			return false;
-		if (temp == Head)
-			this->DeleteFirst();
-		else {
-			temp->setItem(Head->getItem());
-			this->DeleteFirst();
-		}
+	bool Remove(int const &id) {
+	Node<T>* ptr = Head;
+	Node<T>* delptr;
+
+	if (!ptr)
+		return false;
+	if (id == ptr->getitem()) {
+		delptr = Head;
+		Head = Head->getnext();
+		delptr->setnext(nullptr);
+		delete delptr;
 		return true;
-	}*/
-
-
-
-    ~List(){}
+	}
+	Node<T>* prev = Head;
+	ptr = ptr->getnext();
+	while (ptr) {
+		if (ptr->getitem() == id) {
+			delptr = ptr;
+			ptr = ptr->getnext();
+			prev->setnext(ptr->getnext());
+			delptr->setnext(nullptr);
+			delete delptr;
+			return true;
+		}
+		else {
+			prev = ptr;
+			ptr = ptr->getnext();
+		}
+	}
+	return false;
+    }
+    ~List(){
+		Node<T>* temp = Head;
+		while (Head) {
+			temp = Head->getnext();
+			delete Head;
+			Head = temp;
+		}
+	}
 };
+template<>
+class List<Cargo*>
+{
+	Node<Cargo*>* Head;
+public:
+	List() {
+		Head = nullptr;
+	}
+	void InsertEnd( Cargo* data) {
+		Node<Cargo*>* newN = new Node<Cargo*>();
+		newN->setitem(data);
+		newN->setnext(nullptr);
+		Node<Cargo*>* temp = Head;
+		if (temp) {
+			while (temp->getnext())
+				temp = temp->getnext();
+			temp->setnext(newN);
+		}
+		else Head = newN;
+	}
+	void PrintL(UIClass* PUI) {
+		Node<Cargo*>* temp = Head;
+		while (temp->getnext()) {
+			PUI->Print(temp->getitem());
+			PUI->Printcomma();
+			temp = temp->getnext();
+		}
+		if (temp)
+			PUI->Print(temp->getitem());
+	}
+	
+	int GetCount() {
+		if (isEmpty())
+			return 0;
+		int cnt = 0;
+		Node<Cargo*>* ptr = Head;
+		while (ptr) {
+			cnt++;
+			ptr = ptr->getnext();
+		}
+		return cnt;
+	}
+	bool isEmpty() {
+		return !Head;
+	}
+	bool Remove(int id) {
+		Node<Cargo*>* ptr = Head;
+		Node<Cargo*>* delptr;
 
+		if (!ptr)
+			return false;
+		if (id == ptr->getitem()->GetID()) {
+				delptr = Head;
+				Head = Head->getnext();
+				delptr->setnext(nullptr);
+				delete delptr;
+				return true;
+		}
+		Node<Cargo*>* prev = Head;
+		ptr = ptr->getnext();
+		while (ptr) {
+			if (ptr->getitem()->GetID() == id) {
+				delptr = ptr;
+				ptr = ptr->getnext();
+				prev->setnext(ptr);
+				delptr->setnext(nullptr);
+				delete delptr;
+				return true;
+			}
+			else {
+				prev = ptr;
+				ptr = ptr->getnext();
+			}
+		}
+		return false;
+	}
+	Node<Cargo*>* PointerToNormalCRGO(int id) {
+		Node<Cargo*>* temp = Head;
+		while (temp) {
+			if (id == temp->getitem()->GetID())
+				return temp;
+			temp=temp->getnext();
+		}
+		return nullptr;
+	 }
+	bool DeleteFirst(Cargo*& item) {
+		if (!Head)
+			return false;
+		Node<Cargo*>* delptr = Head;
+		Head = Head->getnext();
+		item = delptr->getitem();
+		delptr->setnext(nullptr);
+		delete delptr;
+		delptr = nullptr;
+		return true;
+	}
+	~List() {
+			Node<Cargo*>* temp = Head;
+			while (Head) {
+				temp = Head->getnext();
+				delete Head;
+				Head = temp;
+			}
+		
+	}
+};

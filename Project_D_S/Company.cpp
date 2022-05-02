@@ -106,17 +106,17 @@ void Company::StepbyStepSimulation()
 		PrintConsole();
 		Sleep(1500);
 		++CurrentTime;
-		//to move cago from waiting to delivered every 5 times
-		if (cnt % 5 == 0 &&WaitingCargos.GetCount()>0) {
-			Cargo* Cptr;
-			WaitingCargos.dequeue(Cptr);
-			this->DeliveredCargos.enqueue(Cptr);
-		}
+		////to move cago from waiting to delivered every 5 times
+		//if (cnt % 5 == 0 &&WaitingCargos.GetCount()>0) {
+		//	Cargo* Cptr;
+		//	WaitingCargos.dequeue(Cptr);
+		//	this->DeliveredCargos.enqueue(Cptr);
+		//}
 	}
 }
 void Company::PrintConsole() {
 	pUI->PrintCurrentTime(this->CurrentTime);
-	pUI->printWaitingCargos(this->WaitingCargos);
+	pUI->PrintWaitingCargos(this);
 	pUI->PrintLine();
 	pUI->PrintLoadingTrucks(this->LoadingTrucks);
 	pUI->PrintLine();
@@ -126,7 +126,7 @@ void Company::PrintConsole() {
 	pUI->PrintLine();
 	pUI->PrintIn_CheckupTrucks(this->InCheckupTrucks);
 	pUI->PrintLine();
-	pUI->PrintDeliveredCargo(this->DeliveredCargos);
+	pUI->PrintDeliveredCargo(this);
 	pUI->PrintLine();
 }
 void Company::InteractiveSimulation() {
@@ -136,12 +136,12 @@ void Company::InteractiveSimulation() {
 		PrintConsole();
 		++CurrentTime;
 		pUI->getKey();
-		int v = 5;
-		if (cnt % 5 == 0 && WaitingCargos.GetCount() > 0) {
+		//int v = 5;
+		/*if (cnt % 5 == 0 && WaitingCargos.GetCount() > 0) {
 			Cargo* Cptr;
 			WaitingCargos.dequeue(Cptr);
 			this->DeliveredCargos.enqueue(Cptr);
-		}
+		}*/
 	}
 }
 void Company::GeneralSimulate() {
@@ -256,42 +256,15 @@ void Company:: ExecuteEvents() {
 		EventsPQ.peak(Eptr);
 	}
 }
-void Company::AddCargotoWaiting(Cargo* C) {
-	WaitingCargos.enqueue(C,0);
+void Company::AddCargotoVIPWaiting(VIPCargo* C) {
+	WaitingVIPCargos.enqueue(C, C->Getpriority());
 }
-//bool Company::UpdatetoVIP(int ID) {                //notworking, see getnormalCargo func and its excute 
-//	Cargo* C = NULL;
-//	Cargo* Search = NULL;
-//	WaitingCargos.peak(C);
-//	PriorityQueue<Cargo* > temp;
-//	while(WaitingCargos.GetCount()>0) {
-//		if (C->GetID() == ID) {
-//			Search = C;
-//		}
-//		else temp.enqueue(C, C->Getpriority());
-//		WaitingCargos.dequeue(C);
-//		WaitingCargos.peak(C);
-//	}
-//	temp.peak(C);
-//	while (temp.GetCount()>0) {
-//		WaitingCargos.enqueue(C, C->Getpriority());
-//		temp.dequeue(C);
-//		temp.peak(C);
-//	}
-//	if (Search) {
-//		int id = Search->GetID();
-//		int h = Search->getPT().gethour();
-//		int d = Search->getPT().getDAY();
-//		int lt = Search->getLT();
-//	//	double p = Search->Getpriority();  //M
-//		double dis = Search->getDdes();
-//		double c = Search->getCost();
-//		VIPCargo* VC = new VIPCargo(id/*, p*/, d, h, lt, c, dis);
-//		WaitingCargos.enqueue(VC, VC->Getpriority());
-//		return true;
-//	}
-//	return false;
-//}
+void Company::AddCargotoNormalWaiting(Cargo* n) {
+	WaitingNormalCargo.InsertEnd(n);
+}
+void Company::AddCargotoSpWaiting(SpecialCargo* n) {
+	WaitingSpecialCargos.enqueue(n);
+}
 void Company::PrintEvents() {
 	Event* E;
 	int cnt = 0;
@@ -309,20 +282,80 @@ void Company::PrintEvents() {
 	cout << N << " " << S << " " << V;
 }
 
-void Company::cancellID(int id)
+void Company::CancellationID(int id)
 {
-	Queue<Cargo*>Q;
-	Cargo* Cptr;
-	while (WaitingCargos.dequeue(Cptr)) {
-		if (Cptr->GetID() != id) {
-			Q.enqueue(Cptr);
-		}
-	}
-	while (Q.dequeue(Cptr))
-		WaitingCargos.enqueue(Cptr, Cptr->Getpriority());
+	WaitingNormalCargo.Remove(id);
 }
 NormalCargo* Company::GetNormalCargo(int id) {
-	Queue<Cargo*>Q;
+	return dynamic_cast<NormalCargo*>(WaitingNormalCargo.PointerToNormalCRGO(id)->getitem());
+}
+void Company::printWaitingVIP(UIClass* pUI) {
+	if (WaitingVIPCargos.GetCount() > 0) {
+		pUI->openbraceforVIP();
+		WaitingVIPCargos.PrintQ(pUI);
+		pUI->closebraceforVIP();
+	}
+}
+void Company::printWaitingNormal(UIClass* pUI) {
+	if (WaitingNormalCargo.GetCount() > 0){
+	   pUI->openbraceforNormal();
+	   WaitingNormalCargo.PrintL(pUI);
+	   pUI->closebraceforNormal();
+    }
+}
+void Company::printWaitingSP(UIClass* pUI) {
+	if (WaitingSpecialCargos.GetCount() > 0) {
+		pUI->openbraceforSP();
+		WaitingSpecialCargos.PrintQ(pUI);
+		pUI->closebraceforSP();
+	}
+}
+int Company::Getcountall_waiting() {
+	return WaitingVIPCargos.GetCount() + WaitingNormalCargo.GetCount() + WaitingSpecialCargos.GetCount();
+}
+
+int Company::GetnumOfDeliv() {
+	return DeliveredNormalCargo.GetCount()+DeliveredSpCargo.GetCount()+DeliveredVIPCargo.GetCount();
+}
+void Company::printDeliveredVIP(UIClass* pUI) {
+	if (DeliveredVIPCargo.GetCount() > 0) {
+		pUI->openbraceforVIP();
+		DeliveredVIPCargo.PrintQ(pUI);
+		pUI->closebraceforVIP();
+	}
+}
+void Company::printDeliveredNormal(UIClass* pUI) {
+	if (DeliveredNormalCargo.GetCount() > 0) {
+		pUI->openbraceforNormal();
+		DeliveredNormalCargo.PrintQ(pUI);
+		pUI->closebraceforNormal();
+	}
+}
+void Company::printDeliveredSP(UIClass* pUI) {
+	if (DeliveredSpCargo.GetCount() > 0) {
+		pUI->openbraceforSP();
+		DeliveredSpCargo.PrintQ(pUI);
+		pUI->closebraceforSP();
+	}
+}
+//
+//void Company::cancellID(int id)
+//{
+//	Queue<Cargo*>Q;
+//	Cargo* Cptr;
+//	while (WaitingCargos.dequeue(Cptr)) {
+//		if (Cptr->GetID() != id) {
+//			Q.enqueue(Cptr);
+//		}
+//	}
+//	while (Q.dequeue(Cptr))
+//		WaitingCargos.enqueue(Cptr, Cptr->Getpriority());
+//}
+//void Company::PrintDelivered(UIClass* pUI) {
+//	if(Deli)
+//	DeliveredCargos.PrintQ(pUI);
+//}
+	/*Queue<Cargo*>Q;
 	NormalCargo* temp=nullptr;
 	Cargo* Cptr;
 	while (WaitingCargos.dequeue(Cptr)) {
@@ -332,6 +365,38 @@ NormalCargo* Company::GetNormalCargo(int id) {
 		}
 	}
 	while (Q.dequeue(Cptr))
-		WaitingCargos.enqueue(Cptr, Cptr->Getpriority());
-	return temp;
-}
+		WaitingCargos.enqueue(Cptr, Cptr->Getpriority());*/
+	
+		//bool Company::UpdatetoVIP(int ID) {                //notworking, see getnormalCargo func and its excute 
+		//	Cargo* C = NULL;
+		//	Cargo* Search = NULL;
+		//	WaitingCargos.peak(C);
+		//	PriorityQueue<Cargo* > temp;
+		//	while(WaitingCargos.GetCount()>0) {
+		//		if (C->GetID() == ID) {
+		//			Search = C;
+		//		}
+		//		else temp.enqueue(C, C->Getpriority());
+		//		WaitingCargos.dequeue(C);
+		//		WaitingCargos.peak(C);
+		//	}
+		//	temp.peak(C);
+		//	while (temp.GetCount()>0) {
+		//		WaitingCargos.enqueue(C, C->Getpriority());
+		//		temp.dequeue(C);
+		//		temp.peak(C);
+		//	}
+		//	if (Search) {
+		//		int id = Search->GetID();
+		//		int h = Search->getPT().gethour();
+		//		int d = Search->getPT().getDAY();
+		//		int lt = Search->getLT();
+		//	//	double p = Search->Getpriority();  //M
+		//		double dis = Search->getDdes();
+		//		double c = Search->getCost();
+		//		VIPCargo* VC = new VIPCargo(id/*, p*/, d, h, lt, c, dis);
+		//		WaitingCargos.enqueue(VC, VC->Getpriority());
+		//		return true;
+		//	}
+		//	return false;
+		//}

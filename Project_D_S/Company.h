@@ -9,6 +9,7 @@
 #include"CancellationEvent.h"
 #include"Event.h"
 #include"Time.h"
+#include"List.h"
 #include<fstream>
 class Company
 {
@@ -33,28 +34,35 @@ class Company
 
 
 	// Cargos for Display
-	PriorityQueue<Cargo*> WaitingCargos;
-	Queue<Cargo*> MovingCargos;
-	Queue<Cargo*> DeliveredCargos;
+	//PriorityQueue<Cargo*> WaitingCargos;
+	//Queue<Cargo*> DeliveredCargos;
 
 	// Trucks for display 
 	Queue<Truck*> LoadingTrucks;
 	Queue<Truck*> EmptyTrucks;
 	Queue<Truck*> InCheckupTrucks;
 
+	//moving  may be edited under assignment criteria
+	Queue<Cargo*> MovingCargos;
+
 	//Trucks
 	Queue<Truck*>NormalTrucks;
 	Queue<Truck*>SpecialTrucks;
 	Queue<Truck*>VIPTrucks;
 
-	//Cargos
-	Queue<Cargo*>NormalCargos;
-	Queue<Cargo*>SpecialCargos;
-	Queue<Cargo*>VIPCargos;
-	
+	//Cargos Waiting  //M 
+	List<Cargo*>WaitingNormalCargo;
+	Queue<Cargo*>WaitingSpecialCargos;
+	PriorityQueue<Cargo*>WaitingVIPCargos;
+
+	//Cargos delivered  //M
+	Queue<Cargo*>DeliveredNormalCargo;
+	Queue<Cargo*>DeliveredSpCargo;
+	Queue<Cargo*>DeliveredVIPCargo;
+
 	//Events
 	PriorityQueue<Event*> EventsPQ;
-	Queue<Event*> Events;
+	
 	
 	Time CurrentTime;
 	UIClass* pUI;
@@ -76,13 +84,28 @@ public:
 	bool AddtoSpecialTruck(Cargo*);*/
 //	void Update_UI_Interface(Time T);
 	void Loading_File();
-	void AddCargotoWaiting(Cargo*);
-	bool UpdatetoVIP(int ID);
 	void GeneralSimulate();
 	void OutputFile();
 	void ExecuteEvents();
+	void AddCargotoVIPWaiting(VIPCargo* C);
+	void AddCargotoNormalWaiting(Cargo* n);
+	void AddCargotoSpWaiting(SpecialCargo* n);
 	void PrintEvents();
-	void cancellID(int id);
+	void CancellationID(int id);
 	NormalCargo* GetNormalCargo(int id);
+	void printWaitingVIP(UIClass *);
+	void printWaitingNormal(UIClass* pUI);
+	void printWaitingSP(UIClass* pUI);
+	int Getcountall_waiting();
+	int GetnumOfDeliv();
+	void printDeliveredVIP(UIClass* pUI);
+	void printDeliveredNormal(UIClass* pUI);
+	void printDeliveredSP(UIClass* pUI);
+
+	//void AddCargotoVIPWaiting(Cargo* C);
+	//void CancellationIDint id);
+   //	void PrintDelivered(UIClass* pUI);
+	//void AddCargotoWaiting(Cargo*);
+//	bool UpdatetoVIP(int ID);
 };
 

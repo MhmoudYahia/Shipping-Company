@@ -16,7 +16,7 @@ public:
 		T Cptr;
 		while (GetCount() != 1&&dequeue(Cptr)  ) {
 			PUI->Print(Cptr);
-			cout << ',';
+			PUI->Printcomma();
 		}
 		if (dequeue(Cptr));
 		 PUI->Print(Cptr);

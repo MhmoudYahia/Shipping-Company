@@ -1,22 +1,23 @@
 #pragma once
-#include"Node.h"
 
 #include"PriorityQueueAdt.h"
+#include "UIClass.h"
 template<class T>
 class PriorityQueue:public PriorityQueueAdt<T>
 {
 	Node<T>* front, * rear;
 public:
 	//int cnt=0;
-	/*void PrintPriQ(UIClass* PUI) {
-		int Cptr;
-		while (dequeue(Cptr) && GetCount() != 1) {
-			cout<<;
-			cout << ',';
+	void PrintQ(UIClass * PUI) {
+		
+		T Cptr;
+		while (GetCount() != 1&&dequeue(Cptr)  ) {
+			PUI->Print(Cptr);
+			PUI->Printcomma();
 		}
 		if (dequeue(Cptr));
-		PUI->Print(Cptr);
-	}*/
+		 PUI->Print(Cptr);
+	}
 	PriorityQueue() {
 		front = rear = nullptr;
 		//cnt = 0;
