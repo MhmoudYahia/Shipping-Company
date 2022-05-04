@@ -61,23 +61,20 @@ void PreparationEvent::Execute()
 		case 'N': {
 			NormalCargo* NC = new NormalCargo(Cost, LT, DIST, ID, H, D);
 			Cptr->AddCargotoWaiting(NC);
-			break;
+			break; 
 		}
 		case 'V': {
 			VIPCargo* VC = new VIPCargo(Cost, LT, DIST, ID, H, D);
 			Cptr->AddCargotoWaiting(VC);
-			break;
-		}
+			break; }
 		case 'S': {
 			SpecialCargo* SC = new SpecialCargo(Cost, LT, DIST, ID, H, D);
 			Cptr->AddCargotoWaiting(SC);
-			break;
-		}
+			break; }
 		default: {
 			Cargo* Cargoptr = new Cargo(Cost, LT, DIST, ID, H, D);
-
 			Cptr->AddCargotoWaiting(Cargoptr);
-			break;
+			break; }
 		}
 		}
 	}
