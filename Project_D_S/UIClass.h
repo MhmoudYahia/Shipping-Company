@@ -2,9 +2,7 @@
 #include<iostream>
 using namespace std;
 #include<string>
-#include"PriorityQueue.h"
-#include"List.h"
-#include"Cargo.h"
+class Cargo;
 #include"NormalCargo.h"
 #include"VIPCargo.h"
 #include"SpecialCargo.h"
@@ -12,6 +10,9 @@ using namespace std;
 class Truck;
 template<class T>
 class Queue;
+template <class T>
+class PriorityQueue;
+class Company;
 enum Mode { interactive, step_by_step, silent };
 class UIClass
 	
@@ -30,28 +31,30 @@ public:
 	void Print(Cargo*c);
 	template<>
 	void Print(Truck * t);
-	void PrintQ(Queue < Cargo*>);
-	void PrintQ(Queue < Truck*>);
-
 	//time
 	void PrintCurrentTime(Time T);
-
+	void PrintWaitingCargos(Company* Cptr);
 	//printing Cargos and Trucks Categories
 	void printWaitingCargos(PriorityQueue<Cargo*> qWc);
-
 	void PrintMovingCargos(Queue<Cargo*> qMc);
-
-	void PrintDeliveredCargo(Queue<Cargo*> qDc);
-
+	void Printcomma();
+	void PrintDeliveredCargo(Company* Cptr);
 	void PrintIn_CheckupTrucks(Queue<Truck*> qCt);
-
 	void PrintEmptytrucks(Queue<Truck*> qEt);
-
 	void PrintLoadingTrucks(Queue<Truck*>);
-
-	//Silent mode interface
 	void PrintSilentMode();
 	void PrintError(string);
+	void openbraceforNormal();
+
+	void closebraceforNormal();
+
+	void openbraceforVIP();
+
+	void closebraceforVIP();
+
+	void openbraceforSP();
+
+	void closebraceforSP();
 
 
 };

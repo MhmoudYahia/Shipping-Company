@@ -6,5 +6,6 @@ CancellationEvent::CancellationEvent(Time ET, int ID, Company * C) :Event(ET, ID
 }
 void CancellationEvent::Execute()
 {
-	Cptr->cancellID(ID);
+
+	Cptr->CancellationID(ID);
 }

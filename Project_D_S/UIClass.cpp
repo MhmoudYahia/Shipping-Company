@@ -3,11 +3,18 @@
 #include "NormalTruck.h"
 #include "VIPTruck.h"
 #include "SpecialTruck.h"
+#include"Cargo.h"
+#include"List.h"
+#include"PriorityQueue.h"
+#include"Company.h"
 template<class T>
 class Queue;
 class Truck;
+template<class T>
+class PriorityQueue;
 UIClass::UIClass()
 {
+
 }
 
 UIClass::~UIClass()
@@ -57,130 +64,166 @@ void UIClass::Print(Truck* t)
 {
 	cout << t->GetID();
 }
+void UIClass::PrintSilentMode()
+{
+	cout << "SilentMode\n" << "Simulation Starts...\n" << "Simulation ends, Output file created\n";
+}
 
+void UIClass::PrintError(string msg) {
+	cout << "Error: " << msg << endl;
+}
 void UIClass::PrintCurrentTime(Time T)
 {
 	cout << "\nCurrent Time (Day:Hour):" << T.getDAY() << ":" << T.gethour() << endl;
 }
-void UIClass::printWaitingCargos(PriorityQueue<Cargo*> qWc)
-{
-	///*List<Cargo*>l;
-	//for (auto it : l) {
+void UIClass::openbraceforNormal() {
+	cout << '[';
+}
+void UIClass::closebraceforNormal() {
+	cout << "] ";
+}
+void UIClass::openbraceforVIP() {
+	cout << '{';
+}
+void UIClass::closebraceforVIP() {
+	cout << "} ";
+}
+void UIClass::openbraceforSP() {
+	cout << '(';
+}
+void UIClass::closebraceforSP() {
+	cout << ") ";
+}
+void UIClass::PrintWaitingCargos(Company* Cptr) {
+	cout << Cptr->Getcountall_waiting() << " Waiting Cargo: ";
 
-	//}*/
-	cout << qWc.GetCount()<<" Waiting Cargo: ";
-	//Queue<Cargo*>tempQ{};
-	Queue<Cargo*>vipQ;
-	Queue<Cargo*>spQ;
-	Queue<Cargo*>nrmQ;
-	Cargo* Cptr=nullptr;
-	while (qWc.dequeue(Cptr)) {
-
-		//	tempQ.enqueue(Cptr);
-		if (dynamic_cast<NormalCargo*>(Cptr)) {
-			nrmQ.enqueue(Cptr);
-		}
-		if (dynamic_cast<VIPCargo*>(Cptr)) {
-			vipQ.enqueue(Cptr);
-		}
-		if (dynamic_cast<SpecialCargo*>(Cptr)) {
-			spQ.enqueue(Cptr);
-		}
-		//return origin qWl
-	//	while (tempQ.dequeue(Cptr))
-			//qWc->enqueue(Cptr, Cptr->Getpriority());
-	}
-		//printing normal
-		if (nrmQ.GetCount() > 0) {
-			cout << '[';
-			nrmQ.PrintQ(this);
-			//PrintQ(nrmQ);
-			cout << "] ";
-		}
-		//printing special
-		if (spQ.GetCount() > 0) {
-			cout << '(';
-			spQ.PrintQ(this);
-			//PrintQ(spQ);
-			cout << ") ";
-		}
-		//printing vip
-		if (vipQ.GetCount() > 0) {
-			cout << '{';
-			vipQ.PrintQ(this);
-			//PrintQ(vipQ);
-			cout << "} ";
-		}
-	}
-	/*while (nrmQ.dequeue(Cptr)&&nrmQ.GetCount()!=1)
-		cout << Cptr->GetID() << ',';
-	if(nrmQ.dequeue(Cptr));*/
-	/*while (vipQ.dequeue(Cptr) && vipQ.GetCount() != 1)
-			cout << Cptr->GetID() << ',';
-		if (vipQ.dequeue(Cptr));*/
-		/*while (spQ.dequeue(Cptr) && spQ.GetCount() != 1)
-				cout << Cptr->GetID() << ',';
-			if (spQ.dequeue(Cptr));*/
-
+	Cptr->printWaitingNormal(this);
+	Cptr->printWaitingSP(this);
+	Cptr->printWaitingVIP(this);
+	
+}
 
 void UIClass::PrintMovingCargos(Queue<Cargo*> qMc)//phase 2
 {
 
 }
-
-void UIClass::PrintDeliveredCargo(Queue<Cargo*>qDc)
-{
-	cout << qDc.GetCount() << " Delivered Cargo: ";
-	if (qDc.GetCount() == 0)return;
-	//Queue<Cargo*>tempQ{};
-	Queue<Cargo*>vipQ;
-	Queue<Cargo*>spQ;
-	Queue<Cargo*>nrmQ;
-	Cargo* Cptr;
-	while (!qDc.isEmpty() &&qDc.GetCount()>0) {
-		qDc.dequeue(Cptr);
-		if (!Cptr) return;
-		//tempQ.enqueue(Cptr);
-		if (dynamic_cast<NormalCargo*>(Cptr)) {
-			nrmQ.enqueue(Cptr);
-		}
-		if (dynamic_cast<VIPCargo*>(Cptr)) {
-			vipQ.enqueue(Cptr);
-		}
-		if (dynamic_cast<SpecialCargo*>(Cptr)) {
-			spQ.enqueue(Cptr);
-		}
-		
-
-		//return origin qDl
-	///	while (tempQ.dequeue(Cptr))
-		///	qDc->enqueue(Cptr);
-
-
-		//printing vip
-		if (vipQ.GetCount() > 0) {
-			cout << '{';
-			vipQ.PrintQ(this);
-			//PrintQ(vipQ);
-			cout << "} ";
-		}
-		//normal
-		if (nrmQ.GetCount() > 0) {
-			cout << '[';
-			nrmQ.PrintQ(this);
-			//PrintQ(nrmQ);
-			cout << "] ";
-		}
-		//printing special
-		if (spQ.GetCount() > 0) {
-			cout << '(';
-			spQ.PrintQ(this);
-			//PrintQ(spQ);
-			cout << ") ";
-		}
-	}
+void UIClass::Printcomma() {
+	cout << ',';
 }
+void UIClass::PrintDeliveredCargo(Company*Cptr)
+{
+	cout << Cptr->GetnumOfDeliv() << " Delivered Cargo: ";
 
+	Cptr->printDeliveredNormal(this);
+	Cptr->printDeliveredSP(this);
+	Cptr->printDeliveredVIP(this);
+}
+//void UIClass::printWaitingCargos(PriorityQueue<Cargo*> qWc)
+//{
+//	cout << qWc.GetCount()<<" Waiting Cargo: ";
+//	//Queue<Cargo*>tempQ{};
+//	Queue<Cargo*>vipQ;
+//	Queue<Cargo*>spQ;
+//	Queue<Cargo*>nrmQ;
+//	Cargo* Cptr=nullptr;
+//	while (qWc.dequeue(Cptr)) {
+//
+//		//	tempQ.enqueue(Cptr);
+//		if (dynamic_cast<NormalCargo*>(Cptr)) {
+//			nrmQ.enqueue(Cptr);
+//		}
+//		if (dynamic_cast<VIPCargo*>(Cptr)) {
+//			vipQ.enqueue(Cptr);
+//		}
+//		if (dynamic_cast<SpecialCargo*>(Cptr)) {
+//			spQ.enqueue(Cptr);
+//		}
+//		//return origin qWl
+//	//	while (tempQ.dequeue(Cptr))
+//			//qWc->enqueue(Cptr, Cptr->Getpriority());
+//	}
+//		//printing normal
+//		if (nrmQ.GetCount() > 0) {
+//			cout << '[';
+//			nrmQ.PrintQ(this);
+//			//PrintQ(nrmQ);
+//			cout << "] ";
+//		}
+//		//printing special
+//		if (spQ.GetCount() > 0) {
+//			
+//		}
+//		//printing vip
+//		if (vipQ.GetCount() > 0) {
+//			cout << '{';
+//			vipQ.PrintQ(this);
+//			//PrintQ(vipQ);
+//			cout << "} ";
+//		}
+//	}
+//	/*while (nrmQ.dequeue(Cptr)&&nrmQ.GetCount()!=1)
+//		cout << Cptr->GetID() << ',';
+//	if(nrmQ.dequeue(Cptr));*/
+//	/*while (vipQ.dequeue(Cptr) && vipQ.GetCount() != 1)
+//			cout << Cptr->GetID() << ',';
+//		if (vipQ.dequeue(Cptr));*/
+//		/*while (spQ.dequeue(Cptr) && spQ.GetCount() != 1)
+//				cout << Cptr->GetID() << ',';
+//			if (spQ.dequeue(Cptr));*/
+
+
+//void UIClass::PrintDeliveredCargo(Queue<Cargo*>qDc)
+//{
+//	cout << qDc.GetCount() << " Delivered Cargo: ";
+//	if (qDc.GetCount() == 0)return;
+//	//Queue<Cargo*>tempQ{};
+//	Queue<Cargo*>vipQ;
+//	Queue<Cargo*>spQ;
+//	Queue<Cargo*>nrmQ;
+//	Cargo* Cptr;
+//	while (!qDc.isEmpty() &&qDc.GetCount()>0) {
+//		qDc.dequeue(Cptr);
+//		if (!Cptr) return;
+//		//tempQ.enqueue(Cptr);
+//		if (dynamic_cast<NormalCargo*>(Cptr)) {
+//			nrmQ.enqueue(Cptr);
+//		}
+//		if (dynamic_cast<VIPCargo*>(Cptr)) {
+//			vipQ.enqueue(Cptr);
+//		}
+//		if (dynamic_cast<SpecialCargo*>(Cptr)) {
+//			spQ.enqueue(Cptr);
+//		}
+//		
+//
+//		//return origin qDl
+//	///	while (tempQ.dequeue(Cptr))
+//		///	qDc->enqueue(Cptr);
+//
+//
+//		//printing vip
+//		if (vipQ.GetCount() > 0) {
+//			cout << '{';
+//			vipQ.PrintQ(this);
+//			//PrintQ(vipQ);
+//			cout << "} ";
+//		}
+//		//normal
+//		if (nrmQ.GetCount() > 0) {
+//			cout << '[';
+//			nrmQ.PrintQ(this);
+//			//PrintQ(nrmQ);
+//			cout << "] ";
+//		}
+//		//printing special
+//		if (spQ.GetCount() > 0) {
+//			cout << '(';
+//			spQ.PrintQ(this);
+//			//PrintQ(spQ);
+//			cout << ") ";
+//		}
+//	}
+//}
 
 
 void UIClass::PrintIn_CheckupTrucks(Queue<Truck*> qCt)
@@ -296,14 +339,7 @@ void UIClass::PrintLoadingTrucks(Queue<Truck*> qLt)
 		//qLt->enqueue(Cptr);
 }
 
-void UIClass::PrintSilentMode()
-{
-	cout << "SilentMode\n" << "Simulation Starts...\n" << "Simulation ends, Output file created\n";
-}
 
-void UIClass::PrintError(string msg) {
-	cout << "Error: " << msg << endl;
-}
 //void UIClass::PrintQ(Queue<Cargo*  > Cptr) {
 //	Cargo* C;
 //	while (Cptr.dequeue(C) && Cptr.GetCount() != 1) {

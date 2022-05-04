@@ -21,13 +21,14 @@ void PromotionEvent::Execute()
 
 	NormalCargo *Nptr= Cptr->GetNormalCargo(ID);
 	if (Nptr) {
-		VIPCargo* temp = new VIPCargo;
+		VIPCargo* temp = new VIPCargo();
 		temp->SetCost(Nptr->getCost() + this->getExtraMoney());
 		temp->SetDdes(Nptr->getDdes());
 		temp->SetID(Nptr->GetID());
 		temp->SetLT(Nptr->getLT());
 		temp->setPT(Nptr->getPT().getDAY(), Nptr->getPT().gethour());
-		Cptr->AddCargotoWaiting(temp);
+		Cptr->AddCargotoVIPWaiting(temp);
+		Cptr->CancellationID(ID);
 	}
 }
 
