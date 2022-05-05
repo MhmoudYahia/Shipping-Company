@@ -29,3 +29,6 @@ bool Truck::RemoveCargo(Cargo* C) {
 void Truck::Print(UIClass * UI) {
 	TruckCargos->PrintQ(UI);
 }
+bool Truck::isFull() {
+	return (CargoCount == TC);
+}

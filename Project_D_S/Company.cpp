@@ -19,8 +19,12 @@ Company::Company()
 }
 
 void Company::LoadCargos() {
+	CheckforCargosExceededMaxW();
 	Cargo* Cargoptr;
-	
+	if (CargosExceededMaxW.GetCount() > 0) {
+		CargosExceededMaxW.dequeue(Cargoptr);
+
+	}
 }
 
 //void Company::IncrementHour()
@@ -209,7 +213,7 @@ void Company::AddCargotoVIPWaiting(VIPCargo* C) {
 	WaitingVIPCargos.enqueue(C, C->Getpriority());
 }
 void Company::AddCargotoNormalWaiting(Cargo* n) {
-	WaitingNormalCargo.InsertEnd(n);
+	WaitingNormalCargos.InsertEnd(n);
 }
 void Company::AddCargotoSpWaiting(SpecialCargo* n) {
 	WaitingSpecialCargos.enqueue(n);
@@ -233,10 +237,10 @@ void Company::PrintEvents() {
 
 void Company::CancellationID(int id)
 {
-	WaitingNormalCargo.Remove(id);
+	WaitingNormalCargos.Remove(id);
 }
 NormalCargo* Company::GetNormalCargo(int id) {
-	return dynamic_cast<NormalCargo*>(WaitingNormalCargo.PointerToNormalCRGO(id)->getitem());
+	return dynamic_cast<NormalCargo*>(WaitingNormalCargos.PointerToNormalCRGO(id)->getitem());
 }
 void Company::printWaitingVIP(UIClass* pUI) {
 	if (WaitingVIPCargos.GetCount() > 0) {
@@ -246,9 +250,9 @@ void Company::printWaitingVIP(UIClass* pUI) {
 	}
 }
 void Company::printWaitingNormal(UIClass* pUI) {
-	if (WaitingNormalCargo.GetCount() > 0){
+	if (WaitingNormalCargos.GetCount() > 0){
 	   pUI->openbraceforNormal();
-	   WaitingNormalCargo.PrintL(pUI);
+	   WaitingNormalCargos.PrintL(pUI);
 	   pUI->closebraceforNormal();
     }
 }
@@ -260,7 +264,7 @@ void Company::printWaitingSP(UIClass* pUI) {
 	}
 }
 int Company::Getcountall_waiting() {
-	return WaitingVIPCargos.GetCount() + WaitingNormalCargo.GetCount() + WaitingSpecialCargos.GetCount();
+	return WaitingVIPCargos.GetCount() + WaitingNormalCargos.GetCount() + WaitingSpecialCargos.GetCount();
 }
 
 int Company::GetnumOfDeliv() {
@@ -351,11 +355,11 @@ void Company::printDeliveredSP(UIClass* pUI) {
 		//}
 void Company::CheckforCargosExceededMaxW() {
 	// Normal Check 
-	Cargo* C = WaitingNormalCargo.Head()->getitem();
+	Cargo* C = WaitingNormalCargos.Head()->getitem();
 	while(C->GetWaitingHours() >= MaxW) {
-		WaitingNormalCargo.DeleteFirst(C);
+		WaitingNormalCargos.DeleteFirst(C);
 		CargosExceededMaxW.enqueue(C);
-		C = WaitingNormalCargo.Head()->getitem();
+		C = WaitingNormalCargos.Head()->getitem();
 	}
 	//Special Check 
 	WaitingSpecialCargos.peak(C);
@@ -372,4 +376,82 @@ void Company::CheckforCargosExceededMaxW() {
 		WaitingVIPCargos.peak(C);
 	}
 
+}
+bool Company::AssignVIP() {
+	Cargo* VC;
+	if (VIPEmptyTrucks.GetCount() > 0 && V <= WaitingVIPCargos.GetCount()) {
+		AssignVIPTruck(0);
+		return true;
+	}
+	else if (NormalEmptyTrucks.GetCount() > 0 && N <= WaitingVIPCargos.GetCount()) {
+		AssignNormalTruck(0);
+		return true;
+		
+	}
+	else if (SpecialEmptyTrucks.GetCount() > 0 && S <= WaitingVIPCargos.GetCount()) {
+		AssignSpecialTruck(0);
+		return true;
+	}
+	else {
+		return false;
+	}
+}
+bool Company::AssignSpecial() {
+	Cargo* SC;
+	if (SpecialEmptyTrucks.GetCount() > 0 && S <= WaitingVIPCargos.GetCount()) {
+		AssignSpecialTruck(1);
+		return true;
+	}
+	return false;
+}
+bool Company::AssignNormal() {
+	Cargo* NC;
+	if (NormalEmptyTrucks.GetCount() > 0 && N <= WaitingNormalCargos.GetCount()) {
+		AssignNormalTruck(1);
+		return true;
+	}
+	else if (VIPEmptyTrucks.GetCount() > 0 &&V <= WaitingNormalCargos.GetCount()) {
+		AssignVIPTruck(1);
+		return true;
+	}
+	return false;
+}
+void Company::AssignVIPTruck(int T) {
+	Cargo* C;
+		VIPTruck* VT;
+		VIPEmptyTrucks.dequeue(VT);
+		while (!VT->isFull()) {
+			if (T == 0)
+				WaitingVIPCargos.dequeue(C);
+			else WaitingNormalCargos.DeleteFirst(C);
+			VT->AddCargo(C);
+		}
+		VIPEmptyTrucks.dequeue(VT);
+		LoadingTrucks.enqueue(VT);
+}
+void Company::AssignNormalTruck(int T) {
+	Cargo* C;
+		NormalTruck* NT;
+		NormalEmptyTrucks.dequeue(NT);
+		while (!NT->isFull()) {
+			if (T == 0)
+				WaitingVIPCargos.dequeue(C);
+			else WaitingNormalCargos.DeleteFirst(C);
+			NT->AddCargo(C);
+		}
+		NormalEmptyTrucks.dequeue(NT);
+		LoadingTrucks.enqueue(NT);
+}
+void Company::AssignSpecialTruck(int T) {
+	Cargo* C;
+	SpecialTruck* ST;
+	SpecialEmptyTrucks.dequeue(ST);
+	while (!ST->isFull()) {
+		if (T == 0)
+			WaitingVIPCargos.dequeue(C);
+		else WaitingSpecialCargos.dequeue(C);
+		ST->AddCargo(C);
+	}
+	SpecialEmptyTrucks.dequeue(ST);
+	LoadingTrucks.enqueue(ST);
 }
