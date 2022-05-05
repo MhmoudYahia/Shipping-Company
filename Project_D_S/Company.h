@@ -43,13 +43,14 @@ class Company
 	Queue<Truck*> InCheckupTrucks;
 
 	//moving  may be edited under assignment criteria
-	Queue<Cargo*> MovingCargos;
+	///Queue<Cargo*> MovingCargos;
 
 	//Trucks
 	Queue<Truck*>NormalTrucks;
 	Queue<Truck*>SpecialTrucks;
 	Queue<Truck*>VIPTrucks;
 
+	//=================================
 	//Cargos Waiting  //M 
 	List<Cargo*>WaitingNormalCargo;
 	Queue<Cargo*>WaitingSpecialCargos;

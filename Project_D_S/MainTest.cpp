@@ -7,11 +7,11 @@
 using namespace std;
 
 int main() {
-	/*Company* CompanyTest = new Company;
+	Company* CompanyTest = new Company;
 	CompanyTest->Loading_File();
-	CompanyTest->GeneralSimulate();*/
+	CompanyTest->GeneralSimulate();
 	
-	List<Cargo*>L;
+	/*List<Cargo*>L;
 	Cargo *c1= new Cargo();
 	c1->SetID(1);
 	Cargo* c2 = new Cargo();
@@ -37,6 +37,6 @@ int main() {
 	L.PrintL(u);
 	cout << endl;
 	cout<<(L.PointerToNormalCRGO(2))->getitem()->GetID();
-	
+	*/
 		return 0;
 }
