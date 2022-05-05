@@ -61,7 +61,10 @@ class Company
 	Queue<Cargo*>WaitingSpecialCargos;
 	PriorityQueue<Cargo*>WaitingVIPCargos;
 	
-	Queue<Cargo* > CargosExceededMaxW;
+	Queue<Cargo* > NCargosExceededMaxW;
+	Queue<Cargo* > SCargosExceededMaxW;
+	Queue<Cargo* > VCargosExceededMaxW;
+
 
 	//Cargos delivered  //M
 	Queue<Cargo*>DeliveredNormalCargo;
@@ -113,9 +116,10 @@ public:
 	bool AssignNormal();
 	bool AssignSpecial();
 	bool AssignVIP();
-	void AssignSpecialTruck(int T); // 0 for VIP Cargos 1 for special Cargos
-	void AssignNormalTruck(int T); // 0 for VIP Cargos 1 for Normal Cargos
-	void AssignVIPTruck(int T); // 0 for VIP Cargos 1 for Normal Cargos 
+	void AssignExceeded();
+	void AssignSpecialTruck(int T); // 0 for VIP Cargos 1 for special Cargos 2 for VExceededCargos 3 for SExceededCargos
+	void AssignNormalTruck(int T); // 0 for VIP Cargos 1 for Normal Cargos 2 for VExceededCargos 3 for NExceededCargos 
+	void AssignVIPTruck(int T); // 0 for VIP Cargos 1 for Normal Cargos 2 for VExceededCargos 3 for NExceededCargos
 	//void AddCargotoVIPWaiting(Cargo* C);
 	//void CancellationIDint id);
    //	void PrintDelivered(UIClass* pUI);
