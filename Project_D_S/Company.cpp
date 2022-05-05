@@ -256,9 +256,11 @@ void Company:: ExecuteEvents() {
 		EventsPQ.peak(Eptr);
 	}
 }
+
 void Company::AddCargotoVIPWaiting(VIPCargo* C) {
 	WaitingVIPCargos.enqueue(C, C->Getpriority());
 }
+
 void Company::AddCargotoNormalWaiting(Cargo* n) {
 	WaitingNormalCargo.InsertEnd(n);
 }
@@ -286,8 +288,11 @@ void Company::CancellationID(int id)
 {
 	WaitingNormalCargo.Remove(id);
 }
+
 NormalCargo* Company::GetNormalCargo(int id) {
-	return dynamic_cast<NormalCargo*>(WaitingNormalCargo.PointerToNormalCRGO(id)->getitem());
+	if (WaitingNormalCargo.PointerToNormalCRGO(id))
+		return dynamic_cast<NormalCargo*>(WaitingNormalCargo.PointerToNormalCRGO(id)->getitem());
+	else return nullptr;
 }
 void Company::printWaitingVIP(UIClass* pUI) {
 	if (WaitingVIPCargos.GetCount() > 0) {
@@ -310,6 +315,7 @@ void Company::printWaitingSP(UIClass* pUI) {
 		pUI->closebraceforSP();
 	}
 }
+
 int Company::Getcountall_waiting() {
 	return WaitingVIPCargos.GetCount() + WaitingNormalCargo.GetCount() + WaitingSpecialCargos.GetCount();
 }
