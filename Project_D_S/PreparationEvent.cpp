@@ -76,5 +76,6 @@ void PreparationEvent::Execute()
 			Cptr->AddCargotoNormalWaiting(Cargoptr);
 			break; }
 		}
-	}
+		}
+	
 
