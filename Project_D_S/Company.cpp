@@ -378,16 +378,16 @@ void Company::CheckforCargosExceededMaxW() {
 }
 bool Company::AssignVIP() {
 	Cargo* VC;
-	if (VIPEmptyTrucks.GetCount() > 0 && V <= WaitingVIPCargos.GetCount()) {
+	if (VIPEmptyTrucks.GetCount() > 0 && VTruckCapacity <= WaitingVIPCargos.GetCount()) {
 		AssignVIPTruck(0);
 		return true;
 	}
-	else if (NormalEmptyTrucks.GetCount() > 0 && N <= WaitingVIPCargos.GetCount()) {
+	else if (NormalEmptyTrucks.GetCount() > 0 && NTruckCapacity <= WaitingVIPCargos.GetCount()) {
 		AssignNormalTruck(0);
 		return true;
 		
 	}
-	else if (SpecialEmptyTrucks.GetCount() > 0 && S <= WaitingVIPCargos.GetCount()) {
+	else if (SpecialEmptyTrucks.GetCount() > 0 && STruckCapacity <= WaitingVIPCargos.GetCount()) {
 		AssignSpecialTruck(0);
 		return true;
 	}
@@ -397,7 +397,7 @@ bool Company::AssignVIP() {
 }
 bool Company::AssignSpecial() {
 	Cargo* SC;
-	if (SpecialEmptyTrucks.GetCount() > 0 && S <= WaitingVIPCargos.GetCount()) {
+	if (SpecialEmptyTrucks.GetCount() > 0 && STruckCapacity <= WaitingVIPCargos.GetCount()) {
 		AssignSpecialTruck(1);
 		return true;
 	}
@@ -405,11 +405,11 @@ bool Company::AssignSpecial() {
 }
 bool Company::AssignNormal() {
 	Cargo* NC;
-	if (NormalEmptyTrucks.GetCount() > 0 && N <= WaitingNormalCargos.GetCount()) {
+	if (NormalEmptyTrucks.GetCount() > 0 && NTruckCapacity <= WaitingNormalCargos.GetCount()) {
 		AssignNormalTruck(1);
 		return true;
 	}
-	else if (VIPEmptyTrucks.GetCount() > 0 &&V <= WaitingNormalCargos.GetCount()) {
+	else if (VIPEmptyTrucks.GetCount() > 0 &&VTruckCapacity <= WaitingNormalCargos.GetCount()) {
 		AssignVIPTruck(1);
 		return true;
 	}
