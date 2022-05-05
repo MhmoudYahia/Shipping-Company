@@ -43,7 +43,7 @@ class Company
 	Queue<Truck*> InCheckupTrucks;
 
 	//moving  may be edited under assignment criteria
-	///Queue<Cargo*> MovingCargos;
+	Queue<Cargo*> MovingCargos;
 
 	//Trucks
 	Queue<Truck*>NormalTrucks;
@@ -55,6 +55,8 @@ class Company
 	List<Cargo*>WaitingNormalCargo;
 	Queue<Cargo*>WaitingSpecialCargos;
 	PriorityQueue<Cargo*>WaitingVIPCargos;
+	
+	Queue<Cargo* > CargosExceededMaxW;
 
 	//Cargos delivered  //M
 	Queue<Cargo*>DeliveredNormalCargo;
@@ -102,6 +104,7 @@ public:
 	void printDeliveredVIP(UIClass* pUI);
 	void printDeliveredNormal(UIClass* pUI);
 	void printDeliveredSP(UIClass* pUI);
+	void CheckforCargosExceededMaxW();
 
 	//void AddCargotoVIPWaiting(Cargo* C);
 	//void CancellationIDint id);

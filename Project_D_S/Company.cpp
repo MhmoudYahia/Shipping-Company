@@ -19,59 +19,8 @@ Company::Company()
 }
 
 void Company::LoadCargos() {
-	/*Cargo* Cargoptr;
-	WaitingCargos.peak(Cargoptr);
-	bool Assigned = false;
-	while (Cargoptr)
-	{
-		Assigned = false;
-		Cargo* VIPCargoptr = dynamic_cast<VIPCargo*>( Cargoptr);
-		Cargo* NormalCargoptr = dynamic_cast<NormalCargo*>(Cargoptr);
-		Cargo* SpecialCargoptr = dynamic_cast<SpecialCargo*>(Cargoptr);
-		if (VIPCargoptr) {
-			Truck* Truckptr;
-			VIPTrucks.peak(Truckptr);
-			if (Truckptr) {
-				VIPTrucks.dequeue(Truckptr);
-				Truckptr->AddCargo(Cargoptr);
-				Assigned = true;
-			}
-		}
-		else if (SpecialCargoptr) {
-			Truck* Truckptr;
-			SpecialTrucks.peak(Truckptr);
-			if (Truckptr) {
-				SpecialTrucks.dequeue(Truckptr);
-				Truckptr->AddCargo(Cargoptr);
-				Assigned = true;
-			}
-		}
-		else {
-			Truck* Truckptr;
-			NormalTrucks.peak(Truckptr);
-			if (Truckptr) {
-				NormalTrucks.dequeue(Truckptr);
-				Truckptr->AddCargo(Cargoptr);
-				Assigned = true;
-			}
-			else {
-				VIPTrucks.peak(Truckptr);
-				if (Truckptr) {
-					VIPTrucks.dequeue(Truckptr);
-					Truckptr->AddCargo(Cargoptr);
-					Assigned = true;
-				}
-			}
-		}
-		if (Assigned) {
-			WaitingCargos.dequeue(Cargoptr);
-			WaitingCargos.peak(Cargoptr);
-		}
-		else {
-			Cargoptr->IncrementWaitingHours();
-		}
-
-	}*/
+	Cargo* Cargoptr;
+	
 }
 
 //void Company::IncrementHour()
@@ -400,3 +349,27 @@ void Company::printDeliveredSP(UIClass* pUI) {
 		//	}
 		//	return false;
 		//}
+void Company::CheckforCargosExceededMaxW() {
+	// Normal Check 
+	Cargo* C = WaitingNormalCargo.Head()->getitem();
+	while(C->GetWaitingHours() >= MaxW) {
+		WaitingNormalCargo.DeleteFirst(C);
+		CargosExceededMaxW.enqueue(C);
+		C = WaitingNormalCargo.Head()->getitem();
+	}
+	//Special Check 
+	WaitingSpecialCargos.peak(C);
+	while (C->GetWaitingHours() >= MaxW) {
+		WaitingSpecialCargos.dequeue(C);
+		CargosExceededMaxW.enqueue(C);
+		WaitingSpecialCargos.peak(C);
+	}
+	//VIP check 
+	WaitingVIPCargos.peak(C);
+	while (C->GetWaitingHours() >= MaxW) {
+		WaitingVIPCargos.dequeue(C);
+		CargosExceededMaxW.enqueue(C);
+		WaitingVIPCargos.peak(C);
+	}
+
+}

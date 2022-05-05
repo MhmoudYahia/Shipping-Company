@@ -118,7 +118,7 @@ public:
 			rear = rear->getnext();
 			ptr = ptr->getnext();
 		}
-	}
+		}
 	~PriorityQueue() {}
 };
 

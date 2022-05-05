@@ -197,6 +197,9 @@ public:
 		delptr = nullptr;
 		return true;
 	}
+	Node<Cargo*>* Head() {
+		return Head;
+	}
 	~List() {
 			Node<Cargo*>* temp = Head;
 			while (Head) {
