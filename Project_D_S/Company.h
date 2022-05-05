@@ -1,6 +1,9 @@
 #pragma once
 #include"UIClass.h"
 #include "Queue.h"
+#include "VIPTruck.h"
+#include "NormalTruck.h"
+#include "SpecialTruck.h"
 #include "PriorityQueue.h"
 #include "Cargo.h"
 #include "Truck.h"
@@ -31,17 +34,18 @@ class Company
 	int AutoP; // time for automatic promotion 
 	int EventCount;
 	int JourneyCount;
-
-
+	int TruckCount; 
 	// Cargos for Display
 	//PriorityQueue<Cargo*> WaitingCargos;
 	//Queue<Cargo*> DeliveredCargos;
 
 	// Trucks for display 
 	Queue<Truck*> LoadingTrucks;
-	Queue<Truck*> EmptyTrucks;
+	//Queue<Truck*> EmptyTrucks;
 	Queue<Truck*> InCheckupTrucks;
-
+	Queue<VIPTruck*> VIPEmptyTrucks;
+	Queue<NormalTruck*> NormalEmptyTrucks;
+	Queue<SpecialTruck*> SpecialEmptyTrucks;
 	//moving  may be edited under assignment criteria
 	Queue<Cargo*> MovingCargos;
 
@@ -52,9 +56,14 @@ class Company
 
 	//=================================
 	//Cargos Waiting  //M 
-	List<Cargo*>WaitingNormalCargo;
+	List<Cargo*>WaitingNormalCargos;
 	Queue<Cargo*>WaitingSpecialCargos;
 	PriorityQueue<Cargo*>WaitingVIPCargos;
+	
+	Queue<Cargo* > NCargosExceededMaxW;
+	Queue<Cargo* > SCargosExceededMaxW;
+	Queue<Cargo* > VCargosExceededMaxW;
+
 
 	//Cargos delivered  //M
 	Queue<Cargo*>DeliveredNormalCargo;
@@ -102,7 +111,16 @@ public:
 	void printDeliveredVIP(UIClass* pUI);
 	void printDeliveredNormal(UIClass* pUI);
 	void printDeliveredSP(UIClass* pUI);
-
+	void CheckforCargosExceededMaxW();
+	bool AssignNormal();
+	bool AssignSpecial();
+	bool AssignVIP();
+	void AssignExceeded();
+	void AssignSpecialTruck(int T); // 0 for VIP Cargos 1 for special Cargos 2 for VExceededCargos 3 for SExceededCargos
+	void AssignNormalTruck(int T); // 0 for VIP Cargos 1 for Normal Cargos 2 for VExceededCargos 3 for NExceededCargos 
+	void AssignVIPTruck(int T); // 0 for VIP Cargos 1 for Normal Cargos 2 for VExceededCargos 3 for NExceededCargos
+	void CreateTrucks(); 
+								
 	//void AddCargotoVIPWaiting(Cargo* C);
 	//void CancellationIDint id);
    //	void PrintDelivered(UIClass* pUI);

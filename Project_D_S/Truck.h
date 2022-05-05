@@ -10,7 +10,8 @@ class UIClass;
 class Truck
 {
 protected:
-	int ID; // 1 for VIP , 2 for Normal , 3 for Special 
+	int ID; 
+	int State;
 	int TC; //TruckCapacity
 	//State TruckState;
 	int CargoCount;
@@ -22,8 +23,11 @@ protected:
 public:
 	int GetID();
 	//void ChangeState(State S);
-	//Truck(int T);
+	Truck(int ID , int TC , int TS );
 	bool AddCargo(Cargo* C);
 	bool RemoveCargo(Cargo* C);
 	virtual void Print(UIClass*);
+	void setTruckCapacity(int);
+	void setSpeed(double);
+	bool isFull();
 };

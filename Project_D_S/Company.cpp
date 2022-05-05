@@ -16,62 +16,15 @@ Company::Company()
 	pUI = new UIClass();
 	CurrentTime.sethour(1);
 	CurrentTime.setDAY(1);
+	TruckCount = 0;
 }
 
 void Company::LoadCargos() {
-	/*Cargo* Cargoptr;
-	WaitingCargos.peak(Cargoptr);
-	bool Assigned = false;
-	while (Cargoptr)
-	{
-		Assigned = false;
-		Cargo* VIPCargoptr = dynamic_cast<VIPCargo*>( Cargoptr);
-		Cargo* NormalCargoptr = dynamic_cast<NormalCargo*>(Cargoptr);
-		Cargo* SpecialCargoptr = dynamic_cast<SpecialCargo*>(Cargoptr);
-		if (VIPCargoptr) {
-			Truck* Truckptr;
-			VIPTrucks.peak(Truckptr);
-			if (Truckptr) {
-				VIPTrucks.dequeue(Truckptr);
-				Truckptr->AddCargo(Cargoptr);
-				Assigned = true;
-			}
-		}
-		else if (SpecialCargoptr) {
-			Truck* Truckptr;
-			SpecialTrucks.peak(Truckptr);
-			if (Truckptr) {
-				SpecialTrucks.dequeue(Truckptr);
-				Truckptr->AddCargo(Cargoptr);
-				Assigned = true;
-			}
-		}
-		else {
-			Truck* Truckptr;
-			NormalTrucks.peak(Truckptr);
-			if (Truckptr) {
-				NormalTrucks.dequeue(Truckptr);
-				Truckptr->AddCargo(Cargoptr);
-				Assigned = true;
-			}
-			else {
-				VIPTrucks.peak(Truckptr);
-				if (Truckptr) {
-					VIPTrucks.dequeue(Truckptr);
-					Truckptr->AddCargo(Cargoptr);
-					Assigned = true;
-				}
-			}
-		}
-		if (Assigned) {
-			WaitingCargos.dequeue(Cargoptr);
-			WaitingCargos.peak(Cargoptr);
-		}
-		else {
-			Cargoptr->IncrementWaitingHours();
-		}
-
-	}*/
+	CheckforCargosExceededMaxW();
+	AssignExceeded();
+	AssignVIP();
+	AssignSpecial();
+	AssignNormal();
 }
 
 //void Company::IncrementHour()
@@ -103,6 +56,7 @@ void Company::StepbyStepSimulation()
 	int cnt = 10;
 	while (cnt++) {
 		ExecuteEvents();
+		LoadCargos();
 		PrintConsole();
 		Sleep(1500);
 		++CurrentTime;
@@ -120,7 +74,7 @@ void Company::PrintConsole() {
 	pUI->PrintLine();
 	pUI->PrintLoadingTrucks(this->LoadingTrucks);
 	pUI->PrintLine();
-	pUI->PrintEmptytrucks(this->EmptyTrucks);
+	//pUI->PrintEmptytrucks(this->SpecialEmptyTrucks);
 	pUI->PrintLine();
 	pUI->PrintMovingCargos(this->MovingCargos);
 	pUI->PrintLine();
@@ -133,6 +87,7 @@ void Company::InteractiveSimulation() {
 	int cnt = 10;
 	while (cnt++) {
 		ExecuteEvents();
+		LoadCargos();
 		PrintConsole();
 		++CurrentTime;
 		pUI->getKey();
@@ -262,31 +217,32 @@ void Company::AddCargotoVIPWaiting(VIPCargo* C) {
 }
 
 void Company::AddCargotoNormalWaiting(Cargo* n) {
-	WaitingNormalCargo.InsertEnd(n);
+	WaitingNormalCargos.InsertEnd(n);
 }
 void Company::AddCargotoSpWaiting(SpecialCargo* n) {
 	WaitingSpecialCargos.enqueue(n);
 }
 void Company::PrintEvents() {
-	Event* E;
-	int cnt = 0;
-	EventsPQ.peak(E);
-	while (EventsPQ.GetCount()>0) {
-		cnt++;
-		if (dynamic_cast<PromotionEvent*> (E)) cout << "PRE";
-		if (dynamic_cast<CancellationEvent*> (E)) cout << "CE";
-		if (dynamic_cast<PreparationEvent*> (E)) cout << "PE";
-		cout << cnt << endl;
-		EventsPQ.dequeue(E);
-		cout << "ID: " << E->getID() << endl;
-		//EventsPQ.peak(E);
-	}
-	cout << N << " " << S << " " << V;
+	//Event* E;
+	//int cnt = 0;
+	//EventsPQ.peak(E);
+	//while (EventsPQ.GetCount()>0) {
+	//	cnt++;
+	//	if (dynamic_cast<PromotionEvent*> (E)) cout << "PRE";
+	//	if (dynamic_cast<CancellationEvent*> (E)) cout << "CE";
+	//	if (dynamic_cast<PreparationEvent*> (E)) cout << "PE";
+	//	cout << cnt << endl;
+	//	EventsPQ.dequeue(E);
+	//	cout << "ID: " << E->getID() << endl;
+	//	//EventsPQ.peak(E);
+	//}
+	cout << N << " " << S << " " << V << endl;;
+	cout << NormalEmptyTrucks.GetCount() << " " << SpecialEmptyTrucks.GetCount() << " " << VIPEmptyTrucks.GetCount() << endl;
 }
 
 void Company::CancellationID(int id)
 {
-	WaitingNormalCargo.Remove(id);
+	WaitingNormalCargos.Remove(id);
 }
 
 NormalCargo* Company::GetNormalCargo(int id) {
@@ -302,9 +258,9 @@ void Company::printWaitingVIP(UIClass* pUI) {
 	}
 }
 void Company::printWaitingNormal(UIClass* pUI) {
-	if (WaitingNormalCargo.GetCount() > 0){
+	if (WaitingNormalCargos.GetCount() > 0){
 	   pUI->openbraceforNormal();
-	   WaitingNormalCargo.PrintL(pUI);
+	   WaitingNormalCargos.PrintL(pUI);
 	   pUI->closebraceforNormal();
     }
 }
@@ -317,7 +273,7 @@ void Company::printWaitingSP(UIClass* pUI) {
 }
 
 int Company::Getcountall_waiting() {
-	return WaitingVIPCargos.GetCount() + WaitingNormalCargo.GetCount() + WaitingSpecialCargos.GetCount();
+	return WaitingVIPCargos.GetCount() + WaitingNormalCargos.GetCount() + WaitingSpecialCargos.GetCount();
 }
 
 int Company::GetnumOfDeliv() {
@@ -406,3 +362,164 @@ void Company::printDeliveredSP(UIClass* pUI) {
 		//	}
 		//	return false;
 		//}
+void Company::CheckforCargosExceededMaxW() {
+	// Normal Check 
+	Cargo* C;
+	if (WaitingNormalCargos.GetCount() > 0) {
+		C = WaitingNormalCargos.getHead()->getitem();
+		while (C->GetWaitingHours() >= MaxW) {
+			WaitingNormalCargos.DeleteFirst(C);
+			NCargosExceededMaxW.enqueue(C);
+			C = WaitingNormalCargos.getHead()->getitem();
+		}
+	}
+	//Special Check
+	if (WaitingSpecialCargos.GetCount() > 0) {
+		WaitingSpecialCargos.peak(C);
+		while (C->GetWaitingHours() >= MaxW) {
+			WaitingSpecialCargos.dequeue(C);
+			SCargosExceededMaxW.enqueue(C);
+			WaitingSpecialCargos.peak(C);
+		}
+	}
+	//VIP check 
+	if (WaitingVIPCargos.GetCount() > 0) {
+		WaitingVIPCargos.peak(C);
+		while (C->GetWaitingHours() >= MaxW) {
+			WaitingVIPCargos.dequeue(C);
+			VCargosExceededMaxW.enqueue(C);
+			WaitingVIPCargos.peak(C);
+		}
+	}
+
+}
+bool Company::AssignVIP() {
+	Cargo* VC;
+	if (VIPEmptyTrucks.GetCount() > 0 && VTruckCapacity <= WaitingVIPCargos.GetCount()) {
+		AssignVIPTruck(0);
+		return true;
+	}
+	else if (NormalEmptyTrucks.GetCount() > 0 && NTruckCapacity <= WaitingVIPCargos.GetCount()) {
+		AssignNormalTruck(0);
+		return true;
+		
+	}
+	else if (SpecialEmptyTrucks.GetCount() > 0 && STruckCapacity <= WaitingVIPCargos.GetCount()) {
+		AssignSpecialTruck(0);
+		return true;
+	}
+	else {
+		return false;
+	}
+}
+bool Company::AssignSpecial() {
+	Cargo* SC;
+	if (SpecialEmptyTrucks.GetCount() > 0 && STruckCapacity <= WaitingVIPCargos.GetCount()) {
+		AssignSpecialTruck(1);
+		return true;
+	}
+	return false;
+}
+bool Company::AssignNormal() {
+	if (NormalEmptyTrucks.GetCount() > 0 && NTruckCapacity <= WaitingNormalCargos.GetCount()) {
+		AssignNormalTruck(1);
+		return true;
+	}
+	else if (VIPEmptyTrucks.GetCount() > 0 &&VTruckCapacity <= WaitingNormalCargos.GetCount()) {
+		AssignVIPTruck(1);
+		return true;
+	}
+	return false;
+}
+void Company::AssignVIPTruck(int T) {
+		Cargo* C = nullptr;
+		VIPTruck* VT;
+		if (VIPEmptyTrucks.GetCount() == 0) return;
+		VIPEmptyTrucks.dequeue(VT);
+		while (!VT->isFull()) {
+			if (T == 0&& WaitingVIPCargos.GetCount()>0)WaitingVIPCargos.dequeue(C);
+			else if(T==1 && WaitingNormalCargos.GetCount() > 0) WaitingNormalCargos.DeleteFirst(C);
+			else if (T == 2&& VCargosExceededMaxW.GetCount()>0)VCargosExceededMaxW.dequeue(C);
+			else if (T == 3&&SCargosExceededMaxW.GetCount()>0)SCargosExceededMaxW.dequeue(C);
+			if (!C) break;
+			VT->AddCargo(C);
+		}
+		VIPEmptyTrucks.dequeue(VT);
+		LoadingTrucks.enqueue(VT);
+}
+void Company::AssignNormalTruck(int T) {
+		Cargo* C = nullptr;
+		NormalTruck* NT = nullptr;
+		if (NormalEmptyTrucks.GetCount() == 0) return;
+		NormalEmptyTrucks.dequeue(NT);
+		while (NT&&!NT->isFull()) {
+			if (T == 0 &&WaitingVIPCargos.GetCount()>0)WaitingVIPCargos.dequeue(C);
+			else if (T == 1&&WaitingNormalCargos.GetCount()>0)WaitingNormalCargos.DeleteFirst(C);
+			else if (T == 2&&VCargosExceededMaxW.GetCount()>0)VCargosExceededMaxW.dequeue(C);
+			else if(T==3 &&NCargosExceededMaxW.GetCount()>0)NCargosExceededMaxW.dequeue(C);
+			if (!C) break;
+			NT->AddCargo(C);
+		}
+		NormalEmptyTrucks.dequeue(NT);
+		LoadingTrucks.enqueue(NT);
+}
+void Company::AssignSpecialTruck(int T) {
+	Cargo* C = nullptr;
+	SpecialTruck* ST;
+	if (SpecialEmptyTrucks.GetCount() == 0) return;
+	SpecialEmptyTrucks.dequeue(ST);
+	while (!ST->isFull()) {
+		if (T == 0&&WaitingVIPCargos.GetCount()>0) WaitingVIPCargos.dequeue(C);
+		else if (T == 1&&WaitingSpecialCargos.GetCount()>0)WaitingSpecialCargos.dequeue(C);
+		else if (T == 2&&VCargosExceededMaxW.GetCount()>0)VCargosExceededMaxW.dequeue(C);
+		else if (T == 3&&SCargosExceededMaxW.GetCount()>0)SCargosExceededMaxW.dequeue(C);
+		if (!C) break;
+		ST->AddCargo(C);
+	}
+	SpecialEmptyTrucks.dequeue(ST);
+	LoadingTrucks.enqueue(ST);
+}
+void Company::AssignExceeded() {
+	Cargo* Cargoptr;
+	if (VCargosExceededMaxW.GetCount() > 0) {
+		if (VIPEmptyTrucks.GetCount() > 0) {
+			AssignVIPTruck(2);
+		}
+		else if (NormalEmptyTrucks.GetCount() > 0) {
+			AssignNormalTruck(2);
+		}
+		else if (SpecialEmptyTrucks.GetCount() > 0) {
+			AssignSpecialTruck(2);
+		}
+	}
+	if (SCargosExceededMaxW.GetCount() > 0) {
+		if (SpecialEmptyTrucks.GetCount() > 0) {
+			AssignSpecialTruck(3);
+		}
+	}
+	if (NCargosExceededMaxW.GetCount() > 0) {
+		if (NormalEmptyTrucks.GetCount() > 0) {
+			AssignNormalTruck(3);
+		}
+		else if (VIPEmptyTrucks.GetCount() > 0) {
+			AssignVIPTruck(3);
+		}
+	}
+}
+void Company::CreateTrucks() {
+		int cnt = N;
+		while (cnt--) {
+			NormalTruck* N = new NormalTruck(++TruckCount,NTruckCapacity,NTruckSpeed);
+			NormalEmptyTrucks.enqueue(N);
+		}
+		cnt = S;
+		while (cnt--) {
+			SpecialTruck* N = new SpecialTruck(++TruckCount, NTruckCapacity, NTruckSpeed);
+			SpecialEmptyTrucks.enqueue(N);
+		}
+		cnt = V;
+		while (cnt--) {
+			VIPTruck* N = new VIPTruck(++TruckCount, NTruckCapacity, NTruckSpeed);
+			VIPEmptyTrucks.enqueue(N);
+		}
+}
