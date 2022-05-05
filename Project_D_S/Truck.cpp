@@ -5,18 +5,17 @@ int Truck::GetID()
 	return ID;
 }
 
-//void Truck:: ChangeState(State S) {
-//	TruckState = S;
-	//CargoCount = 0;
-//}
-//Truck::Truck(int T) {
-//	if (T > 0) TC = T;
-//
-//}
+Truck::Truck(int ID, int TC, int TS) {
+	this->ID = ID;
+	this->TC = TC;
+	this->Speed = TS;
+	TruckCargos = new Queue<Cargo*>;
+}
 bool Truck::AddCargo(Cargo* C) {
 	if (CargoCount == TC) {
 		return false;
 	}
+	if (!C) return false;
 	TruckCargos->enqueue(C);
 	CargoCount++;
 	return true;
@@ -27,8 +26,11 @@ bool Truck::RemoveCargo(Cargo* C) {
 	return true;
 }
 void Truck::Print(UIClass * UI) {
-	TruckCargos->PrintQ(UI);
+	UI->Print(this);
 }
 bool Truck::isFull() {
 	return (CargoCount == TC);
+}
+void Truck::setSpeed(double s) {
+	if(s>0)Speed = s;
 }

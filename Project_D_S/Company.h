@@ -34,8 +34,7 @@ class Company
 	int AutoP; // time for automatic promotion 
 	int EventCount;
 	int JourneyCount;
-
-
+	int TruckCount; 
 	// Cargos for Display
 	//PriorityQueue<Cargo*> WaitingCargos;
 	//Queue<Cargo*> DeliveredCargos;
@@ -120,6 +119,8 @@ public:
 	void AssignSpecialTruck(int T); // 0 for VIP Cargos 1 for special Cargos 2 for VExceededCargos 3 for SExceededCargos
 	void AssignNormalTruck(int T); // 0 for VIP Cargos 1 for Normal Cargos 2 for VExceededCargos 3 for NExceededCargos 
 	void AssignVIPTruck(int T); // 0 for VIP Cargos 1 for Normal Cargos 2 for VExceededCargos 3 for NExceededCargos
+	void CreateTrucks(); 
+								
 	//void AddCargotoVIPWaiting(Cargo* C);
 	//void CancellationIDint id);
    //	void PrintDelivered(UIClass* pUI);
