@@ -197,7 +197,7 @@ public:
 		delptr = nullptr;
 		return true;
 	}
-	Node<Cargo*>* Head() {
+	Node<Cargo*>* getHead() {
 		return Head;
 	}
 	~List() {

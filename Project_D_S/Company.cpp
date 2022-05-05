@@ -354,11 +354,11 @@ void Company::printDeliveredSP(UIClass* pUI) {
 		//}
 void Company::CheckforCargosExceededMaxW() {
 	// Normal Check 
-	Cargo* C = WaitingNormalCargos.Head()->getitem();
+	Cargo* C = WaitingNormalCargos.getHead()->getitem();
 	while(C->GetWaitingHours() >= MaxW) {
 		WaitingNormalCargos.DeleteFirst(C);
 		NCargosExceededMaxW.enqueue(C);
-		C = WaitingNormalCargos.Head()->getitem();
+		C = WaitingNormalCargos.getHead()->getitem();
 	}
 	//Special Check 
 	WaitingSpecialCargos.peak(C);
@@ -416,7 +416,7 @@ bool Company::AssignNormal() {
 	return false;
 }
 void Company::AssignVIPTruck(int T) {
-	Cargo* C;
+		Cargo* C = nullptr;
 		VIPTruck* VT;
 		VIPEmptyTrucks.dequeue(VT);
 		while (!VT->isFull()) {
@@ -431,7 +431,7 @@ void Company::AssignVIPTruck(int T) {
 		LoadingTrucks.enqueue(VT);
 }
 void Company::AssignNormalTruck(int T) {
-	Cargo* C;
+		Cargo* C = nullptr;
 		NormalTruck* NT;
 		NormalEmptyTrucks.dequeue(NT);
 		while (!NT->isFull()) {
@@ -447,7 +447,7 @@ void Company::AssignNormalTruck(int T) {
 		LoadingTrucks.enqueue(NT);
 }
 void Company::AssignSpecialTruck(int T) {
-	Cargo* C;
+	Cargo* C = nullptr;
 	SpecialTruck* ST;
 	SpecialEmptyTrucks.dequeue(ST);
 	while (!ST->isFull()) {
