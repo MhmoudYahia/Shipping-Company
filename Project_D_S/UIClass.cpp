@@ -64,6 +64,18 @@ void UIClass::Print(Truck* t)
 {
 	cout << t->GetID();
 }
+template<>
+void UIClass::Print(NormalTruck* t) {
+	cout << t->GetID();
+}
+template<>
+void UIClass::Print(SpecialTruck* t) {
+	cout << t->GetID();
+}
+template<>
+void UIClass::Print(VIPTruck* t) {
+	cout << t->GetID();
+}
 void UIClass::PrintSilentMode()
 {
 	cout << "SilentMode\n" << "Simulation Starts...\n" << "Simulation ends, Output file created\n";
@@ -117,6 +129,11 @@ void UIClass::PrintDeliveredCargo(Company*Cptr)
 	Cptr->printDeliveredNormal(this);
 	Cptr->printDeliveredSP(this);
 	Cptr->printDeliveredVIP(this);
+}
+void UIClass::PrintEmptytrucks(Company* pC)
+{
+	cout << pC->GetNumOfEmptyTrcs() << " Empty Trucks: ";
+	pC->printEmptyTrucks(this);
 }
 //void UIClass::printWaitingCargos(PriorityQueue<Cargo*> qWc)
 //{
@@ -275,41 +292,8 @@ void UIClass::PrintIn_CheckupTrucks(Queue<Truck*> qCt)
 	}
 }
 
-void UIClass::PrintEmptytrucks(Queue<Truck*>qEt)
-{
-	cout << qEt.GetCount() << " Empty Trucks: ";
-//	Queue<Truck*>tempQ;
-	Truck* Cptr;
-	while (qEt.GetCount()>1) {
-		qEt.dequeue(Cptr);
-	//tempQ.enqueue(Cptr);
-		if (dynamic_cast<NormalTruck*>(Cptr)) {
-			cout << " [" << Cptr->GetID() << "],";
-		}
-		if (dynamic_cast<VIPTruck*>(Cptr)) {
-			cout << " {" << Cptr->GetID() << "},";
-		}
-		if (dynamic_cast<SpecialTruck*>(Cptr)) {
-			cout << " (" << Cptr->GetID() << "),";
-		}
-	}
-	//as we do not want ',' to appear in last printing op.
-	if (qEt.dequeue(Cptr)) {   
-//	tempQ.enqueue(Cptr);
-		if (dynamic_cast<NormalTruck*>(Cptr)) {
-			cout << " [" << Cptr->GetID() << "]";
-		}
-		else if (dynamic_cast<VIPTruck*>(Cptr)) {
-			cout << " {" << Cptr->GetID() << "}";
-		}
-		else if (dynamic_cast<SpecialTruck*>(Cptr)) {
-			cout << " (" << Cptr->GetID() << ")";
-		}
-	}
-	//return origin qEl
-	/*while (tempQ.dequeue(Cptr))
-		qEt->enqueue(Cptr);*/
-}
+
+
 
 void UIClass::PrintLoadingTrucks(Queue<Truck*> qLt)
 {
@@ -339,7 +323,42 @@ void UIClass::PrintLoadingTrucks(Queue<Truck*> qLt)
 		//qLt->enqueue(Cptr);
 }
 
-
+//
+//void UIClass::PrintEmptytrucks(Queue<Truck*>qEt)
+//{
+//	cout << qEt.GetCount() << " Empty Trucks: ";
+//	//	Queue<Truck*>tempQ;
+//	Truck* Cptr;
+//	while (qEt.GetCount() > 1) {
+//		qEt.dequeue(Cptr);
+//		//tempQ.enqueue(Cptr);
+//		if (dynamic_cast<NormalTruck*>(Cptr)) {
+//			cout << " [" << Cptr->GetID() << "],";
+//		}
+//		if (dynamic_cast<VIPTruck*>(Cptr)) {
+//			cout << " {" << Cptr->GetID() << "},";
+//		}
+//		if (dynamic_cast<SpecialTruck*>(Cptr)) {
+//			cout << " (" << Cptr->GetID() << "),";
+//		}
+//	}
+//	//as we do not want ',' to appear in last printing op.
+//	if (qEt.dequeue(Cptr)) {
+//		//	tempQ.enqueue(Cptr);
+//		if (dynamic_cast<NormalTruck*>(Cptr)) {
+//			cout << " [" << Cptr->GetID() << "]";
+//		}
+//		else if (dynamic_cast<VIPTruck*>(Cptr)) {
+//			cout << " {" << Cptr->GetID() << "}";
+//		}
+//		else if (dynamic_cast<SpecialTruck*>(Cptr)) {
+//			cout << " (" << Cptr->GetID() << ")";
+//		}
+//	}
+//	//return origin qEl
+//	/*while (tempQ.dequeue(Cptr))
+//		qEt->enqueue(Cptr);*/
+//}
 //void UIClass::PrintQ(Queue<Cargo*  > Cptr) {
 //	Cargo* C;
 //	while (Cptr.dequeue(C) && Cptr.GetCount() != 1) {

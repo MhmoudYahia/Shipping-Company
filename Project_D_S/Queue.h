@@ -12,14 +12,18 @@ public:
 		cnt = 0;
 	}
 	void PrintQ(UIClass * PUI) {
+		if (!front)
+			return;
+		Node<T>* temp = front;
+		while (temp->getnext()  ) {
 		
-		T Cptr;
-		while (GetCount() != 1&&dequeue(Cptr)  ) {
-			PUI->Print(Cptr);
+			PUI->Print(temp->getitem());
 			PUI->Printcomma();
+			temp = temp->getnext();
 		}
-		if (dequeue(Cptr));
-		 PUI->Print(Cptr);
+
+		 PUI->Print(temp->getitem());
+
 	}
 
 	bool isEmpty()const {

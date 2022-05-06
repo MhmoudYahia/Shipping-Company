@@ -5,5 +5,7 @@ class NormalTruck :
 {
 public:
     NormalTruck(int ID, int TC, int TS);
+    void Print(UIClass* p);
+   
 };
 

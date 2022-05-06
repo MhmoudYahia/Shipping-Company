@@ -10,13 +10,17 @@ public:
 	//int cnt=0;
 	void PrintQ(UIClass * PUI) {
 		
-		T Cptr;
-		while (GetCount() != 1&&dequeue(Cptr)  ) {
-			PUI->Print(Cptr);
+		if (!front)
+			return;
+		Node<T>* temp = front;
+		while (temp->getnext()) {
+
+			PUI->Print(temp->getitem());
 			PUI->Printcomma();
+			temp = temp->getnext();
 		}
-		if (dequeue(Cptr));
-		 PUI->Print(Cptr);
+
+		PUI->Print(temp->getitem());
 	}
 	PriorityQueue() {
 		front = rear = nullptr;

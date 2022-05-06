@@ -46,8 +46,7 @@ class Company
 	Queue<VIPTruck*> VIPEmptyTrucks;
 	Queue<NormalTruck*> NormalEmptyTrucks;
 	Queue<SpecialTruck*> SpecialEmptyTrucks;
-	//moving  may be edited under assignment criteria
-	Queue<Cargo*> MovingCargos;
+	//moving  may be edited under assignment criteria	Queue<Cargo*> MovingCargos;
 
 	//Trucks
 	Queue<Truck*>NormalTrucks;
@@ -111,6 +110,8 @@ public:
 	void printDeliveredVIP(UIClass* pUI);
 	void printDeliveredNormal(UIClass* pUI);
 	void printDeliveredSP(UIClass* pUI);
+	void printEmptyTrucks(UIClass* pUI);
+	int GetNumOfEmptyTrcs();
 	void CheckforCargosExceededMaxW();
 	bool AssignNormal();
 	bool AssignSpecial();

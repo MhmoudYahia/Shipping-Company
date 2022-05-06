@@ -35,12 +35,12 @@ public:
 	void PrintCurrentTime(Time T);
 	void PrintWaitingCargos(Company* Cptr);
 	//printing Cargos and Trucks Categories
-	void printWaitingCargos(PriorityQueue<Cargo*> qWc);
+//	void printWaitingCargos(PriorityQueue<Cargo*> qWc);
 	void PrintMovingCargos(Queue<Cargo*> qMc);
 	void Printcomma();
 	void PrintDeliveredCargo(Company* Cptr);
 	void PrintIn_CheckupTrucks(Queue<Truck*> qCt);
-	void PrintEmptytrucks(Queue<Truck*> qEt);
+	void PrintEmptytrucks(Company* pC);
 	void PrintLoadingTrucks(Queue<Truck*>);
 	void PrintSilentMode();
 	void PrintError(string);
