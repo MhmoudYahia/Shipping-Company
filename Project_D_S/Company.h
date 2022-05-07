@@ -39,12 +39,15 @@ class Company
 	//PriorityQueue<Cargo*> WaitingCargos;
 	//Queue<Cargo*> DeliveredCargos;
 
-	// Trucks for display 
+	// Trucks loading
 	Queue<Truck*> LoadingTrucks;
-	//Queue<Truck*> EmptyTrucks;
+
+	//Incheckuptrucks
 	Queue<Truck*> NInCheckupTrucks;
 	Queue<Truck*> SInCheckupTrucks;
 	Queue<Truck*> VInCheckupTrucks;
+
+	//Queue<Truck*> EmptyTrucks;
 	Queue<Truck*> VIPEmptyTrucks;
 	Queue<Truck*> NormalEmptyTrucks;
 	Queue<Truck*> SpecialEmptyTrucks;
@@ -82,10 +85,11 @@ class Company
 	void StepbyStepSimulation();
 	void PrintConsole();
 	void InteractiveSimulation();
+	void incrementWHs();
 public:
 	Company();
 	void LoadCargos();
-	void IncrementHour();
+	//void IncrementHour();
 	void setMaxW(int);
 	void setcurtime(Time time);
 	Time getcurtime();

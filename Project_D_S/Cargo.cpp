@@ -18,6 +18,7 @@ Cargo::Cargo( int cost, int LT, int DIS,int ID, int H, int D) {
 	SetLT(LT);
 	SetDdes(DIS);
 	SetID(ID);
+	this->WaitingH = 0;
 }
 
 

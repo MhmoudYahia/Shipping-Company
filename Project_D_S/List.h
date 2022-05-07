@@ -200,6 +200,13 @@ public:
 	Node<Cargo*>* getHead() {
 		return Head;
 	}
+	void incrementWH() {
+		Node<Cargo*>* temp = Head;
+		while (temp) {
+			temp->getitem()->IncrementWaitingHours();
+			temp = temp->getnext();
+		}
+	}
 	~List() {
 			Node<Cargo*>* temp = Head;
 			while (Head) {

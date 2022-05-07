@@ -78,7 +78,7 @@ void Company::PrintConsole() {
 	pUI->PrintLine();
 	//pUI->PrintMovingCargos(this->MovingCargos);
 	pUI->PrintLine();
-	pUI->PrintIn_CheckupTrucks(this->InCheckupTrucks);
+	//pUI->PrintIn_CheckupTrucks(this->InCheckupTrucks);
 	pUI->PrintLine();
 	pUI->PrintDeliveredCargo(this);
 	pUI->PrintLine();
@@ -89,15 +89,30 @@ void Company::InteractiveSimulation() {
 		ExecuteEvents();
 		LoadCargos();
 		PrintConsole();
+		incrementWHs();
 		++CurrentTime;
 		pUI->getKey();
-		//int v = 5;
-		/*if (cnt % 5 == 0 && WaitingCargos.GetCount() > 0) {
-			Cargo* Cptr;
-			WaitingCargos.dequeue(Cptr);
-			this->DeliveredCargos.enqueue(Cptr);
-		}*/
+		
 	}
+}
+void Company::incrementWHs() {
+	WaitingNormalCargos.incrementWH();//List
+	//===
+	Queue<Cargo*>tq;
+	Cargo* ct;
+	while (WaitingSpecialCargos.dequeue(ct)) {
+		ct->IncrementWaitingHours();
+		tq.enqueue(ct);
+	}
+	while (tq.dequeue(ct))
+		WaitingSpecialCargos.enqueue(ct);
+	//===
+	while (WaitingVIPCargos.dequeue(ct)) {
+		ct->IncrementWaitingHours();
+		tq.enqueue(ct);
+	}
+	while (tq.dequeue(ct))
+		WaitingVIPCargos.enqueue(ct, ct->Getpriority());
 }
 void Company::GeneralSimulate() {
 	switch (pUI->SelectMode()) {
