@@ -42,7 +42,9 @@ class Company
 	// Trucks for display 
 	Queue<Truck*> LoadingTrucks;
 	//Queue<Truck*> EmptyTrucks;
-	Queue<Truck*> InCheckupTrucks;
+	Queue<Truck*> NInCheckupTrucks;
+	Queue<Truck*> SInCheckupTrucks;
+	Queue<Truck*> VInCheckupTrucks;
 	Queue<Truck*> VIPEmptyTrucks;
 	Queue<Truck*> NormalEmptyTrucks;
 	Queue<Truck*> SpecialEmptyTrucks;
@@ -121,6 +123,7 @@ public:
 	void AssignNormalTruck(int T); // 0 for VIP Cargos 1 for Normal Cargos 2 for VExceededCargos 3 for NExceededCargos 
 	void AssignVIPTruck(int T); // 0 for VIP Cargos 1 for Normal Cargos 2 for VExceededCargos 3 for NExceededCargos
 	void CreateTrucks(); 
+	void CheckforCheckupTrucks();
 								
 	//void AddCargotoVIPWaiting(Cargo* C);
 	//void CancellationIDint id);

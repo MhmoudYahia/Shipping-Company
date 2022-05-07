@@ -10,6 +10,7 @@ Truck::Truck(int ID, int TC, int TS) {
 	this->TC = TC;
 	this->Speed = TS;
 	TruckCargos = new Queue<Cargo*>;
+	JourneyCount = 0;
 }
 bool Truck::AddCargo(Cargo* C) {
 	if (CargoCount == TC) {
@@ -36,4 +37,13 @@ void Truck::setSpeed(double s) {
 }
 void Truck::Print(UIClass * UI) {
 	TruckCargos->PrintQ(UI);
+}
+void Truck::incrementJC() {
+	JourneyCount++;
+}
+void Truck::resetJC() {
+	JourneyCount = 0;
+}
+int Truck::getJC() {
+	return JourneyCount;
 }

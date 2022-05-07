@@ -15,7 +15,7 @@ public:
 		if (!front)
 			return;
 		Node<T>* temp = front;
-		while (temp->getnext()  ) {
+		while (temp->getnext()) {
 			PUI->Print(temp->getitem());
 			PUI->Printcomma();
 			temp = temp->getnext();
