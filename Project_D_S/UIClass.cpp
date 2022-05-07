@@ -298,10 +298,8 @@ void UIClass::PrintIn_CheckupTrucks(Queue<Truck*> qCt)
 void UIClass::PrintLoadingTrucks(Queue<Truck*> qLt)
 {
 	cout << qLt.GetCount() << " LoadingTrucks: ";
-//	Queue<Truck*>tempQ;
 	Truck* Cptr;
 	while (qLt.dequeue(Cptr)) {
-		//tempQ.enqueue(Cptr);
 		if (dynamic_cast<NormalTruck*>(Cptr)) {
 			cout << Cptr->GetID() << "[";
 			Cptr->Print(this);
@@ -318,9 +316,7 @@ void UIClass::PrintLoadingTrucks(Queue<Truck*> qLt)
 			cout << ") ";
 		}
 	}
-	//return origin qLt
-	//while (tempQ.dequeue(Cptr))
-		//qLt->enqueue(Cptr);
+	
 }
 
 //

@@ -10,6 +10,7 @@ Truck::Truck(int ID, int TC, int TS) {
 	this->TC = TC;
 	this->Speed = TS;
 	TruckCargos = new Queue<Cargo*>;
+	this->CargoCount = 0;
 }
 bool Truck::AddCargo(Cargo* C) {
 	if (CargoCount == TC) {
@@ -24,6 +25,10 @@ bool Truck::RemoveCargo(Cargo* C) {
 	if (CargoCount == 0) return false;
 	TruckCargos->dequeue(C);
 	return true;
+}
+void Truck::Print(UIClass* p)
+{
+	TruckCargos->PrintQ(p);
 }
 //void Truck::Print(UIClass * UI) {
 //	UI->Print(this);
