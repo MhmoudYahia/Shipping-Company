@@ -78,7 +78,7 @@ double Cargo::Getpriority()
 	return 0;
 }
 
-double Cargo::getDdes()
+int Cargo::getDis()
 {
 	return delvr_Dis;
 }

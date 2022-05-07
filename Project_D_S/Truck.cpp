@@ -11,12 +11,16 @@ Truck::Truck(int ID, int TC, int TS) {
 	this->Speed = TS;
 	TruckCargos = new Queue<Cargo*>;
 	JourneyCount = 0;
+	DisofFurthestCargo = 0;
+	LoadTimeofAllcargos = 0;
 }
 bool Truck::AddCargo(Cargo* C) {
 	if (CargoCount == TC) {
 		return false;
 	}
 	if (!C) return false;
+	DisofFurthestCargo = max(DisofFurthestCargo, C->getDis());
+	LoadTimeofAllcargos += C->getLT();
 	TruckCargos->enqueue(C);
 	CargoCount++;
 	return true;
@@ -46,4 +50,17 @@ void Truck::resetJC() {
 }
 int Truck::getJC() {
 	return JourneyCount;
+}
+int Truck::getDI() {
+	return DI;
+}
+void Truck::updateDI() {
+	TimeforGoingwithoutReturning = ceil(DisofFurthestCargo / Speed);
+	DI = TimeforGoingwithoutReturning * 2 + LoadTimeofAllcargos ;
+}
+void Truck::decrementTimeleftforDelivery() {
+	if(TimeforGoingwithoutReturning>0)TimeforGoingwithoutReturning--;
+}
+int Truck::getTimeleftforDelivery() {
+	return TimeforGoingwithoutReturning;
 }

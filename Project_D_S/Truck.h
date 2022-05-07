@@ -18,14 +18,19 @@ protected:
 	int MaintenanceTime; // In hours
 	double Speed; //In Km/Hour 
 	int JourneyCount;
+	int TimeforGoingwithoutReturning;
+	int DisofFurthestCargo;
+	int LoadTimeofAllcargos;
 	Queue <Cargo* > * TruckCargos;
-	double DI; //Delivery Interval =(Distance of furthest cargo)/ speed + Sum of unload times of all its cargos + time to come back
+	int DI; //Delivery Interval =(Distance of furthest cargo)/ speed + Sum of unload times of all its cargos + time to come back
 
 public:
 	int GetID();
 	//void ChangeState(State S);
 	Truck(int ID , int TC , int TS );
 	bool AddCargo(Cargo* C);
+	void updateDI();
+	int getDI();
 	void incrementJC();
 	void resetJC();
 	int getJC();
@@ -34,4 +39,6 @@ public:
 	void setTruckCapacity(int);
 	void setSpeed(double);
 	bool isFull();
+	int getTimeleftforDelivery();
+	void decrementTimeleftforDelivery();
 };

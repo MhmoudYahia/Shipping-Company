@@ -10,7 +10,7 @@ protected:
 	//State Cargostate;
 	Time Per_T;
 	int Load_T;
-	double delvr_Dis;
+	int delvr_Dis;
 	int cost;
 	int WaitingH;
 	int ID;
@@ -25,7 +25,6 @@ public:
 	virtual void setPT(int d, int h);
 	virtual void SetLT(int t);
 	virtual void SetDdes(double d);
-	
 	virtual void SetCost(int c);
 	void IncrementWaitingHours();
 	void resetWaitingHours();
@@ -33,7 +32,7 @@ public:
     void SetID(int d);
 	int GetID();
 	virtual double Getpriority();  //return 0 except in vip
-	double getDdes();		//ismail
+	int getDis();		//ismail
 	double getCost();		//ismail
 	double getLT();		//ismail
     Time getPT();		//ismail

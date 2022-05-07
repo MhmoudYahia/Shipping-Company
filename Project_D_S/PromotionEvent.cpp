@@ -23,7 +23,7 @@ void PromotionEvent::Execute()
 	if (Nptr) {
 		VIPCargo* temp = new VIPCargo();
 		temp->SetCost(Nptr->getCost() + this->getExtraMoney());
-		temp->SetDdes(Nptr->getDdes());
+		temp->SetDdes(Nptr->getDis());
 		temp->SetID(Nptr->GetID());
 		temp->SetLT(Nptr->getLT());
 		temp->setPT(Nptr->getPT().getDAY(), Nptr->getPT().gethour());

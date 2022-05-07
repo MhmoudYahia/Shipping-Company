@@ -115,6 +115,7 @@ void Company::incrementWHs() {
 	while (tq.dequeue(ct))
 		WaitingVIPCargos.enqueue(ct, ct->Getpriority());
 }
+
 void Company::GeneralSimulate() {
 	switch (pUI->SelectMode()) {
 	case interactive:
