@@ -60,6 +60,7 @@ void Company::StepbyStepSimulation()
 		PrintConsole();
 		Sleep(1500);
 		++CurrentTime;
+		incrementWHs();
 		////to move cago from waiting to delivered every 5 times
 		//if (cnt % 5 == 0 &&WaitingCargos.GetCount()>0) {
 		//	Cargo* Cptr;
@@ -341,9 +342,11 @@ void Company::CheckforCargosExceededMaxW() {
 	Cargo* C;
 	if (WaitingNormalCargos.GetCount() > 0) {
 		C = WaitingNormalCargos.getHead()->getitem();
-		while (C->GetWaitingHours() >= MaxW) {
+		while (C&&C->GetWaitingHours() >= MaxW) {
 			WaitingNormalCargos.DeleteFirst(C);
 			NCargosExceededMaxW.enqueue(C);
+			C = nullptr;
+			if(WaitingNormalCargos.getHead())
 			C = WaitingNormalCargos.getHead()->getitem();
 		}
 	}
@@ -426,13 +429,24 @@ void Company::AssignNormalTruck(int T) {
 		Truck* NT = nullptr;
 		if (NormalEmptyTrucks.GetCount() == 0) return;
 		NormalEmptyTrucks.dequeue(NT);
+		bool CangoNow = false;
 		while (NT&&!NT->isFull()) {
 			if (T == 0 &&WaitingVIPCargos.GetCount()>0)WaitingVIPCargos.dequeue(C);
-			else if (T == 1&&WaitingNormalCargos.GetCount()>0)WaitingNormalCargos.DeleteFirst(C);
-			else if (T == 2&&VCargosExceededMaxW.GetCount()>0)VCargosExceededMaxW.dequeue(C);
-			else if(T==3 &&NCargosExceededMaxW.GetCount()>0)NCargosExceededMaxW.dequeue(C);
+			else if (T == 1 && WaitingNormalCargos.GetCount() > 0) {
+				WaitingNormalCargos.DeleteFirst(C);
+			}
+			else if (T == 2 && VCargosExceededMaxW.GetCount() > 0) {
+				VCargosExceededMaxW.dequeue(C);
+				if(VCargosExceededMaxW.GetCount()==0)CangoNow = true;
+			}
+			else if (T == 3 && NCargosExceededMaxW.GetCount() > 0) {
+				NCargosExceededMaxW.dequeue(C);
+				if (NCargosExceededMaxW.GetCount() == 0) CangoNow = true;
+			}
 			if (!C) break;
 			NT->AddCargo(C);
+			C->resetWaitingHours();
+			if (CangoNow) break;
 		}
 		NT->incrementJC();
 		LoadingTrucks.enqueue(NT);

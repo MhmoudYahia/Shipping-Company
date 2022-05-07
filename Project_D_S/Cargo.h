@@ -28,6 +28,7 @@ public:
 	
 	virtual void SetCost(int c);
 	void IncrementWaitingHours();
+	void resetWaitingHours();
 	int GetWaitingHours();
     void SetID(int d);
 	int GetID();

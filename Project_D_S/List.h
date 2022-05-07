@@ -128,8 +128,9 @@ public:
 			PUI->Printcomma();
 			temp = temp->getnext();
 		}
-		if (temp)
+		if (temp) {
 			PUI->Print(temp->getitem());
+		}
 	}
 	
 	int GetCount() {

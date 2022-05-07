@@ -57,7 +57,7 @@ void UIClass::Print(t c)
 template<>
 void UIClass::Print(Cargo*c)
 {
-	cout << c->GetID();
+	cout << c->GetID()<<" Waiting: "<<c->GetWaitingHours();
 }
 template<>
 void UIClass::Print(Truck* t)
@@ -108,7 +108,6 @@ void UIClass::closebraceforSP() {
 }
 void UIClass::PrintWaitingCargos(Company* Cptr) {
 	cout << Cptr->Getcountall_waiting() << " Waiting Cargo: ";
-
 	Cptr->printWaitingNormal(this);
 	Cptr->printWaitingSP(this);
 	Cptr->printWaitingVIP(this);

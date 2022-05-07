@@ -103,6 +103,9 @@ void Cargo::IncrementWaitingHours() {
 int Cargo::GetWaitingHours() {
 	return WaitingH;
 }
+void Cargo::resetWaitingHours() {
+	WaitingH = 0;
+}
 Cargo::~Cargo()
 {
 }
