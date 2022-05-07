@@ -43,9 +43,9 @@ class Company
 	Queue<Truck*> LoadingTrucks;
 	//Queue<Truck*> EmptyTrucks;
 	Queue<Truck*> InCheckupTrucks;
-	Queue<VIPTruck*> VIPEmptyTrucks;
-	Queue<NormalTruck*> NormalEmptyTrucks;
-	Queue<SpecialTruck*> SpecialEmptyTrucks;
+	Queue<Truck*> VIPEmptyTrucks;
+	Queue<Truck*> NormalEmptyTrucks;
+	Queue<Truck*> SpecialEmptyTrucks;
 	//moving  may be edited under assignment criteria	Queue<Cargo*> MovingCargos;
 
 	//Trucks

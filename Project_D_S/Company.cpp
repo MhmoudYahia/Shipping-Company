@@ -356,15 +356,18 @@ bool Company::AssignVIP() {
 	Cargo* VC;
 	if (VIPEmptyTrucks.GetCount() > 0 && VTruckCapacity <= WaitingVIPCargos.GetCount()) {
 		AssignVIPTruck(0);
+		cout << "Assign VIP\n";
 		return true;
 	}
 	else if (NormalEmptyTrucks.GetCount() > 0 && NTruckCapacity <= WaitingVIPCargos.GetCount()) {
 		AssignNormalTruck(0);
+		cout << "Assign VIP\n";
 		return true;
 		
 	}
 	else if (SpecialEmptyTrucks.GetCount() > 0 && STruckCapacity <= WaitingVIPCargos.GetCount()) {
 		AssignSpecialTruck(0);
+		cout << "Assign VIP\n";
 		return true;
 	}
 	else {
@@ -375,6 +378,7 @@ bool Company::AssignSpecial() {
 	Cargo* SC;
 	if (SpecialEmptyTrucks.GetCount() > 0 && STruckCapacity <= WaitingVIPCargos.GetCount()) {
 		AssignSpecialTruck(1);
+		cout << "Assign Special\n";
 		return true;
 	}
 	return false;
@@ -382,17 +386,19 @@ bool Company::AssignSpecial() {
 bool Company::AssignNormal() {
 	if (NormalEmptyTrucks.GetCount() > 0 && NTruckCapacity <= WaitingNormalCargos.GetCount()) {
 		AssignNormalTruck(1);
+		cout << "Assign Normal\n";
 		return true;
 	}
 	else if (VIPEmptyTrucks.GetCount() > 0 &&VTruckCapacity <= WaitingNormalCargos.GetCount()) {
 		AssignVIPTruck(1);
+		cout << "Assign Normal\n";
 		return true;
 	}
 	return false;
 }
 void Company::AssignVIPTruck(int T) {
 		Cargo* C = nullptr;
-		VIPTruck* VT;
+		Truck* VT;
 		if (VIPEmptyTrucks.GetCount() == 0) return;
 		VIPEmptyTrucks.dequeue(VT);
 		while (!VT->isFull()) {
@@ -403,12 +409,11 @@ void Company::AssignVIPTruck(int T) {
 			if (!C) break;
 			VT->AddCargo(C);
 		}
-		VIPEmptyTrucks.dequeue(VT);
 		LoadingTrucks.enqueue(VT);
 }
 void Company::AssignNormalTruck(int T) {
 		Cargo* C = nullptr;
-		NormalTruck* NT = nullptr;
+		Truck* NT = nullptr;
 		if (NormalEmptyTrucks.GetCount() == 0) return;
 		NormalEmptyTrucks.dequeue(NT);
 		while (NT&&!NT->isFull()) {
@@ -419,12 +424,11 @@ void Company::AssignNormalTruck(int T) {
 			if (!C) break;
 			NT->AddCargo(C);
 		}
-		NormalEmptyTrucks.dequeue(NT);
 		LoadingTrucks.enqueue(NT);
 }
 void Company::AssignSpecialTruck(int T) {
 	Cargo* C = nullptr;
-	SpecialTruck* ST;
+	Truck* ST;
 	if (SpecialEmptyTrucks.GetCount() == 0) return;
 	SpecialEmptyTrucks.dequeue(ST);
 	while (!ST->isFull()) {
@@ -435,7 +439,6 @@ void Company::AssignSpecialTruck(int T) {
 		if (!C) break;
 		ST->AddCargo(C);
 	}
-	SpecialEmptyTrucks.dequeue(ST);
 	LoadingTrucks.enqueue(ST);
 }
 void Company::AssignExceeded() {
@@ -443,25 +446,31 @@ void Company::AssignExceeded() {
 	if (VCargosExceededMaxW.GetCount() > 0) {
 		if (VIPEmptyTrucks.GetCount() > 0) {
 			AssignVIPTruck(2);
+			cout << "Assign Ex\n";
 		}
 		else if (NormalEmptyTrucks.GetCount() > 0) {
 			AssignNormalTruck(2);
+			cout << "Assign Ex\n";
 		}
 		else if (SpecialEmptyTrucks.GetCount() > 0) {
 			AssignSpecialTruck(2);
+			cout << "Assign Ex\n";
 		}
 	}
 	if (SCargosExceededMaxW.GetCount() > 0) {
 		if (SpecialEmptyTrucks.GetCount() > 0) {
 			AssignSpecialTruck(3);
+			cout << "Assign Ex\n";
 		}
 	}
 	if (NCargosExceededMaxW.GetCount() > 0) {
 		if (NormalEmptyTrucks.GetCount() > 0) {
 			AssignNormalTruck(3);
+			cout << "Assign Ex\n";
 		}
 		else if (VIPEmptyTrucks.GetCount() > 0) {
 			AssignVIPTruck(3);
+			cout << "Assign Ex\n";
 		}
 	}
 }

@@ -34,3 +34,6 @@ bool Truck::isFull() {
 void Truck::setSpeed(double s) {
 	if(s>0)Speed = s;
 }
+void Truck::Print(UIClass * UI) {
+	TruckCargos->PrintQ(UI);
+}

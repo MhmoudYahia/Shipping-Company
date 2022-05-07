@@ -6,6 +6,5 @@ class SpecialTruck :
 public:
 
 	SpecialTruck(int ID, int TC, int TS);
-	void Print(UIClass* p);
 };
 

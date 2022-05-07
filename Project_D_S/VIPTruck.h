@@ -5,6 +5,5 @@ class VIPTruck :
 {
 public:
     VIPTruck(int ID, int TC, int TS);
-    void Print(UIClass* p);
 };
 
