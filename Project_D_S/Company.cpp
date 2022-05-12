@@ -105,9 +105,15 @@ void Company::checkforAutop() {
 	{
 		
 		if (cptr->GetWaitingHours() > AutoP) {
-			PromotionEvent* pro = new PromotionEvent(cptr->getPT(),cptr->GetID(),0,this);
-			pro->Execute();
-			delete pro;
+			if (cptr) {
+				VIPCargo* temp = new VIPCargo();
+				temp->SetCost(cptr->getCost());
+				temp->SetDdes(cptr->getDis());
+				temp->SetID(cptr->GetID());
+				temp->SetLT(cptr->getLT());
+				temp->setPT(cptr->getPT().getDAY(), cptr->getPT().gethour());
+				AddCargotoVIPWaiting(temp);
+			}
 		}
 		else q.enqueue(cptr);
 		
