@@ -114,9 +114,11 @@ void UIClass::PrintWaitingCargos(Company* Cptr) {
 	
 }
 
-void UIClass::PrintMovingCargos(Queue<Cargo*> qMc)//phase 2
-{
 
+void UIClass::PrintMovingCargos(Company* Cptr)
+{
+	cout <<Cptr->GetnumMoving()<< " MovingCargos: ";
+	Cptr->PrintMoving(this);
 }
 void UIClass::Printcomma() {
 	cout << ',';
@@ -129,10 +131,18 @@ void UIClass::PrintDeliveredCargo(Company*Cptr) //
 	Cptr->printDeliveredSP(this);
 	Cptr->printDeliveredVIP(this);
 }
+void UIClass::PrintIn_CheckupTrucks(Company*C)
+{
+	cout << C->GetCountTRUCKSincheckup() << " IncheckupTrucks: ";
+	C->PrintNInCheckupTRKs(this);
+	C->PrintSInCheckupTRKs(this);
+	C->PrintVInCheckupTRKs(this);
+}
 void UIClass::PrintEmptytrucks(Company* pC)
 {
 	cout << pC->GetNumOfEmptyTrcs() << " Empty Trucks: ";
 	pC->printEmptyTrucks(this);
+
 }
 //void UIClass::printWaitingCargos(PriorityQueue<Cargo*> qWc)
 //{
@@ -242,54 +252,6 @@ void UIClass::PrintEmptytrucks(Company* pC)
 //}
 
 
-void UIClass::PrintIn_CheckupTrucks(Queue<Truck*> qCt)
-{
-	cout << qCt.GetCount() << " In_CheckupTrucks: ";
-	//	Queue<Truck*>tempQ{};
-	Queue<Truck*>vipQ;
-	Queue<Truck*>spQ;
-	Queue<Truck*>nrmQ;
-	Truck* Cptr;
-	while (!qCt.isEmpty()) {
-		qCt.dequeue(Cptr);
-		//	tempQ.enqueue(Cptr);
-		if (dynamic_cast<NormalTruck*>(Cptr)) {
-			nrmQ.enqueue(Cptr);
-		}
-		if (dynamic_cast<VIPTruck*>(Cptr)) {
-			vipQ.enqueue(Cptr);
-		}
-		if (dynamic_cast<SpecialTruck*>(Cptr)) {
-			spQ.enqueue(Cptr);
-		}
-	}
-	//return origin qDl
-	/*while (tempQ.dequeue(Cptr))
-		qCt->enqueue(Cptr);*/
-		//printing normal
-	if (nrmQ.GetCount() > 0)
-	{
-		cout << '[';
-		nrmQ.PrintQ(this);
-		//PrintQ(nrmQ);
-		cout << "] ";
-	}
-	//printing special
-	if (spQ.GetCount()>0) {
-		cout << '(';
-		spQ.PrintQ(this);
-	//	PrintQ(spQ);
-		cout << ") ";
-	}
-
-	//printing vip
-	if (vipQ.GetCount() > 0) {
-		cout << '{';
-		vipQ.PrintQ(this);
-		//PrintQ(vipQ);
-		cout << "} ";
-	}
-}
 
 
 
@@ -375,4 +337,54 @@ void UIClass::PrintLoadingTrucks(Queue<Truck*> qLt)
 //	}
 //	if (Cptr.dequeue(C));
 //	Print(C);
+// void UIClass::PrintIn_CheckupTrucks(Queue<Truck*> qCt)
+/*
+{
+	cout << qCt.GetCount() << " In_CheckupTrucks: ";
+	//	Queue<Truck*>tempQ{};
+	Queue<Truck*>vipQ;
+	Queue<Truck*>spQ;
+	Queue<Truck*>nrmQ;
+	Truck* Cptr;
+	while (!qCt.isEmpty()) {
+		qCt.dequeue(Cptr);
+		//	tempQ.enqueue(Cptr);
+		if (dynamic_cast<NormalTruck*>(Cptr)) {
+			nrmQ.enqueue(Cptr);
+		}
+		if (dynamic_cast<VIPTruck*>(Cptr)) {
+			vipQ.enqueue(Cptr);
+		}
+		if (dynamic_cast<SpecialTruck*>(Cptr)) {
+			spQ.enqueue(Cptr);
+		}
+	}
+	//return origin qDl
+	/*while (tempQ.dequeue(Cptr))
+		qCt->enqueue(Cptr);*/
+//		//printing normal
+//	if (nrmQ.GetCount() > 0)
+//	{
+//		cout << '[';
+//		nrmQ.PrintQ(this);
+//		//PrintQ(nrmQ);
+//		cout << "] ";
+//	}
+//	//printing special
+//	if (spQ.GetCount() > 0) {
+//		cout << '(';
+//		spQ.PrintQ(this);
+//		//	PrintQ(spQ);
+//		cout << ") ";
+//	}
+//
+//	//printing vip
+//	if (vipQ.GetCount() > 0) {
+//		cout << '{';
+//		vipQ.PrintQ(this);
+//		//PrintQ(vipQ);
+//		cout << "} ";
+//	}
 //}
+//*/
+////}

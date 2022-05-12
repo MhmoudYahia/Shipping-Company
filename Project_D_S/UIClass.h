@@ -36,10 +36,10 @@ public:
 	void PrintWaitingCargos(Company* Cptr);
 	//printing Cargos and Trucks Categories
 //	void printWaitingCargos(PriorityQueue<Cargo*> qWc);
-	void PrintMovingCargos(Queue<Cargo*> qMc);
+	void PrintMovingCargos(Company*Cptr);
 	void Printcomma();
 	void PrintDeliveredCargo(Company* Cptr);
-	void PrintIn_CheckupTrucks(Queue<Truck*> qCt);
+	void PrintIn_CheckupTrucks(Company* C);
 	void PrintEmptytrucks(Company* pC);
 	void PrintLoadingTrucks(Queue<Truck*>);
 	void PrintSilentMode();

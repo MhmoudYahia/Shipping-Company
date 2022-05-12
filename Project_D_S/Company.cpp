@@ -77,9 +77,9 @@ void Company::PrintConsole() {
 	pUI->PrintLine();
 	pUI->PrintEmptytrucks(this);
 	pUI->PrintLine();
-	//pUI->PrintMovingCargos(this->MovingCargos);
+	pUI->PrintMovingCargos(this);
 	pUI->PrintLine();
-	//pUI->PrintIn_CheckupTrucks(this->InCheckupTrucks);
+	pUI->PrintIn_CheckupTrucks(this);
 	pUI->PrintLine();
 	pUI->PrintDeliveredCargo(this);
 	pUI->PrintLine();
@@ -315,7 +315,61 @@ void Company::printWaitingSP(UIClass* pUI) {
 		pUI->closebraceforSP();
 	}
 }
-
+int Company::GetnumMoving() {
+	return  MovingTrucks.GetCount();
+}
+void Company::PrintMoving(UIClass* pUI) {
+	Queue<Truck*>q;
+	Truck* tptr;
+	while (MovingTrucks.dequeue(tptr)) {
+		q.enqueue(tptr);
+		pUI->Print(tptr);
+		if (dynamic_cast<VIPTruck*>(tptr))
+		{
+			pUI->openbraceforVIP();
+			tptr->Print(pUI);
+			pUI->closebraceforVIP();
+		}
+		else if (dynamic_cast<NormalTruck*>(tptr))
+		{
+			pUI->openbraceforNormal();
+			tptr->Print(pUI);
+			pUI->closebraceforNormal();
+		}
+		else if (dynamic_cast<SpecialTruck*>(tptr))
+		{
+			pUI->openbraceforSP();
+			tptr->Print(pUI);
+			pUI->closebraceforSP();
+		}
+	}
+	//while(q.dequeue(tptr))
+		//MovingTrucks.enqueue(tptr,)   waiting for priority
+}
+void Company::PrintNInCheckupTRKs(UIClass* pUI) {
+	if (NInCheckupTrucks.GetCount() > 0) {
+		pUI->openbraceforNormal();
+		NInCheckupTrucks.PrintQ(pUI);
+		pUI->closebraceforNormal();
+	}
+}
+void Company::PrintSInCheckupTRKs(UIClass* pUI) {
+	if (SInCheckupTrucks.GetCount() > 0) {
+		pUI->openbraceforSP();
+		SInCheckupTrucks.PrintQ(pUI);
+		pUI->closebraceforSP();
+	}
+}
+void Company::PrintVInCheckupTRKs(UIClass* pUI) {
+	if (VInCheckupTrucks.GetCount() > 0) {
+		pUI->openbraceforVIP();
+		VInCheckupTrucks.PrintQ(pUI);
+		pUI->closebraceforVIP();
+	}
+}
+int Company::GetCountTRUCKSincheckup() {
+	return NInCheckupTrucks.GetCount() + SInCheckupTrucks.GetCount() + VInCheckupTrucks.GetCount();
+}
 int Company::Getcountall_waiting() {
 	return WaitingVIPCargos.GetCount() + WaitingNormalCargos.GetCount() + WaitingSpecialCargos.GetCount();
 }

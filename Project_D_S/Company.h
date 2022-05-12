@@ -76,7 +76,7 @@ class Company
 	Queue<Cargo*>DeliveredVIPCargo;//
 
 	//Events
-	PriorityQueue<Event*> EventsPQ;
+	PriorityQueue<Event*> EventsPQ;   //need editing
 	
 	
 	Time CurrentTime;
@@ -113,6 +113,12 @@ public:
 	void printWaitingVIP(UIClass *);
 	void printWaitingNormal(UIClass* pUI);
 	void printWaitingSP(UIClass* pUI);
+	int GetnumMoving();
+	void PrintMoving(UIClass* pUI);
+	void PrintNInCheckupTRKs(UIClass* pUI);
+	void PrintSInCheckupTRKs(UIClass* pUI);
+	void PrintVInCheckupTRKs(UIClass* pUI);
+	int GetCountTRUCKSincheckup();
 	int Getcountall_waiting();
 	int GetnumOfDeliv();
 	void printDeliveredVIP(UIClass* pUI);
