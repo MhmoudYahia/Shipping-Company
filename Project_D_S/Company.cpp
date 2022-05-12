@@ -340,7 +340,7 @@ int Company::GetNumOfEmptyTrcs() {
 }
 void Company::CheckforCargosExceededMaxW() {
 	// Normal Check 
-	Cargo* C;
+	Cargo* C = nullptr;
 	if (WaitingNormalCargos.GetCount() > 0) {
 		C = WaitingNormalCargos.getHead()->getitem();
 		while (C&&C->GetWaitingHours() >= MaxW) {
@@ -354,9 +354,10 @@ void Company::CheckforCargosExceededMaxW() {
 	//Special Check
 	if (WaitingSpecialCargos.GetCount() > 0) {
 		WaitingSpecialCargos.peak(C);
-		while (C->GetWaitingHours() >= MaxW) {
+		while (C&&C->GetWaitingHours() >= MaxW) {
 			WaitingSpecialCargos.dequeue(C);
 			SCargosExceededMaxW.enqueue(C);
+			C = nullptr;
 			WaitingSpecialCargos.peak(C);
 		}
 	}
