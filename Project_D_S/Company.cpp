@@ -363,7 +363,7 @@ void Company::CheckforCargosExceededMaxW() {
 	//VIP check 
 	if (WaitingVIPCargos.GetCount() > 0) {
 		WaitingVIPCargos.peak(C);
-		while (C->GetWaitingHours() >= MaxW) {
+		while (WaitingVIPCargos.GetCount()>0&&C->GetWaitingHours() >= MaxW) {
 			WaitingVIPCargos.dequeue(C);
 			VCargosExceededMaxW.enqueue(C);
 			WaitingVIPCargos.peak(C);
