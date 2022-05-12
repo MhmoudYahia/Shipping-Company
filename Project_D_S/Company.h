@@ -58,6 +58,7 @@ class Company
 	Queue<Truck*>SpecialTrucks;
 	Queue<Truck*>VIPTrucks;
 
+	PriorityQueue<Truck* > MovingTrucks;
 	//=================================
 	//Cargos Waiting   
 	List<Cargo*>WaitingNormalCargos;
