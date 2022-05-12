@@ -69,10 +69,10 @@ class Company
 	Queue<Cargo* > VCargosExceededMaxW;
 
 
-	//Cargos delivered 
-	Queue<Cargo*>DeliveredNormalCargo;
-	Queue<Cargo*>DeliveredSpCargo;
-	Queue<Cargo*>DeliveredVIPCargo;
+	//Cargos delivered /////////////////
+	Queue<Cargo*>DeliveredNormalCargo;//will make them one q later
+	Queue<Cargo*>DeliveredSpCargo;//
+	Queue<Cargo*>DeliveredVIPCargo;//
 
 	//Events
 	PriorityQueue<Event*> EventsPQ;
@@ -85,6 +85,7 @@ class Company
 	void StepbyStepSimulation();
 	void PrintConsole();
 	void InteractiveSimulation();
+	void checkforAutop();
 	void incrementWHs();
 public:
 	Company();

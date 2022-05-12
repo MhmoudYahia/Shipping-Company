@@ -121,7 +121,7 @@ void UIClass::PrintMovingCargos(Queue<Cargo*> qMc)//phase 2
 void UIClass::Printcomma() {
 	cout << ',';
 }
-void UIClass::PrintDeliveredCargo(Company*Cptr)
+void UIClass::PrintDeliveredCargo(Company*Cptr) // 
 {
 	cout << Cptr->GetnumOfDeliv() << " Delivered Cargo: ";
 
