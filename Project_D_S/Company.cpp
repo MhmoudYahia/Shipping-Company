@@ -91,11 +91,31 @@ void Company::InteractiveSimulation() {
 		LoadCargos();
 		PrintConsole();
 		incrementWHs();
+		checkforAutop();
 		++CurrentTime;
 		pUI->getKey();
 		
 	}
 }
+
+void Company::checkforAutop() {
+	Cargo* cptr;
+	Queue<Cargo*>q;
+	while (WaitingNormalCargos.DeleteFirst(cptr))
+	{
+		
+		if (cptr->GetWaitingHours() > AutoP) {
+			PromotionEvent* pro = new PromotionEvent(cptr->getPT(),cptr->GetID(),0,this);
+			pro->Execute();
+			delete pro;
+		}
+		else q.enqueue(cptr);
+		
+	}
+	while (q.dequeue(cptr))
+		WaitingNormalCargos.InsertEnd(cptr);
+}
+
 void Company::incrementWHs() {
 	WaitingNormalCargos.incrementWH();//List
 	//===
