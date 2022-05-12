@@ -89,9 +89,9 @@ void Company::InteractiveSimulation() {
 	while (cnt++) {
 		ExecuteEvents();
 		LoadCargos();
-		PrintConsole();
 		incrementWHs();
 		checkforAutop();
+		PrintConsole();
 		++CurrentTime;
 		pUI->getKey();
 		
