@@ -59,7 +59,7 @@ class Company
 	Queue<Truck*>VIPTrucks;
 
 	//=================================
-	//Cargos Waiting  //M 
+	//Cargos Waiting   
 	List<Cargo*>WaitingNormalCargos;
 	Queue<Cargo*>WaitingSpecialCargos;
 	PriorityQueue<Cargo*>WaitingVIPCargos;
@@ -69,7 +69,7 @@ class Company
 	Queue<Cargo* > VCargosExceededMaxW;
 
 
-	//Cargos delivered  //M
+	//Cargos delivered 
 	Queue<Cargo*>DeliveredNormalCargo;
 	Queue<Cargo*>DeliveredSpCargo;
 	Queue<Cargo*>DeliveredVIPCargo;

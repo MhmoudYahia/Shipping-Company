@@ -45,15 +45,10 @@ public:
 	void PrintSilentMode();
 	void PrintError(string);
 	void openbraceforNormal();
-
 	void closebraceforNormal();
-
 	void openbraceforVIP();
-
 	void closebraceforVIP();
-
 	void openbraceforSP();
-
 	void closebraceforSP();
 
 
