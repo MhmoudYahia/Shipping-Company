@@ -467,7 +467,6 @@ void Company::AssignNormalTruck(int T) {
 			}
 			if (!C) break;
 			NT->AddCargo(C);
-			C->resetWaitingHours();
 			if (CangoNow) break;
 		}
 		NT->incrementJC();
