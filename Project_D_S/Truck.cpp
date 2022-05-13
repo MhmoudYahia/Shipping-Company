@@ -1,4 +1,5 @@
 #include "Truck.h"
+#include "Company.h"
 
 int Truck::GetID()
 {
@@ -27,7 +28,9 @@ bool Truck::AddCargo(Cargo* C) {
 	CargoCount++;
 	return true;
 }
-
+int Truck::GetCountOFCargosInTRK() {
+	return TruckCargos->GetCount();
+}
 void Truck::set_ActiveTime()
 {
 	this->ActiveTime = this->ActiveTime + ceil(DisofFurthestCargo / Speed) + LoadTimeofAllcargos;

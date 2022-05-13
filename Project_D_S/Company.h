@@ -159,6 +159,7 @@ public:
 	int NormalTrucks_Utilization();		//ismail
 	int SpecialTrucks_Utilization();		//ismail
 	int VIPTrucks_Utilization();		//ismail	
+	
 	//void AddCargotoVIPWaiting(Cargo* C);
 	//void CancellationIDint id);
    //	void PrintDelivered(UIClass* pUI);

@@ -513,28 +513,32 @@ void Company::PrintMoving(UIClass* pUI) {
 	while (MovingTrucks.dequeue(tptr)) {
 		cout << tptr->getTimeforDelivery().getDAY() << ":" << tptr->getTimeforDelivery().gethour()<<" ID:";
 		q.enqueue(tptr);
-		pUI->Print(tptr);
-		if (dynamic_cast<VIPTruck*>(tptr))
-		{
-			pUI->openbraceforVIP();
-			tptr->Print(pUI);
-			pUI->closebraceforVIP();
-		}
-		else if (dynamic_cast<NormalTruck*>(tptr))
-		{
-			pUI->openbraceforNormal();
-			tptr->Print(pUI);
-			pUI->closebraceforNormal();
-		}
-		else if (dynamic_cast<SpecialTruck*>(tptr))
-		{
-			pUI->openbraceforSP();
-			tptr->Print(pUI);
-			pUI->closebraceforSP();
+		if (tptr->GetCountOFCargosInTRK() > 0) {
+			pUI->Print(tptr);
+			if (dynamic_cast<VIPTruck*>(tptr))
+			{
+
+				pUI->openbraceforVIP();
+				tptr->Print(pUI);
+				pUI->closebraceforVIP();
+
+			}
+			else if (dynamic_cast<NormalTruck*>(tptr))
+			{
+				pUI->openbraceforNormal();
+				tptr->Print(pUI);
+				pUI->closebraceforNormal();
+			}
+			else if (dynamic_cast<SpecialTruck*>(tptr))
+			{
+				pUI->openbraceforSP();
+				tptr->Print(pUI);
+				pUI->closebraceforSP();
+			}
 		}
 	}
-	//while(q.dequeue(tptr))
-		//MovingTrucks.enqueue(tptr,)   waiting for priority
+	while (q.dequeue(tptr))
+		MovingTrucks.enqueue(tptr, tptr->getPriority());
 }
 void Company::PrintNInCheckupTRKs(UIClass* pUI) {
 	if (NInCheckupTrucks.GetCount() > 0) {

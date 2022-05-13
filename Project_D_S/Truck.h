@@ -34,6 +34,7 @@ public:
 	//void ChangeState(State S);
 	Truck(int ID , int TC , int TS );
 	bool AddCargo(Cargo* C);
+	int GetCountOFCargosInTRK();
 	void updateDI();
 	int getDI();
 	void incrementJC();
