@@ -137,6 +137,10 @@ public:
 	void AssignVIPTruck(int T); // 0 for VIP Cargos 1 for Normal Cargos 2 for VExceededCargos 3 for NExceededCargos
 	void CreateTrucks(); 
 	void CheckforCheckupTrucks();
+	void CheckforTrucks(); // Check for moving , loading , checkup 
+	void Deliver(Truck*);
+
+								
 	Time AverageWaitingTime_DeliveredNormalCargos();	//ismail
 	Time AverageWaitingTime_DeliveredSpecialCargos();	//ismail
 	Time AverageWaitingTime_DeliveredVIPCargos();	//ismail

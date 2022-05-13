@@ -12,16 +12,20 @@ class Truck
 protected:
 	Time ActiveTime;
 	int ID; 
-	int State;
+	int State; //  0 for rest , 1 for loading , 2 for moving , 3 for checkup 
+	Time TimeforDelivery;
+	Time TimeforReturn;
+	Time TimeforLoading;
 	int TC; //TruckCapacity
 	//State TruckState;
 	int CargoCount;
 	int MaintenanceTime; // In hours
 	double Speed; //In Km/Hour 
 	int JourneyCount;
-	int TimeforGoingwithoutReturning;
+	int HoursforGoingwithoutReturning;
 	int DisofFurthestCargo;
 	int LoadTimeofAllcargos;
+	int Priority;
 	Queue <Cargo* > * TruckCargos;
 	int DI; //Delivery Interval =(Distance of furthest cargo)/ speed + Sum of unload times of all its cargos + time to come back
 
@@ -45,4 +49,16 @@ public:
 	void set_ActiveTime();		//ismail
 	Time get_ActiveTime();		//ismail
 	int	Truck_utilization();
+	int getPriority();
+	void updatePriority();
+	int getHoursleftforDelivery();
+	int getTimeleftforReturn();
+	void decrementHoursleftforDelivery();
+	void decrementTimeleftforReturn();
+	void setTimeforReturn(Time );
+	void setTimeforDelivery(Time);
+	void setTimeforLoading(Time);
+	Time getTimeforDelivery();
+	Time getTimeforReturn();
+	Time getTimeforLoading();
 };
