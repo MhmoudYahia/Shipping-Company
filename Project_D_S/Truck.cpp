@@ -55,15 +55,39 @@ int Truck::getDI() {
 	return DI;
 }
 void Truck::updateDI() {
-	TimeforGoingwithoutReturning = ceil(DisofFurthestCargo / Speed);
-	DI = TimeforGoingwithoutReturning * 2 + LoadTimeofAllcargos ;
+	HoursforGoingwithoutReturning = ceil(DisofFurthestCargo / Speed);
+	DI = HoursforGoingwithoutReturning * 2 + LoadTimeofAllcargos ;
 }
-void Truck::decrementTimeleftforDelivery() {
-	if(TimeforGoingwithoutReturning>0)TimeforGoingwithoutReturning--;
+void Truck::decrementHoursleftforDelivery() {
+	if(HoursforGoingwithoutReturning>0)HoursforGoingwithoutReturning--;
 }
-int Truck::getTimeleftforDelivery() {
-	return TimeforGoingwithoutReturning;
+int Truck::getHoursleftforDelivery() {
+	return HoursforGoingwithoutReturning;
 }
 void Truck::updatePriority() {
 
+}
+int Truck::getTimeleftforReturn() {
+	return DI;
+}
+void Truck::decrementTimeleftforReturn() {
+	if (DI > 0) DI--;
+}
+void Truck::setTimeforDelivery(Time X) {
+	TimeforDelivery = X + HoursforGoingwithoutReturning;
+}
+void Truck::setTimeforReturn(Time X) {
+	TimeforReturn = X + DI;
+}
+void Truck::setTimeforLoading(Time X) {
+	TimeforLoading = X + LoadTimeofAllcargos; 
+}
+Time Truck::getTimeforDelivery() {
+	return TimeforDelivery;
+}
+Time Truck::getTimeforReturn() {
+	return TimeforReturn;
+}
+Time Truck::getTimeforLoading() {
+	return TimeforLoading;
 }

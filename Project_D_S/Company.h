@@ -136,6 +136,9 @@ public:
 	void AssignVIPTruck(int T); // 0 for VIP Cargos 1 for Normal Cargos 2 for VExceededCargos 3 for NExceededCargos
 	void CreateTrucks(); 
 	void CheckforCheckupTrucks();
+	void CheckforTrucks(); // Check for moving , loading , checkup 
+	void Deliver(Truck*);
+
 								
 	//void AddCargotoVIPWaiting(Cargo* C);
 	//void CancellationIDint id);

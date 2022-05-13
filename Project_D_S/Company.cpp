@@ -512,6 +512,9 @@ void Company::AssignVIPTruck(int T) {
 			if (CangoNow) break;
 		}
 		VT->incrementJC();
+		VT->updateDI();
+		VT->setTimeforDelivery(this->CurrentTime );
+		VT->setTimeforReturn(this->CurrentTime);
 		LoadingTrucks.enqueue(VT);
 }
 void Company::AssignNormalTruck(int T) {
@@ -538,6 +541,7 @@ void Company::AssignNormalTruck(int T) {
 			if (CangoNow) break;
 		}
 		NT->incrementJC();
+		NT->updateDI();
 		LoadingTrucks.enqueue(NT);
 }
 void Company::AssignSpecialTruck(int T) {
@@ -559,6 +563,7 @@ void Company::AssignSpecialTruck(int T) {
 		}
 		if (!C) break;
 		ST->AddCargo(C);
+		ST->updateDI();
 		if (CangoNow) break;
 	}
 	ST->incrementJC();
@@ -626,6 +631,41 @@ void Company::CheckforCheckupTrucks() {
 	}
 	while (temp.GetCount() > 0 && temp.dequeue(T))NormalEmptyTrucks.enqueue(T);
 	
+}
+void Company::CheckforTrucks() {
+	Truck* T;
+	Queue<Truck* > temp;
+	while (LoadingTrucks.GetCount() > 0) {
+		LoadingTrucks.dequeue(T);
+		if (T->getTimeforLoading() == CurrentTime) {
+			MovingTrucks.enqueue(T, 0);
+		}
+		else {
+			temp.enqueue(T);
+		}
+	}
+	while (temp.GetCount() > 0) {
+		temp.dequeue(T);
+		LoadingTrucks.enqueue(T);
+	}
+	while (MovingTrucks.GetCount() > 0) {
+		MovingTrucks.dequeue(T);
+		if (T->getTimeforDelivery() == CurrentTime) {
+			Deliver(T);
+		}
+		else if (T->getTimeforReturn() == CurrentTime) {
+			if (dynamic_cast<NormalTruck*> (T)) NormalEmptyTrucks.enqueue(T);
+			else if (dynamic_cast<SpecialTruck*> (T)) SpecialEmptyTrucks.enqueue(T);
+			else VIPEmptyTrucks.dequeue(T);
+		}
+		else {
+			temp.enqueue(T);
+		}
+	}
+	while (temp.GetCount() > 0) {
+		temp.dequeue(T);
+		MovingTrucks.enqueue(T,0);
+	}
 }
 //
 //void Company::cancellID(int id)

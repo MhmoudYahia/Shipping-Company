@@ -11,14 +11,17 @@ class Truck
 {
 protected:
 	int ID; 
-	int State;
+	int State; //  0 for rest , 1 for loading , 2 for moving , 3 for checkup 
+	Time TimeforDelivery;
+	Time TimeforReturn;
+	Time TimeforLoading;
 	int TC; //TruckCapacity
 	//State TruckState;
 	int CargoCount;
 	int MaintenanceTime; // In hours
 	double Speed; //In Km/Hour 
 	int JourneyCount;
-	int TimeforGoingwithoutReturning;
+	int HoursforGoingwithoutReturning;
 	int DisofFurthestCargo;
 	int LoadTimeofAllcargos;
 	int Priority;
@@ -42,6 +45,14 @@ public:
 	bool isFull();
 	int getPriority();
 	void updatePriority();
-	int getTimeleftforDelivery();
-	void decrementTimeleftforDelivery();
+	int getHoursleftforDelivery();
+	int getTimeleftforReturn();
+	void decrementHoursleftforDelivery();
+	void decrementTimeleftforReturn();
+	void setTimeforReturn(Time );
+	void setTimeforDelivery(Time);
+	void setTimeforLoading(Time);
+	Time getTimeforDelivery();
+	Time getTimeforReturn();
+	Time getTimeforLoading();
 };
