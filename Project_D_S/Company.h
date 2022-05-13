@@ -138,7 +138,7 @@ public:
 	void CreateTrucks(); 
 	void CheckforCheckupTrucks();
 	void CheckforTrucks(); // Check for moving , loading , checkup 
-	void Deliver(Truck*);
+	void Deliver(Truck* &);
 
 								
 	Time AverageWaitingTime_DeliveredNormalCargos();	//ismail

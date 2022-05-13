@@ -61,4 +61,5 @@ public:
 	Time getTimeforDelivery();
 	Time getTimeforReturn();
 	Time getTimeforLoading();
+	void ResetDeliveryTime();
 };

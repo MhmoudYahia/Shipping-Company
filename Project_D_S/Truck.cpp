@@ -67,6 +67,10 @@ void Truck::setSpeed(double s) {
 void Truck::Print(UIClass * UI) {
 	TruckCargos->PrintQ(UI);
 }
+void Truck::ResetDeliveryTime() {
+	TimeforDelivery.setDAY(0);
+	TimeforDelivery.sethour(0);
+}
 void Truck::incrementJC() {
 	JourneyCount++;
 }
@@ -115,4 +119,7 @@ Time Truck::getTimeforReturn() {
 }
 Time Truck::getTimeforLoading() {
 	return TimeforLoading;
+}
+int Truck::getPriority() {
+	return Priority;
 }
