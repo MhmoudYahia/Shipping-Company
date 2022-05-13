@@ -10,6 +10,7 @@ class UIClass;
 class Truck
 {
 protected:
+	Time ActiveTime;
 	int ID; 
 	int State; //  0 for rest , 1 for loading , 2 for moving , 3 for checkup 
 	Time TimeforDelivery;
@@ -43,6 +44,11 @@ public:
 	void setTruckCapacity(int);
 	void setSpeed(double);
 	bool isFull();
+	int getTimeleftforDelivery();
+	void decrementTimeleftforDelivery();
+	void set_ActiveTime();		//ismail
+	Time get_ActiveTime();		//ismail
+	int	Truck_utilization();
 	int getPriority();
 	void updatePriority();
 	int getHoursleftforDelivery();

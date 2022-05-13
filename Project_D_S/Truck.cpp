@@ -14,6 +14,7 @@ Truck::Truck(int ID, int TC, int TS) {
 	DisofFurthestCargo = 0;
 	LoadTimeofAllcargos = 0;
 }
+
 bool Truck::AddCargo(Cargo* C) {
 	if (CargoCount == TC) {
 		return false;
@@ -22,17 +23,39 @@ bool Truck::AddCargo(Cargo* C) {
 	DisofFurthestCargo = max(DisofFurthestCargo, C->getDis());
 	LoadTimeofAllcargos += C->getLT();
 	TruckCargos->enqueue(C);
+	C->set_TrkId(this->GetID());
 	CargoCount++;
 	return true;
 }
+
+void Truck::set_ActiveTime()
+{
+	this->ActiveTime = this->ActiveTime + ceil(DisofFurthestCargo / Speed) + LoadTimeofAllcargos;
+}
+
+Time Truck::get_ActiveTime()
+{
+	return this->ActiveTime;
+}
+
+int Truck::Truck_utilization()
+{
+	if (JourneyCount == 0)
+		return 0;
+	else
+		return (this->CargoCount / (this->TC * this->JourneyCount)*((this->ActiveTime.gethour() + 24 *this->ActiveTime.getDAY()) / /*PUT HERE total Simulation time YA AHMED ^ _ ^ /*/));
+}
+
 bool Truck::RemoveCargo(Cargo* C) {
 	if (CargoCount == 0) return false;
 	TruckCargos->dequeue(C);
 	return true;
 }
+
 //void Truck::Print(UIClass * UI) {
 //	UI->Print(this);
 //}
+
 bool Truck::isFull() {
 	return (CargoCount == TC);
 }
