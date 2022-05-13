@@ -90,7 +90,7 @@ int Truck::getHoursleftforDelivery() {
 	return HoursforGoingwithoutReturning;
 }
 void Truck::updatePriority() {
-
+	Priority = -(TimeforDelivery.getDAY() * 24 + TimeforDelivery.gethour());
 }
 int Truck::getTimeleftforReturn() {
 	return DI;

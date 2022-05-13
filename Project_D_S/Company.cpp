@@ -850,7 +850,7 @@ void Company::CheckforTrucks() {
 		MovingTrucks.dequeue(T);
 		if (T->getTimeforDelivery() == CurrentTime) {
 			Deliver(T);
-			//temp.enqueue(T);
+			temp.enqueue(T);
 		}
 		else if (T->getTimeforReturn() == CurrentTime) {
 			if (dynamic_cast<NormalTruck*> (T)) NormalEmptyTrucks.enqueue(T);
