@@ -42,11 +42,8 @@ public:
 	int getJC();
 	bool RemoveCargo(Cargo* C);
 	virtual void Print(UIClass*p);
-	void setTruckCapacity(int);
 	void setSpeed(double);
 	bool isFull();
-	int getTimeleftforDelivery();
-	void decrementTimeleftforDelivery();
 	void set_ActiveTime();		//ismail
 	Time get_ActiveTime();		//ismail
 	int	Truck_utilization();
