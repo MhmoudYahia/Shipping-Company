@@ -433,15 +433,23 @@ bool Company::AssignNormal() {
 void Company::AssignVIPTruck(int T) {
 		Cargo* C = nullptr;
 		Truck* VT;
+		bool CangoNow = false;
 		if (VIPEmptyTrucks.GetCount() == 0) return;
 		VIPEmptyTrucks.dequeue(VT);
 		while (!VT->isFull()) {
 			if (T == 0&& WaitingVIPCargos.GetCount()>0)WaitingVIPCargos.dequeue(C);
 			else if(T==1 && WaitingNormalCargos.GetCount() > 0) WaitingNormalCargos.DeleteFirst(C);
-			else if (T == 2&& VCargosExceededMaxW.GetCount()>0)VCargosExceededMaxW.dequeue(C);
-			else if (T == 3&&SCargosExceededMaxW.GetCount()>0)SCargosExceededMaxW.dequeue(C);
+			else if (T == 2 && VCargosExceededMaxW.GetCount() > 0) {
+				VCargosExceededMaxW.dequeue(C);
+				if (VCargosExceededMaxW.GetCount() == 0)CangoNow = true;
+			}
+			else if (T == 3 && SCargosExceededMaxW.GetCount() > 0) {
+				SCargosExceededMaxW.dequeue(C);
+				if (SCargosExceededMaxW.GetCount() == 0) CangoNow = true;
+			}
 			if (!C) break;
 			VT->AddCargo(C);
+			if (CangoNow) break;
 		}
 		VT->incrementJC();
 		LoadingTrucks.enqueue(VT);
@@ -475,15 +483,23 @@ void Company::AssignNormalTruck(int T) {
 void Company::AssignSpecialTruck(int T) {
 	Cargo* C = nullptr;
 	Truck* ST;
+	bool CangoNow = false;
 	if (SpecialEmptyTrucks.GetCount() == 0) return;
 	SpecialEmptyTrucks.dequeue(ST);
 	while (!ST->isFull()) {
 		if (T == 0&&WaitingVIPCargos.GetCount()>0) WaitingVIPCargos.dequeue(C);
 		else if (T == 1&&WaitingSpecialCargos.GetCount()>0)WaitingSpecialCargos.dequeue(C);
-		else if (T == 2&&VCargosExceededMaxW.GetCount()>0)VCargosExceededMaxW.dequeue(C);
-		else if (T == 3&&SCargosExceededMaxW.GetCount()>0)SCargosExceededMaxW.dequeue(C);
+		else if (T == 2 && VCargosExceededMaxW.GetCount() > 0) {
+			VCargosExceededMaxW.dequeue(C);
+			if (VCargosExceededMaxW.GetCount() == 0)CangoNow = true;
+		}
+		else if (T == 3 && SCargosExceededMaxW.GetCount() > 0) {
+			SCargosExceededMaxW.dequeue(C);
+			if (SCargosExceededMaxW.GetCount() == 0) CangoNow = true;
+		}
 		if (!C) break;
 		ST->AddCargo(C);
+		if (CangoNow) break;
 	}
 	ST->incrementJC();
 	LoadingTrucks.enqueue(ST);

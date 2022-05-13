@@ -21,6 +21,7 @@ protected:
 	int TimeforGoingwithoutReturning;
 	int DisofFurthestCargo;
 	int LoadTimeofAllcargos;
+	int Priority;
 	Queue <Cargo* > * TruckCargos;
 	int DI; //Delivery Interval =(Distance of furthest cargo)/ speed + Sum of unload times of all its cargos + time to come back
 
@@ -39,6 +40,8 @@ public:
 	void setTruckCapacity(int);
 	void setSpeed(double);
 	bool isFull();
+	int getPriority();
+	void updatePriority();
 	int getTimeleftforDelivery();
 	void decrementTimeleftforDelivery();
 };

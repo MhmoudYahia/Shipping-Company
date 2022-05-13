@@ -64,3 +64,6 @@ void Truck::decrementTimeleftforDelivery() {
 int Truck::getTimeleftforDelivery() {
 	return TimeforGoingwithoutReturning;
 }
+void Truck::updatePriority() {
+
+}
