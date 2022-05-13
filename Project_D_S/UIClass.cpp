@@ -262,6 +262,7 @@ void UIClass::PrintLoadingTrucks(Queue<Truck*> qLt)
 //	Queue<Truck*>tempQ;
 	Truck* Cptr;
 	while (qLt.dequeue(Cptr)) {
+		cout << Cptr->getDI() << ":" << Cptr->getTimeforLoading().getDAY() << ":" << Cptr->getTimeforLoading().gethour() <<" ";
 		//tempQ.enqueue(Cptr);
 		if (dynamic_cast<NormalTruck*>(Cptr)) {
 			cout << Cptr->GetID() << "[";
