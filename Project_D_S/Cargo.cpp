@@ -26,7 +26,14 @@ int Cargo::GetTid()
 {
 	return TrkId;
 }
-
+void Cargo::set_TrkId(int i)
+{
+	this->TrkId = (i > 0) ? i : 0;
+}
+int Cargo::get_TrkId()
+{
+	return this->TrkId;
+}
 void Cargo::SetTid(int i)
 {
 	this->TrkId = i;

@@ -19,6 +19,8 @@ public:
 	Cargo() ;  // will come back
 	Cargo(int cost, int LT, int DIS, int ID, int H, int D);
 	int GetTid();
+	void set_TrkId(int i);
+	int get_TrkId();
 	void SetTid(int i);
 	//void ChangeState(State c);
 	//State GetState();

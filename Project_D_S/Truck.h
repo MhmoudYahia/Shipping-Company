@@ -10,6 +10,7 @@ class UIClass;
 class Truck
 {
 protected:
+	Time ActiveTime;
 	int ID; 
 	int State;
 	int TC; //TruckCapacity
@@ -41,4 +42,7 @@ public:
 	bool isFull();
 	int getTimeleftforDelivery();
 	void decrementTimeleftforDelivery();
+	void set_ActiveTime();		//ismail
+	Time get_ActiveTime();		//ismail
+	int	Truck_utilization();
 };
