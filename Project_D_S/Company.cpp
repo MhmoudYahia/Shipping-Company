@@ -511,6 +511,7 @@ void Company::PrintMoving(UIClass* pUI) {
 	Queue<Truck*>q;
 	Truck* tptr;
 	while (MovingTrucks.dequeue(tptr)) {
+		cout << tptr->getTimeforDelivery().getDAY() << ":" << tptr->getTimeforDelivery().gethour()<<" ID:";
 		q.enqueue(tptr);
 		pUI->Print(tptr);
 		if (dynamic_cast<VIPTruck*>(tptr))
@@ -864,8 +865,14 @@ void Company::CheckforTrucks() {
 		MovingTrucks.enqueue(T,0);
 	}
 }
-void Company::Deliver(Truck*) {
-
+void Company::Deliver(Truck* T) {
+	Cargo* C = nullptr;
+	while (T->RemoveCargo(C)&&C) {
+		if (dynamic_cast<VIPCargo*>(C)) DeliveredVIPCargo.enqueue(C);
+		else if (dynamic_cast<NormalCargo*>(C)) DeliveredNormalCargo.enqueue(C);
+		else DeliveredSpCargo.enqueue(C);
+		C = nullptr;
+	}
 }
 //
 //void Company::cancellID(int id)

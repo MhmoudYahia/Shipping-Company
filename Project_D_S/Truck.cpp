@@ -48,6 +48,7 @@ int Truck::Truck_utilization()
 }
 
 bool Truck::RemoveCargo(Cargo* C) {
+	C = nullptr;
 	if (CargoCount == 0) return false;
 	TruckCargos->dequeue(C);
 	return true;
