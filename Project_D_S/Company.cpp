@@ -656,7 +656,7 @@ void Company::CheckforTrucks() {
 		else if (T->getTimeforReturn() == CurrentTime) {
 			if (dynamic_cast<NormalTruck*> (T)) NormalEmptyTrucks.enqueue(T);
 			else if (dynamic_cast<SpecialTruck*> (T)) SpecialEmptyTrucks.enqueue(T);
-			else VIPEmptyTrucks.dequeue(T);
+			else VIPEmptyTrucks.enqueue(T);
 		}
 		else {
 			temp.enqueue(T);
