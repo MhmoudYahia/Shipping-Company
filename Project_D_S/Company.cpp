@@ -511,7 +511,9 @@ void Company::PrintMoving(UIClass* pUI) {
 	Queue<Truck*>q;
 	Truck* tptr;
 	while (MovingTrucks.dequeue(tptr)) {
-		cout << tptr->getTimeforDelivery().getDAY() << ":" << tptr->getTimeforDelivery().gethour()<<" ID:";
+		cout << tptr->getTimeforDelivery().getDAY() << ":" << tptr->getTimeforDelivery().gethour();
+		cout << tptr->getTimeforReturn().getDAY() << ":" << tptr->getTimeforReturn().gethour();
+		cout << " ";
 		q.enqueue(tptr);
 		if (tptr->GetCountOFCargosInTRK() > 0) {
 			pUI->Print(tptr);
@@ -839,38 +841,47 @@ void Company::CheckforTrucks() {
 	while (LoadingTrucks.GetCount() > 0) {
 		LoadingTrucks.dequeue(T);
 		if (T->getTimeforLoading() == CurrentTime) {
-			MovingTrucks.enqueue(T, 0);
+			T->updatePriority();
+			MovingTrucks.enqueue(T, T->getPriority());
 		}
 		else {
 			temp.enqueue(T);
 		}
-		T = nullptr;
 	}
 	while (temp.GetCount() > 0) {
 		temp.dequeue(T);
 		LoadingTrucks.enqueue(T);
 	}
+	Queue<Truck* > temp2;
 	while (MovingTrucks.GetCount() > 0) {
 		MovingTrucks.dequeue(T);
+		cout << T->getTimeforReturn().getDAY() << ":" << T->getTimeforReturn().gethour() << endl;
 		if (T->getTimeforDelivery() == CurrentTime) {
-			Deliver(T);
-			temp.enqueue(T);
+			temp2.enqueue(T);
+			cout << "KK" << endl;
+			//Deliver(T);
+			T->ResetDeliveryTime();
 		}
 		else if (T->getTimeforReturn() == CurrentTime) {
+			cout << "K" << endl;
 			if (dynamic_cast<NormalTruck*> (T)) NormalEmptyTrucks.enqueue(T);
 			else if (dynamic_cast<SpecialTruck*> (T)) SpecialEmptyTrucks.enqueue(T);
 			else VIPEmptyTrucks.enqueue(T);
 		}
 		else {
-			temp.enqueue(T);
+			cout << "KKK" << endl;
+			temp2.enqueue(T);
 		}
+		cout << T->getTimeforReturn().getDAY() << ":" << T->getTimeforReturn().gethour() << endl;
 	}
-	while (temp.GetCount() > 0) {
-		temp.dequeue(T);
+	while (temp2.GetCount() > 0) {
+		temp2.dequeue(T);
 		MovingTrucks.enqueue(T,0);
 	}
+	cout << MovingTrucks.GetCount() << endl;
+
 }
-void Company::Deliver(Truck* T) {
+void Company::Deliver(Truck * &T) {
 	Cargo* C = nullptr;
 	while (T->RemoveCargo(C)&&C) {
 		if (dynamic_cast<VIPCargo*>(C)) DeliveredVIPCargo.enqueue(C);
@@ -878,6 +889,7 @@ void Company::Deliver(Truck* T) {
 		else DeliveredSpCargo.enqueue(C);
 		C = nullptr;
 	}
+	MovingTrucks.enqueue(T,0);
 }
 //
 //void Company::cancellID(int id)
