@@ -127,9 +127,8 @@ void UIClass::PrintDeliveredCargo(Company*Cptr) //
 {
 	cout << Cptr->GetnumOfDeliv() << " Delivered Cargo: ";
 
-	Cptr->printDeliveredNormal(this);
-	Cptr->printDeliveredSP(this);
-	Cptr->printDeliveredVIP(this);
+	Cptr->printDelivered(this);
+	
 }
 void UIClass::PrintIn_CheckupTrucks(Company*C)
 {

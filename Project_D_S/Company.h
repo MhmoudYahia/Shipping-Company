@@ -72,12 +72,12 @@ class Company
 
 
 	//Cargos delivered /////////////////
-	Queue<Cargo*>DeliveredNormalCargo;//will make them one q later
-	Queue<Cargo*>DeliveredSpCargo;//
-	Queue<Cargo*>DeliveredVIPCargo;//
+	Queue<Cargo*>DeliveredCargos;//will make them one q later
+	//Queue<Cargo*>DeliveredSpCargo;//
+	//Queue<Cargo*>DeliveredVIPCargo;//
 
 	//Events
-	PriorityQueue<Event*> EventsPQ;   //need editing
+	Queue<Event*> EventsPQ;   //need editing
 	
 	
 	Time CurrentTime;
@@ -104,6 +104,7 @@ public:
 	void Loading_File();
 	void GeneralSimulate();
 	void OutputFile();
+	Time AverageWaitingTime();
 	void ExecuteEvents();
 	void AddCargotoVIPWaiting(VIPCargo* C);
 	void AddCargotoNormalWaiting(Cargo* n);
@@ -122,9 +123,10 @@ public:
 	int GetCountTRUCKSincheckup();
 	int Getcountall_waiting();
 	int GetnumOfDeliv();
-	void printDeliveredVIP(UIClass* pUI);
-	void printDeliveredNormal(UIClass* pUI);
-	void printDeliveredSP(UIClass* pUI);
+	void printDelivered(UIClass* pUI);
+	//void printDeliveredVIP(UIClass* pUI);
+	//void printDeliveredNormal(UIClass* pUI);
+	//void printDeliveredSP(UIClass* pUI);
 	void printEmptyTrucks(UIClass* pUI);
 	int GetNumOfEmptyTrcs();
 	void CheckforCargosExceededMaxW();
@@ -141,9 +143,9 @@ public:
 	void Deliver(Truck* &);
 
 								
-	Time AverageWaitingTime_DeliveredNormalCargos();	//ismail
-	Time AverageWaitingTime_DeliveredSpecialCargos();	//ismail
-	Time AverageWaitingTime_DeliveredVIPCargos();	//ismail
+	//Time AverageWaitingTime_DeliveredNormalCargos();	//ismail
+	//Time AverageWaitingTime_DeliveredSpecialCargos();	//ismail
+	//Time AverageWaitingTime_DeliveredVIPCargos();	//ismail
 
 	void set_NumberOfAutoPromotedCargos(int i);		//ismail
 	int get_NumberOfAutoPromotedCargos();		//ismail

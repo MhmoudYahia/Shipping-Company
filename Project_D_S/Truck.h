@@ -28,7 +28,7 @@ protected:
 	int Priority;
 	Queue <Cargo* > * TruckCargos;
 	int DI; //Delivery Interval =(Distance of furthest cargo)/ speed + Sum of unload times of all its cargos + time to come back
-
+	
 public:
 	int GetID();
 	//void ChangeState(State S);
@@ -40,7 +40,7 @@ public:
 	void incrementJC();
 	void resetJC();
 	int getJC();
-	bool RemoveCargo(Cargo* C);
+	bool RemoveCargo(Cargo*& C);
 	virtual void Print(UIClass*p);
 	void setSpeed(double);
 	bool isFull();
@@ -48,6 +48,7 @@ public:
 	Time get_ActiveTime();		//ismail
 	int	Truck_utilization();
 	int getPriority();
+	Cargo* GetFurthestCargo();
 	void updatePriority();
 	int getHoursleftforDelivery();
 	int getTimeleftforReturn();

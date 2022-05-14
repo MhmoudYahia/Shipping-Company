@@ -94,6 +94,7 @@ void Company::InteractiveSimulation() {
 		LoadCargos();
 		incrementWHs();
 		checkforAutop();
+		CheckforTrucks();
 		PrintConsole();
 		++CurrentTime;
 		pUI->getKey();
@@ -169,46 +170,46 @@ void Company::OutputFile() {			//ismail
 
 	//Lfile.close();
 }
-Time Company::AverageWaitingTime_DeliveredNormalCargos()
+Time Company::AverageWaitingTime()
 {
 	Cargo* cargo;
 	Time time;
 	bool bo;
-	for (int i = 0; i < DeliveredNormalCargo.GetCount(); i++)
+	for (int i = 0; i < DeliveredCargos.GetCount(); i++)
 	{
-		bo = DeliveredNormalCargo.dequeue(cargo);
+		bo = DeliveredCargos.dequeue(cargo);
 		time = time + cargo->GetWaitingHours();
-		bo = DeliveredNormalCargo.enqueue(cargo);
+		bo = DeliveredCargos.enqueue(cargo);
 	}
 
 	return time;
 }
-Time Company::AverageWaitingTime_DeliveredSpecialCargos()
-{
-	Cargo* cargo;
-	Time time;
-	bool bo;
-	for (int i = 0; i < DeliveredSpCargo.GetCount(); i++)
-	{
-		bo = DeliveredSpCargo.dequeue(cargo);
-		time = time + cargo->GetWaitingHours();
-		bo = DeliveredSpCargo.enqueue(cargo);
-	}
-	return time;
-}
-Time Company::AverageWaitingTime_DeliveredVIPCargos()
-{
-	Cargo* cargo;
-	Time time;
-	bool bo;
-	for (int i = 0; i < DeliveredVIPCargo.GetCount(); i++)
-	{
-		bo = DeliveredVIPCargo.dequeue(cargo);
-		time = time + cargo->GetWaitingHours();
-		bo = DeliveredVIPCargo.enqueue(cargo);
-	}
-	return time;
-}
+//Time Company::AverageWaitingTime_DeliveredSpecialCargos()
+//{
+//	Cargo* cargo;
+//	Time time;
+//	bool bo;
+//	for (int i = 0; i < DeliveredSpCargo.GetCount(); i++)
+//	{
+//		bo = DeliveredSpCargo.dequeue(cargo);
+//		time = time + cargo->GetWaitingHours();
+//		bo = DeliveredSpCargo.enqueue(cargo);
+//	}
+//	return time;
+//}
+//Time Company::AverageWaitingTime_DeliveredVIPCargos()
+//{
+//	Cargo* cargo;
+//	Time time;
+//	bool bo;
+//	for (int i = 0; i < DeliveredVIPCargo.GetCount(); i++)
+//	{
+//		bo = DeliveredVIPCargo.dequeue(cargo);
+//		time = time + cargo->GetWaitingHours();
+//		bo = DeliveredVIPCargo.enqueue(cargo);
+//	}
+//	return time;
+//}
 void Company::set_NumberOfAutoPromotedCargos(int i)
 {
 	this->NumberOfAutoPromotedCargos = i;
@@ -384,8 +385,8 @@ void Company::Loading_File()
 			Cargo* C;
 			PreparationEvent* PE = new PreparationEvent(TYP, DIST, LT, Cost, ET, ID, this);
 			Event* E = PE;
-			double priority = -((D - 1) * 24 + H);
-			EventsPQ.enqueue(E, priority);
+			//double priority = -((D - 1) * 24 + H);
+			EventsPQ.enqueue(E);
 			break; }
 		case 'X': {
 			int H, D;
@@ -395,8 +396,8 @@ void Company::Loading_File()
 			Time ET(D, H);
 			CancellationEvent* CE = new CancellationEvent(ET, ID, this);
 			Event* E = CE;
-			double priority = -((D - 1) * 24 + H);
-			EventsPQ.enqueue(E, priority);
+		//	double priority = -((D - 1) * 24 + H);
+			EventsPQ.enqueue(E);
 			break;
 		}
 		case 'P': {
@@ -407,9 +408,9 @@ void Company::Loading_File()
 			Lfile >> D >> colon >> H >> ID >> ExtraMoney;
 			Time ET(D, H);
 			PromotionEvent* PRE = new PromotionEvent(ET, ID, ExtraMoney, this );
-			double priority = -((D - 1) * 24 + H);
+		//	double priority = -((D - 1) * 24 + H);
 			Event* E = PRE;
-			EventsPQ.enqueue(E, priority);
+			EventsPQ.enqueue(E);
 			break;
 		}
 		default:
@@ -571,29 +572,47 @@ int Company::Getcountall_waiting() {
 }
 
 int Company::GetnumOfDeliv() {
-	return DeliveredNormalCargo.GetCount()+DeliveredSpCargo.GetCount()+DeliveredVIPCargo.GetCount();
+	return DeliveredCargos.GetCount();
 }
-void Company::printDeliveredVIP(UIClass* pUI) {
-	if (DeliveredVIPCargo.GetCount() > 0) {
-		pUI->openbraceforVIP();
-		DeliveredVIPCargo.PrintQ(pUI);
-		pUI->closebraceforVIP();
+void Company::printDelivered(UIClass* pUI) {
+	Cargo* c;
+	Queue<Cargo*>q;
+	while (DeliveredCargos.GetCount() > 0) {
+		DeliveredCargos.dequeue(c);
+		q.enqueue(c);
+			if (dynamic_cast<VIPCargo*>(c)) {
+				pUI->openbraceforVIP();
+				pUI->Print(c);
+				pUI->closebraceforVIP();
+			}
+			else if(dynamic_cast<NormalCargo*>(c)) {
+				pUI->openbraceforNormal();
+				pUI->Print(c);
+				pUI->closebraceforNormal();
+			}
+			else  {
+				pUI->openbraceforSP();
+				pUI->Print(c);
+				pUI->closebraceforSP();
+			}
 	}
+	while (q.dequeue(c))
+		DeliveredCargos.enqueue(c);
 }
-void Company::printDeliveredNormal(UIClass* pUI) {
-	if (DeliveredNormalCargo.GetCount() > 0) {
-		pUI->openbraceforNormal();
-		DeliveredNormalCargo.PrintQ(pUI);
-		pUI->closebraceforNormal();
-	}
-}
-void Company::printDeliveredSP(UIClass* pUI) {
-	if (DeliveredSpCargo.GetCount() > 0) {
-		pUI->openbraceforSP();
-		DeliveredSpCargo.PrintQ(pUI);
-		pUI->closebraceforSP();
-	}
-}
+//void Company::printDeliveredNormal(UIClass* pUI) {
+//	if (DeliveredNormalCargo.GetCount() > 0) {
+//		pUI->openbraceforNormal();
+//		DeliveredNormalCargo.PrintQ(pUI);
+//		pUI->closebraceforNormal();
+//	}
+//}
+//void Company::printDeliveredSP(UIClass* pUI) {
+//	if (DeliveredSpCargo.GetCount() > 0) {
+//		pUI->openbraceforSP();
+//		DeliveredSpCargo.PrintQ(pUI);
+//		pUI->closebraceforSP();
+//	}
+//}
 void Company::printEmptyTrucks(UIClass* pUI) {
 	if (VIPEmptyTrucks.GetCount() > 0) {
 		pUI->openbraceforVIP();
@@ -848,18 +867,17 @@ void Company::CheckforTrucks() {
 			temp.enqueue(T);
 		}
 	}
-	while (temp.GetCount() > 0) {
-		temp.dequeue(T);
+	while (temp.dequeue(T)) 
 		LoadingTrucks.enqueue(T);
-	}
+	
 	Queue<Truck* > temp2;
 	while (MovingTrucks.GetCount() > 0) {
 		MovingTrucks.dequeue(T);
 		cout << T->getTimeforReturn().getDAY() << ":" << T->getTimeforReturn().gethour() << endl;
 		if (T->getTimeforDelivery() == CurrentTime) {
-			temp2.enqueue(T);
 			cout << "KK" << endl;
-			//Deliver(T);
+			Deliver(T);
+			temp2.enqueue(T);
 			T->ResetDeliveryTime();
 		}
 		else if (T->getTimeforReturn() == CurrentTime) {
@@ -874,6 +892,7 @@ void Company::CheckforTrucks() {
 		}
 		cout << T->getTimeforReturn().getDAY() << ":" << T->getTimeforReturn().gethour() << endl;
 	}
+
 	while (temp2.GetCount() > 0) {
 		temp2.dequeue(T);
 		MovingTrucks.enqueue(T,0);
@@ -881,15 +900,13 @@ void Company::CheckforTrucks() {
 	cout << MovingTrucks.GetCount() << endl;
 
 }
+
 void Company::Deliver(Truck * &T) {
-	Cargo* C = nullptr;
+	Cargo* C;
 	while (T->RemoveCargo(C)&&C) {
-		if (dynamic_cast<VIPCargo*>(C)) DeliveredVIPCargo.enqueue(C);
-		else if (dynamic_cast<NormalCargo*>(C)) DeliveredNormalCargo.enqueue(C);
-		else DeliveredSpCargo.enqueue(C);
-		C = nullptr;
+		DeliveredCargos.enqueue(C);
 	}
-	MovingTrucks.enqueue(T,0);
+	MovingTrucks.enqueue(T,T->getPriority());
 }
 //
 //void Company::cancellID(int id)

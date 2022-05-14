@@ -50,7 +50,7 @@ int Truck::Truck_utilization()
 	//	return (this->CargoCount / (this->TC * this->JourneyCount)*((this->ActiveTime.gethour() + 24 *this->ActiveTime.getDAY()) / /*PUT HERE total Simulation time YA AHMED ^ _ ^ /*/));
 }
 
-bool Truck::RemoveCargo(Cargo* C) {
+bool Truck::RemoveCargo(Cargo* &C) {
 	C = nullptr;
 	if (CargoCount == 0) return false;
 	TruckCargos->dequeue(C);
@@ -125,4 +125,8 @@ Time Truck::getTimeforLoading() {
 }
 int Truck::getPriority() {
 	return Priority;
+}
+Cargo* Truck::GetFurthestCargo() {
+	Queue<Cargo*>q;
+	while()
 }
