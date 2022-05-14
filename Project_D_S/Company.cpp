@@ -317,6 +317,7 @@ int Company::VIPTrucks_Utilization()
 	}
 	return count;
 }
+
 void Company::incrementWHs() {
 	WaitingNormalCargos.incrementWH();//List
 	//===
@@ -505,12 +506,25 @@ void Company::printWaitingSP(UIClass* pUI) {
 		pUI->closebraceforSP();
 	}
 }
-int Company::GetnumMoving() {
-	return  MovingTrucks.GetCount();
+
+int Company::GetnumMoving()
+{
+	int num = 0;
+	Queue<Truck*>q;
+	Truck* t;
+	while (MovingTrucks.dequeue(t)) {
+		q.enqueue(t);
+		num += t->GetnumofCRGS();
+	}
+	while (q.dequeue(t))
+		MovingTrucks.enqueue(t,t->getPriority());
+	return num;
 }
+
 void Company::PrintMoving(UIClass* pUI) {
 	Queue<Truck*>q;
 	Truck* tptr;
+
 	while (MovingTrucks.dequeue(tptr)) {
 		cout << tptr->getTimeforDelivery().getDAY() << ":" << tptr->getTimeforDelivery().gethour();
 		cout << tptr->getTimeforReturn().getDAY() << ":" << tptr->getTimeforReturn().gethour();
@@ -524,7 +538,6 @@ void Company::PrintMoving(UIClass* pUI) {
 				pUI->openbraceforVIP();
 				tptr->Print(pUI);
 				pUI->closebraceforVIP();
-
 			}
 			else if (dynamic_cast<NormalTruck*>(tptr))
 			{
@@ -780,6 +793,7 @@ void Company::AssignSpecialTruck(int T) {
 			SCargosExceededMaxW.dequeue(C);
 			if (SCargosExceededMaxW.GetCount() == 0) CangoNow = true;
 		}
+
 		if (!C) break;
 		ST->AddCargo(C);
 		ST->updateDI();
@@ -895,7 +909,7 @@ void Company::CheckforTrucks() {
 
 	while (temp2.GetCount() > 0) {
 		temp2.dequeue(T);
-		MovingTrucks.enqueue(T,0);
+		MovingTrucks.enqueue(T,T->getPriority());
 	}
 	cout << MovingTrucks.GetCount() << endl;
 
@@ -906,7 +920,7 @@ void Company::Deliver(Truck * &T) {
 	while (T->RemoveCargo(C)&&C) {
 		DeliveredCargos.enqueue(C);
 	}
-	MovingTrucks.enqueue(T,T->getPriority());
+	//MovingTrucks.enqueue(T,T->getPriority());
 }
 //
 //void Company::cancellID(int id)

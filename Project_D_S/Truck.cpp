@@ -70,6 +70,9 @@ void Truck::setSpeed(double s) {
 void Truck::Print(UIClass * UI) {
 	TruckCargos->PrintQ(UI);
 }
+int Truck::GetnumofCRGS() {
+	return TruckCargos->GetCount();
+}
 void Truck::ResetDeliveryTime() {
 	TimeforDelivery.setDAY(0);
 	TimeforDelivery.sethour(0);
@@ -126,7 +129,4 @@ Time Truck::getTimeforLoading() {
 int Truck::getPriority() {
 	return Priority;
 }
-Cargo* Truck::GetFurthestCargo() {
-	Queue<Cargo*>q;
-	while()
-}
+

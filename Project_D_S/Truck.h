@@ -42,6 +42,7 @@ public:
 	int getJC();
 	bool RemoveCargo(Cargo*& C);
 	virtual void Print(UIClass*p);
+	int GetnumofCRGS();
 	void setSpeed(double);
 	bool isFull();
 	void set_ActiveTime();		//ismail
