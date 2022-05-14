@@ -47,7 +47,7 @@ public:
 	bool isFull();
 	void set_ActiveTime();		//ismail
 	Time get_ActiveTime();		//ismail
-	int	Truck_utilization();
+	int	Truck_utilization(int);
 	int getPriority();
 	Cargo* GetFurthestCargo();
 	void updatePriority();
@@ -62,4 +62,6 @@ public:
 	Time getTimeforReturn();
 	Time getTimeforLoading();
 	void ResetDeliveryTime();
+	Queue <Cargo* > getDelivered(Time);
+	void updateCargosDT();
 };

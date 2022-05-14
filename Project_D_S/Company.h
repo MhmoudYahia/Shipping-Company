@@ -35,7 +35,8 @@ class Company
 	int EventCount;
 	int JourneyCount;
 	int TruckCount; 
-	int NumberOfAutoPromotedCargos;		//ismail
+	int NumberOfAutoPromotedCargos;//ismail
+	int TSM; // total simulationTime
 	// Cargos for Display
 	//PriorityQueue<Cargo*> WaitingCargos;
 	//Queue<Cargo*> DeliveredCargos;

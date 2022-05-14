@@ -113,6 +113,18 @@ int Cargo::GetWaitingHours() {
 void Cargo::resetWaitingHours() {
 	WaitingH = 0;
 }
+void Cargo::setDel_T(Time X) {
+	Del_T =  X + delvr_Hours;
+}
+int Cargo::getDel_H() {
+	return delvr_Hours;
+}
+Time Cargo::getDel_T() {
+	return Del_T;
+}
+void Cargo::setDel_H(int s) {
+	delvr_Hours = ceil(delvr_Dis / s);
+}
 Cargo::~Cargo()
 {
 }

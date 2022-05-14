@@ -9,8 +9,10 @@ class Cargo
 protected:
 	//State Cargostate;
 	Time Per_T;
+	Time Del_T;
 	int Load_T;
 	int delvr_Dis;
+	int delvr_Hours;
 	int cost;
 	int WaitingH;
 	int ID;
@@ -38,6 +40,10 @@ public:
 	double getCost();		//ismail
 	double getLT();		//ismail
     Time getPT();		//ismail
+	Time getDel_T();
+	void setDel_T(Time );
+	void setDel_H(int);
+	int getDel_H();
 	~Cargo();
 };
 

@@ -57,7 +57,8 @@ void UIClass::Print(t c)
 template<>
 void UIClass::Print(Cargo*c)
 {
-	cout << c->GetID()<<" WHs: "<<c->GetWaitingHours();
+	int h = c->getDel_T().gethour(); int d = c->getDel_T().getDAY();
+	cout << c->GetID()<<" WHs: "<<c->GetWaitingHours()<<"DT "<<d<<":"<<h;
 }
 template<>
 void UIClass::Print(Truck* t)
