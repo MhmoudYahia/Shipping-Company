@@ -17,6 +17,7 @@ Company::Company()
 	CurrentTime.sethour(1);
 	CurrentTime.setDAY(1);
 	TruckCount = 0;
+	TSM = 0;
 	this->NumberOfAutoPromotedCargos = 0;		//ismail
 }
 
@@ -27,19 +28,6 @@ void Company::LoadCargos() {
 	AssignSpecial();
 	AssignNormal();
 }
-
-//void Company::IncrementHour()
-//{
-//	bool bo;
-//	PromotionEvent* ptr=nullptr;
-//	bo=this->PromotionEvents.peak(ptr);
-//	if(bo)
-//		while (this->getcurtime() <= ptr->getEventTime())
-//		{
-//			
-//			this->setcurtime(this->getcurtime() + 1);
-//		}
-//}
 
 void Company::setcurtime(Time time)
 {
@@ -56,6 +44,7 @@ void Company::StepbyStepSimulation()
 {
 	int cnt = 10;
 	while (cnt++) {
+		TSM++;
 		ExecuteEvents();
 		CheckforTrucks();
 		LoadCargos();
@@ -151,7 +140,7 @@ void Company::OutputFile() {			//ismail
 	//{
 
 	//	bo = DeliveredVIPCargo.dequeue(cargo);
-	//	Lfile << /* CARGO DELIVERED DAY*/<<':'<</* CARGO DELIVERED HOUR*/<<"\t\t" << cargo->GetID() << "\t\t" << cargo->getPT().getDAY() << ':' << cargo->getPT().gethour() << cargo->GetWaitingHours() << "\t\t" << cargo->get_TrkId() << endl;
+	//	Lfile << cargo->getDel_T().getDAY()<<':'<<cargo->getDel_T().gethour()<<"\t\t" << cargo->GetID() << "\t\t" << cargo->getPT().getDAY() << ':' << cargo->getPT().gethour() << cargo->GetWaitingHours() << "\t\t" << cargo->get_TrkId() << endl;
 	//	bo = DeliveredVIPCargo.enqueue(cargo);
 	//}
 
@@ -284,7 +273,7 @@ int Company::NormalTrucks_Utilization()
 	for (int i = 0; i < NormalTrucks.GetCount(); i++)
 	{
 		bo = NormalTrucks.dequeue(truck);
-		count = count + truck->Truck_utilization();
+		count = count + truck->Truck_utilization(TSM);
 		bo = NormalTrucks.enqueue(truck);
 	}
 	return count;
@@ -298,7 +287,7 @@ int Company::SpecialTrucks_Utilization()
 	for (int i = 0; i < SpecialTrucks.GetCount(); i++)
 	{
 		bo = SpecialTrucks.dequeue(truck);
-		count = count + truck->Truck_utilization();
+		count = count + truck->Truck_utilization(TSM);
 		bo = SpecialTrucks.enqueue(truck);
 	}
 	return count;
@@ -312,7 +301,7 @@ int Company::VIPTrucks_Utilization()
 	for (int i = 0; i < VIPTrucks.GetCount(); i++)
 	{
 		bo = VIPTrucks.dequeue(truck);
-		count = count + truck->Truck_utilization();
+		count = count + truck->Truck_utilization(TSM);
 		bo = VIPTrucks.enqueue(truck);
 	}
 	return count;
@@ -723,7 +712,7 @@ void Company::AssignVIPTruck(int T) {
 				if (SCargosExceededMaxW.GetCount() == 0) CangoNow = true;
 			}
 			if (!C) break;
-			VT->AddCargo(C);
+			C->setDel_T(CurrentTime);
 			if (CangoNow) break;
 		}
 		VT->incrementJC();
@@ -731,6 +720,7 @@ void Company::AssignVIPTruck(int T) {
 		VT->setTimeforDelivery(this->CurrentTime );
 		VT->setTimeforReturn(this->CurrentTime);
 		VT->setTimeforLoading(this->CurrentTime);
+		VT->updateCargosDT();
 		LoadingTrucks.enqueue(VT);
 }
 void Company::AssignNormalTruck(int T) {
@@ -761,6 +751,7 @@ void Company::AssignNormalTruck(int T) {
 		NT->setTimeforDelivery(this->CurrentTime);
 		NT->setTimeforReturn(this->CurrentTime);
 		NT->setTimeforLoading(this->CurrentTime);
+		NT->updateCargosDT();
 		LoadingTrucks.enqueue(NT);
 }
 void Company::AssignSpecialTruck(int T) {
@@ -782,13 +773,14 @@ void Company::AssignSpecialTruck(int T) {
 		}
 		if (!C) break;
 		ST->AddCargo(C);
-		ST->updateDI();
-		ST->setTimeforDelivery(this->CurrentTime);
-		ST->setTimeforReturn(this->CurrentTime);
-		ST->setTimeforLoading(this->CurrentTime);
 		if (CangoNow) break;
 	}
 	ST->incrementJC();
+	ST->updateDI();
+	ST->setTimeforDelivery(this->CurrentTime);
+	ST->setTimeforReturn(this->CurrentTime);
+	ST->setTimeforLoading(this->CurrentTime);
+	ST->updateCargosDT();
 	LoadingTrucks.enqueue(ST);
 }
 void Company::AssignExceeded() {
@@ -871,12 +863,16 @@ void Company::CheckforTrucks() {
 		LoadingTrucks.enqueue(T);
 	
 	Queue<Truck* > temp2;
-	while (MovingTrucks.GetCount() > 0) {
-		MovingTrucks.dequeue(T);
+	while (MovingTrucks.dequeue(T)) {
+		Queue<Cargo* > Cargos = T->getDelivered(CurrentTime);
 		cout << T->getTimeforReturn().getDAY() << ":" << T->getTimeforReturn().gethour() << endl;
-		if (T->getTimeforDelivery() == CurrentTime) {
+		if (Cargos.GetCount()>0) {
 			cout << "KK" << endl;
-			Deliver(T);
+			Cargo* C;
+			while (Cargos.GetCount() > 0) {
+				Cargos.dequeue(C);
+				DeliveredCargos.enqueue(C);
+			}
 			temp2.enqueue(T);
 			T->ResetDeliveryTime();
 		}
