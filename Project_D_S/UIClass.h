@@ -43,6 +43,8 @@ public:
 	void PrintEmptytrucks(Company* pC);
 	void PrintLoadingTrucks(Company* c);
 	void PrintSilentMode();
+	void PrintLoadingTrucks(Queue<Truck*>);
+	void PrintSilentMode(Company* Cptr);	//ismail
 	void PrintError(string);
 	void openbraceforNormal();
 	void closebraceforNormal();

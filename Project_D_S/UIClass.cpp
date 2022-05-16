@@ -77,9 +77,10 @@ template<>
 void UIClass::Print(VIPTruck* t) {
 	cout << t->GetID();
 }
-void UIClass::PrintSilentMode()
+void UIClass::PrintSilentMode(Company* Cptr)
 {
 	cout << "SilentMode\n" << "Simulation Starts...\n" << "Simulation ends, Output file created\n";
+	Cptr->OutputFile();
 }
 
 void UIClass::PrintError(string msg) {

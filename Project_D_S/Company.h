@@ -36,6 +36,9 @@ class Company
 	int JourneyCount;
 	int TruckCount; 
 	int NumberOfAutoPromotedCargos;//ismail
+	int N_Cargo_Count;
+	int S_Cargo_Count;
+	int VIP_Cargo_Count;
 	int TSM; // total simulationTime
 	// Cargos for Display
 	//PriorityQueue<Cargo*> WaitingCargos;
@@ -146,9 +149,9 @@ public:
 	void Deliver(Truck* &);
 
 								
-	//Time AverageWaitingTime_DeliveredNormalCargos();	//ismail
-	//Time AverageWaitingTime_DeliveredSpecialCargos();	//ismail
-	//Time AverageWaitingTime_DeliveredVIPCargos();	//ismail
+	Time AverageWaitingTime_DeliveredNormalCargos();	//ismail
+	Time AverageWaitingTime_DeliveredSpecialCargos();	//ismail
+	Time AverageWaitingTime_DeliveredVIPCargos();	//ismail
 
 	void set_NumberOfAutoPromotedCargos(int i);		//ismail
 	int get_NumberOfAutoPromotedCargos();		//ismail
@@ -165,6 +168,11 @@ public:
 	int SpecialTrucks_Utilization();		//ismail
 	int VIPTrucks_Utilization();		//ismail	
 	
+	int Get_JourneyCount();
+	void Calc_Delivered_Cargos_count();
+	int get_N_Cargo_Count();
+	int get_S_Cargo_Count();
+	int get_VIP_Cargo_Count();
 	//void AddCargotoVIPWaiting(Cargo* C);
 	//void CancellationIDint id);
    //	void PrintDelivered(UIClass* pUI);

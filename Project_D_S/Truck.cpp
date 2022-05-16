@@ -163,3 +163,18 @@ void Truck::updateCargosDT() {
 	while (X.dequeue(C)&&C) TruckCargos->enqueue(C);
 }
 
+void Truck::set_putInMaintenanceTime(Time t)
+{
+	this->putInMaintenanceTime.setDAY(t.getDAY());
+	this->putInMaintenanceTime.sethour(t.gethour());
+}
+Time Truck::get_putInMaintenanceTime()
+{
+	return this->putInMaintenanceTime;
+}
+
+int Truck::get_MaintenanceTime()
+{
+	return this->MaintenanceTime;
+}
+
