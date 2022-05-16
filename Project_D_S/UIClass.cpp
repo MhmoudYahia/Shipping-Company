@@ -118,7 +118,7 @@ void UIClass::PrintWaitingCargos(Company* Cptr) {
 
 void UIClass::PrintMovingCargos(Company* Cptr)
 {
-	cout <<Cptr->GetnumMoving()<< " MovingCargos: ";
+	cout <<Cptr->GetnumMoving()<< " Moving Cargos: ";
 	Cptr->PrintMoving(this);
 }
 void UIClass::Printcomma() {
@@ -126,7 +126,7 @@ void UIClass::Printcomma() {
 }
 void UIClass::PrintDeliveredCargo(Company*Cptr) // 
 {
-	cout << Cptr->GetnumOfDeliv() << " Delivered Cargo: ";
+	cout << Cptr->GetnumOfDeliv() << " Delivered Cargos: ";
 
 	Cptr->printDelivered(this);
 	
@@ -143,6 +143,10 @@ void UIClass::PrintEmptytrucks(Company* pC)
 	cout << pC->GetNumOfEmptyTrcs() << " Empty Trucks: ";
 	pC->printEmptyTrucks(this);
 
+}
+void UIClass::PrintLoadingTrucks(Company* c) {
+	cout << c->GetNumOfLaoding() << " Loading Cargos: ";
+	c->PrintLoading(this);
 }
 //void UIClass::printWaitingCargos(PriorityQueue<Cargo*> qWc)
 //{
@@ -256,34 +260,34 @@ void UIClass::PrintEmptytrucks(Company* pC)
 
 
 
-void UIClass::PrintLoadingTrucks(Queue<Truck*> qLt)
-{
-	cout << qLt.GetCount() << " LoadingTrucks: ";
-//	Queue<Truck*>tempQ;
-	Truck* Cptr;
-	while (qLt.dequeue(Cptr)) {
-		cout << Cptr->getDI() << ":" << Cptr->getTimeforLoading().getDAY() << ":" << Cptr->getTimeforLoading().gethour() <<" ";
-		//tempQ.enqueue(Cptr);
-		if (dynamic_cast<NormalTruck*>(Cptr)) {
-			cout << Cptr->GetID() << "[";
-			Cptr->Print(this);
-			cout << "] ";
-		}
-		if (dynamic_cast<VIPTruck*>(Cptr)) {
-			cout << Cptr->GetID() << "{";
-			Cptr->Print(this);
-			cout << "} ";
-		}
-		if (dynamic_cast<SpecialTruck*>(Cptr)) {
-			cout << Cptr->GetID() << "(";
-			Cptr->Print(this);
-			cout << ") ";
-		}
-	}
-	//return origin qLt
-	//while (tempQ.dequeue(Cptr))
-		//qLt->enqueue(Cptr);
-}
+//void UIClass::PrintLoadingTrucks(Queue<Truck*> qLt)
+//{
+//	cout << qLt.GetCount() << " LoadingTrucks: ";
+////	Queue<Truck*>tempQ;
+//	Truck* Cptr;
+//	while (qLt.dequeue(Cptr)) {
+//		cout << Cptr->getDI() << ":" << Cptr->getTimeforLoading().getDAY() << ":" << Cptr->getTimeforLoading().gethour() <<" ";
+//		//tempQ.enqueue(Cptr);
+//		if (dynamic_cast<NormalTruck*>(Cptr)) {
+//			cout << Cptr->GetID() << "[";
+//			Cptr->Print(this);
+//			cout << "] ";
+//		}
+//		if (dynamic_cast<VIPTruck*>(Cptr)) {
+//			cout << Cptr->GetID() << "{";
+//			Cptr->Print(this);
+//			cout << "} ";
+//		}
+//		if (dynamic_cast<SpecialTruck*>(Cptr)) {
+//			cout << Cptr->GetID() << "(";
+//			Cptr->Print(this);
+//			cout << ") ";
+//		}
+//	}
+//	//return origin qLt
+//	//while (tempQ.dequeue(Cptr))
+//		//qLt->enqueue(Cptr);
+//}
 
 //
 //void UIClass::PrintEmptytrucks(Queue<Truck*>qEt)

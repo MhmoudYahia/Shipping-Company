@@ -78,7 +78,7 @@ class Company
 	//Queue<Cargo*>DeliveredVIPCargo;//
 
 	//Events
-	Queue<Event*> EventsPQ;   //need editing
+	PriorityQueue<Event*> EventsPQ;   //need editing
 	
 	
 	Time CurrentTime;
@@ -121,6 +121,8 @@ public:
 	void PrintNInCheckupTRKs(UIClass* pUI);
 	void PrintSInCheckupTRKs(UIClass* pUI);
 	void PrintVInCheckupTRKs(UIClass* pUI);
+	int GetNumOfLaoding();
+	void PrintLoading(UIClass* pUI);
 	int GetCountTRUCKSincheckup();
 	int Getcountall_waiting();
 	int GetnumOfDeliv();

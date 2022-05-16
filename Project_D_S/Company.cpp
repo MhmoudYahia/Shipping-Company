@@ -64,7 +64,7 @@ void Company::PrintConsole() {
 	pUI->PrintCurrentTime(this->CurrentTime);
 	pUI->PrintWaitingCargos(this);
 	pUI->PrintLine();
-	pUI->PrintLoadingTrucks(this->LoadingTrucks);
+	pUI->PrintLoadingTrucks(this);
 	pUI->PrintLine();
 	pUI->PrintEmptytrucks(this);
 	pUI->PrintLine();
@@ -375,8 +375,8 @@ void Company::Loading_File()
 			Cargo* C;
 			PreparationEvent* PE = new PreparationEvent(TYP, DIST, LT, Cost, ET, ID, this);
 			Event* E = PE;
-			//double priority = -((D - 1) * 24 + H);
-			EventsPQ.enqueue(E);
+			double priority = -((D - 1) * 24 + H);
+			EventsPQ.enqueue(E,priority);
 			break; }
 		case 'X': {
 			int H, D;
@@ -386,8 +386,8 @@ void Company::Loading_File()
 			Time ET(D, H);
 			CancellationEvent* CE = new CancellationEvent(ET, ID, this);
 			Event* E = CE;
-		//	double priority = -((D - 1) * 24 + H);
-			EventsPQ.enqueue(E);
+			double priority = -((D - 1) * 24 + H);
+			EventsPQ.enqueue(E,priority);
 			break;
 		}
 		case 'P': {
@@ -398,9 +398,9 @@ void Company::Loading_File()
 			Lfile >> D >> colon >> H >> ID >> ExtraMoney;
 			Time ET(D, H);
 			PromotionEvent* PRE = new PromotionEvent(ET, ID, ExtraMoney, this );
-		//	double priority = -((D - 1) * 24 + H);
+			double priority = -((D - 1) * 24 + H);
 			Event* E = PRE;
-			EventsPQ.enqueue(E);
+			EventsPQ.enqueue(E,priority);
 			break;
 		}
 		default:
@@ -565,6 +565,37 @@ void Company::PrintVInCheckupTRKs(UIClass* pUI) {
 		VInCheckupTrucks.PrintQ(pUI);
 		pUI->closebraceforVIP();
 	}
+}
+int Company::GetNumOfLaoding() {
+	return LoadingTrucks.GetCount();
+}
+void Company:: PrintLoading(UIClass* pUI) {
+	Queue<Truck*>q;
+	Truck* ptr;
+	while (LoadingTrucks.dequeue(ptr)) {
+		q.enqueue(ptr);
+		pUI->Print(ptr);
+		if (dynamic_cast<NormalTruck*>(ptr))
+		{
+			pUI->openbraceforNormal();
+			ptr->Print(pUI);
+			pUI->closebraceforNormal();
+		}
+		else if (dynamic_cast<VIPTruck*>(ptr)) {
+			pUI->openbraceforVIP();
+			ptr->Print(pUI);
+			pUI->closebraceforVIP();
+
+		}
+		else if (dynamic_cast<SpecialTruck*>(ptr)) {
+			pUI->openbraceforSP();
+			ptr->Print(pUI);
+			pUI->closebraceforSP();
+		}
+
+	}
+	while (q.dequeue(ptr))
+		LoadingTrucks.enqueue(ptr);
 }
 int Company::GetCountTRUCKSincheckup() {
 	return NInCheckupTrucks.GetCount() + SInCheckupTrucks.GetCount() + VInCheckupTrucks.GetCount();
