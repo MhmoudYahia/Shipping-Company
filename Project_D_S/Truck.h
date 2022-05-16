@@ -28,7 +28,7 @@ protected:
 	int Priority;
 	Queue <Cargo* > * TruckCargos;
 	int DI; //Delivery Interval =(Distance of furthest cargo)/ speed + Sum of unload times of all its cargos + time to come back
-	
+	Time putInMaintenanceTime;		//shaheen
 public:
 	int GetID();
 	//void ChangeState(State S);
@@ -64,4 +64,7 @@ public:
 	void ResetDeliveryTime();
 	Queue <Cargo* > getDelivered(Time);
 	void updateCargosDT();
+	void set_putInMaintenanceTime(Time t);		//shaheen
+	Time get_putInMaintenanceTime();		//shaheen
+	int get_MaintenanceTime();		//shaheen
 };

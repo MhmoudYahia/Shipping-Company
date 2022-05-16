@@ -19,6 +19,9 @@ Company::Company()
 	TruckCount = 0;
 	TSM = 0;
 	this->NumberOfAutoPromotedCargos = 0;		//ismail
+	this->N_Cargo_Count = 0;	//delivered
+	this->S_Cargo_Count = 0;
+	this->VIP_Cargo_Count = 0;
 }
 
 void Company::LoadCargos() {
@@ -52,6 +55,7 @@ void Company::StepbyStepSimulation()
 		Sleep(1500);
 		++CurrentTime;
 		incrementWHs();
+		this->OutputFile();
 		////to move cago from waiting to delivered every 5 times
 		//if (cnt % 5 == 0 &&WaitingCargos.GetCount()>0) {
 		//	Cargo* Cptr;
@@ -86,8 +90,7 @@ void Company::InteractiveSimulation() {
 		CheckforTrucks();
 		PrintConsole();
 		++CurrentTime;
-		pUI->getKey();
-		
+		pUI->getKey();	
 	}
 }
 
@@ -117,47 +120,49 @@ void Company::checkforAutop() {
 }
 
 void Company::OutputFile() {			//ismail
-	//ofstream Lfile;
-	//Lfile.open("Output.txt", ios::binary);
-	//Lfile << "CDT\t\tID\t\tWT\t\tTID\n";
-	//Cargo* cargo;
-	//bool bo;
-	//for (int i = 0; i < DeliveredNormalCargo.GetCount(); i++)
-	//{
+	ofstream Lfile;
+	Lfile.open("Output.txt", ios::binary);
+	Lfile << "CDT\t\tID\t\tWT\t\tTID\n";
+	Cargo* cargo;
+	bool bo;
+	this->Calc_Delivered_Cargos_count();
+	for (int i = 0; i < this->DeliveredCargos.GetCount(); i++)
+	{
 
-	//	bo = DeliveredNormalCargo.dequeue(cargo);
-	//	Lfile << /* CARGO DELIVERED DAY*/<<':'<</* CARGO DELIVERED HOUR*/<<"\t\t" << cargo->GetID() << "\t\t" << cargo->getPT().getDAY() << ':' << cargo->getPT().gethour() << cargo->GetWaitingHours() << "\t\t" << cargo->get_TrkId() << endl;
-	//	bo = DeliveredNormalCargo.enqueue(cargo);
-	//}
-	//for (int i = 0; i < DeliveredSpCargo.GetCount(); i++)
-	//{
+		bo = DeliveredCargos.dequeue(cargo);
+		if (dynamic_cast<NormalCargo*> (cargo))
+			Lfile << cargo->getDel_T().getDAY() <<':'<< cargo->getDel_T().gethour() <<"\t\t" << cargo->GetID() << "\t\t" << cargo->getPT().getDAY() << ':' << cargo->getPT().gethour() << cargo->GetWaitingHours() << "\t\t" << cargo->get_TrkId() << endl;
+		bo = DeliveredCargos.enqueue(cargo);
+	}
+	for (int i = 0; i < this->DeliveredCargos.GetCount(); i++)
+	{
 
-	//	bo = DeliveredSpCargo.dequeue(cargo);
-	//	Lfile <<  /* CARGO DELIVERED DAY*/<<':'<</* CARGO DELIVERED HOUR*/<<"\t\t" << cargo->GetID() << "\t\t" << cargo->getPT().getDAY() << ':' << cargo->getPT().gethour() << cargo->GetWaitingHours() << "\t\t" << cargo->get_TrkId() << endl;
-	//	bo = DeliveredSpCargo.enqueue(cargo);
-	//}
-	//for (int i = 0; i < DeliveredVIPCargo.GetCount(); i++)
-	//{
+		bo = DeliveredCargos.dequeue(cargo);
+		if (dynamic_cast<SpecialCargo*> (cargo))
+			Lfile << cargo->getDel_T().getDAY() <<':'<<cargo->getDel_T().gethour()<< "\t\t" << cargo->GetID() << "\t\t" << cargo->getPT().getDAY() << ':' << cargo->getPT().gethour() << cargo->GetWaitingHours() << "\t\t" << cargo->get_TrkId() << endl;
+		bo = DeliveredCargos.enqueue(cargo);
+	}
+	for (int i = 0; i < this->DeliveredCargos.GetCount(); i++)
+	{
+		bo = DeliveredCargos.dequeue(cargo);
+		if (dynamic_cast<VIPCargo*> (cargo))
+			Lfile << cargo->getDel_T().getDAY()<<':'<<cargo->getDel_T().gethour()<<"\t\t" << cargo->GetID() << "\t\t" << cargo->getPT().getDAY() << ':' << cargo->getPT().gethour() << cargo->GetWaitingHours() << "\t\t" << cargo->get_TrkId() << endl;
+		bo = DeliveredCargos.enqueue(cargo);
+	}
 
-	//	bo = DeliveredVIPCargo.dequeue(cargo);
-	//	Lfile << cargo->getDel_T().getDAY()<<':'<<cargo->getDel_T().gethour()<<"\t\t" << cargo->GetID() << "\t\t" << cargo->getPT().getDAY() << ':' << cargo->getPT().gethour() << cargo->GetWaitingHours() << "\t\t" << cargo->get_TrkId() << endl;
-	//	bo = DeliveredVIPCargo.enqueue(cargo);
-	//}
 
-
-	//Lfile << ".....................................................\n";
-	//Lfile << ".....................................................\n";
-	//Lfile << "Cargos: " << GetnumOfDeliv();
-	//Lfile << '[' << "N: " << DeliveredNormalCargo.GetCount() << ", " << "S: " << DeliveredSpCargo.GetCount() << ", " << "V: " << DeliveredVIPCargo.GetCount() << "]\n";
-	//Lfile << "Cargo Avg Wait = " << AverageWaitingTime_DeliveredNormalCargos().getDAY() + AverageWaitingTime_DeliveredSpecialCargos().getDAY() + AverageWaitingTime_DeliveredVIPCargos().getDAY();
-	//Lfile << ':' << AverageWaitingTime_DeliveredNormalCargos().gethour() + AverageWaitingTime_DeliveredSpecialCargos().gethour() + AverageWaitingTime_DeliveredVIPCargos().gethour() << endl;
-	//Lfile << "Auto-promoted Caros:" << int((float(this->get_NumberOfAutoPromotedCargos()) / DeliveredNormalCargo.GetCount()) * 100) << "%\n";
-	//Lfile << "Trucks: " << get_numOf_N_Truck() + get_numOf_S_Truck() + get_numOf_VIP_Truck();
-	//Lfile << '[' << "N: " << get_numOf_N_Truck() << ", " << "S: " << get_numOf_S_Truck() << ", " << "V: " << get_numOf_VIP_Truck() << "]\n";
-	//Lfile << "Avg Active time = " << NormalTrucks_ActiveTime().gethour() + NormalTrucks_ActiveTime().getDAY() * 24 + SpecialTrucks_ActiveTime().gethour() + SpecialTrucks_ActiveTime().getDAY() * 24 + VIPTrucks_ActiveTime().gethour() + VIPTrucks_ActiveTime().getDAY() * 24 << "%\n";
-	//Lfile << "Avg utilization = " << NormalTrucks_Utilization() + SpecialTrucks_Utilization() + VIPTrucks_Utilization() << "%\n";
-
-	//Lfile.close();
+	Lfile << ".....................................................\n";
+	Lfile << ".....................................................\n";
+	Lfile << "Cargos: " << GetnumOfDeliv();
+	Lfile << '[' << "N: " << this->get_N_Cargo_Count() << ", " << "S: " << this->get_S_Cargo_Count() << ", " << "V: " << this->get_VIP_Cargo_Count() << "]\n";
+	Lfile << "Cargo Avg Wait = " << AverageWaitingTime_DeliveredNormalCargos().getDAY() + AverageWaitingTime_DeliveredSpecialCargos().getDAY() + AverageWaitingTime_DeliveredVIPCargos().getDAY();
+	Lfile << ':' << AverageWaitingTime_DeliveredNormalCargos().gethour() + AverageWaitingTime_DeliveredSpecialCargos().gethour() + AverageWaitingTime_DeliveredVIPCargos().gethour() << endl;
+	Lfile << "Auto-promoted Caros:" << int((float(this->get_NumberOfAutoPromotedCargos()) / this->get_N_Cargo_Count()) * 100) << "%\n";
+	Lfile << "Trucks: " << get_numOf_N_Truck() + get_numOf_S_Truck() + get_numOf_VIP_Truck();
+	Lfile << '[' << "N: " << get_numOf_N_Truck() << ", " << "S: " << get_numOf_S_Truck() << ", " << "V: " << get_numOf_VIP_Truck() << "]\n";
+	Lfile << "Avg Active time = " << NormalTrucks_ActiveTime().gethour() + NormalTrucks_ActiveTime().getDAY() * 24 + SpecialTrucks_ActiveTime().gethour() + SpecialTrucks_ActiveTime().getDAY() * 24 + VIPTrucks_ActiveTime().gethour() + VIPTrucks_ActiveTime().getDAY() * 24 << "%\n";
+	Lfile << "Avg utilization = " << NormalTrucks_Utilization() + SpecialTrucks_Utilization() + VIPTrucks_Utilization() << "%\n";
+	Lfile.close();
 }
 Time Company::AverageWaitingTime()
 {
@@ -340,7 +345,7 @@ void Company::GeneralSimulate() {
 	}
 	case silent:
 	{
-		pUI->PrintSilentMode();
+		pUI->PrintSilentMode(this);
 		break;
 	}
 	}
@@ -862,6 +867,7 @@ void Company::CheckforCheckupTrucks() {
 }
 void Company::CheckforTrucks() {
 	Truck* T;
+	bool bo;
 	Queue<Truck* > temp;
 	while (LoadingTrucks.GetCount() > 0) {
 		LoadingTrucks.dequeue(T);
@@ -892,7 +898,19 @@ void Company::CheckforTrucks() {
 		}
 		else if (T->getTimeforReturn() == CurrentTime) {
 			cout << "K" << endl;
-			if (dynamic_cast<NormalTruck*> (T)) NormalEmptyTrucks.enqueue(T);
+			
+
+			if (T->getJC() == this->Get_JourneyCount())	//ismail
+			{
+				if (dynamic_cast<NormalTruck*> (T))  bo = NInCheckupTrucks.enqueue(T);
+				else if (dynamic_cast<SpecialTruck*> (T))  bo = SInCheckupTrucks.enqueue(T);
+				else  bo = VInCheckupTrucks.enqueue(T);
+				Time t;
+				t.setDAY(CurrentTime.getDAY());
+				t.sethour(CurrentTime.gethour() + T->get_MaintenanceTime());
+				T->set_putInMaintenanceTime(t);
+			}
+			else if (dynamic_cast<NormalTruck*> (T)) NormalEmptyTrucks.enqueue(T);
 			else if (dynamic_cast<SpecialTruck*> (T)) SpecialEmptyTrucks.enqueue(T);
 			else VIPEmptyTrucks.enqueue(T);
 		}
@@ -908,7 +926,31 @@ void Company::CheckforTrucks() {
 		MovingTrucks.enqueue(T,T->getPriority());
 	}
 	cout << MovingTrucks.GetCount() << endl;
-
+	
+	for (int i = 0; i < NInCheckupTrucks.GetCount(); i++)	//ismail for N
+	{
+		bo = NInCheckupTrucks.dequeue(T);
+		if (T->get_putInMaintenanceTime() == CurrentTime)
+			bo = NormalEmptyTrucks.enqueue(T);
+		else
+			bo = NInCheckupTrucks.enqueue(T);
+	}
+	for (int i = 0; i < SInCheckupTrucks.GetCount(); i++)	//ismail for S
+	{
+		bo = SInCheckupTrucks.dequeue(T);
+		if (T->get_putInMaintenanceTime() == CurrentTime)
+			bo = SpecialEmptyTrucks.enqueue(T);
+		else
+			bo = SInCheckupTrucks.enqueue(T);
+	}
+	for (int i = 0; i < VInCheckupTrucks.GetCount(); i++)	//ismail for VIP
+	{
+		bo = VInCheckupTrucks.dequeue(T);
+		if (T->get_putInMaintenanceTime() == CurrentTime)
+			bo = VIPEmptyTrucks.enqueue(T);
+		else
+			bo = VInCheckupTrucks.enqueue(T);
+	}
 }
 
 void Company::Deliver(Truck * &T) {
@@ -918,6 +960,208 @@ void Company::Deliver(Truck * &T) {
 	}
 	//MovingTrucks.enqueue(T,T->getPriority());
 }
+
+int Company::Get_JourneyCount()		//ismail
+{
+	return this->JourneyCount;
+}
+
+void Company::Calc_Delivered_Cargos_count()
+{
+	Cargo* c;
+	bool bo;
+	for (int i = 0; i < this->DeliveredCargos.GetCount(); i++)
+	{
+		bo = DeliveredCargos.dequeue(c);
+		if (dynamic_cast<NormalCargo*> (c))	N_Cargo_Count++;
+		else if(dynamic_cast<SpecialCargo*> (c)) S_Cargo_Count++;
+		else VIP_Cargo_Count++;
+	}
+}
+
+int Company::get_N_Cargo_Count()
+{
+	return N_Cargo_Count;
+}
+
+int Company::get_S_Cargo_Count()
+{
+	return S_Cargo_Count;
+}
+
+int Company::get_VIP_Cargo_Count()
+{
+	return VIP_Cargo_Count;
+}
+
+
+
+
+
+
+Time Company::AverageWaitingTime_DeliveredNormalCargos()
+{
+	Cargo* c;
+	Time time;
+	bool bo;
+	for (int i = 0; i < DeliveredCargos.GetCount(); i++)
+	{
+		bo = DeliveredCargos.dequeue(c);
+		if (dynamic_cast<NormalCargo*> (c))
+		{
+			time = time + c->GetWaitingHours();
+		}
+		bo = DeliveredCargos.enqueue(c);
+	}
+
+	return time;
+}
+Time Company::AverageWaitingTime_DeliveredSpecialCargos()
+{
+	Cargo* c;
+	Time time;
+	bool bo;
+	for (int i = 0; i < DeliveredCargos.GetCount(); i++)
+	{
+		bo = DeliveredCargos.dequeue(c);
+		if (dynamic_cast<SpecialCargo*> (c))
+		{
+			time = time + c->GetWaitingHours();
+		}
+		bo = DeliveredCargos.enqueue(c);
+	}
+	return time;
+}
+Time Company::AverageWaitingTime_DeliveredVIPCargos()
+{
+	Cargo* c;
+	Time time;
+	bool bo;
+	for (int i = 0; i < DeliveredCargos.GetCount(); i++)
+	{
+		bo = DeliveredCargos.dequeue(c);
+		if (dynamic_cast<VIPCargo*> (c))
+		{
+			time = time + c->GetWaitingHours();
+		}
+		bo = DeliveredCargos.enqueue(c);
+	}
+	return time;
+}
+//void Company::set_NumberOfAutoPromotedCargos(int i)
+//{
+//	this->NumberOfAutoPromotedCargos = i;
+//}
+//int Company::get_NumberOfAutoPromotedCargos()
+//{
+//	return this->NumberOfAutoPromotedCargos;
+//}
+
+//int Company::get_numOf_N_Truck()
+//{
+//	return this->N;
+//}
+//
+//int Company::get_numOf_S_Truck()
+//{
+//	return this->S;
+//}
+//
+//int Company::get_numOf_VIP_Truck()
+//{
+//	return this->V;
+//}
+
+//Time Company::NormalTrucks_ActiveTime()
+//{
+//	Time time;
+//	Truck* truck;
+//	bool bo;
+//	for (int i = 0; i < NormalTrucks.GetCount(); i++)
+//	{
+//		bo = NormalTrucks.dequeue(truck);
+//		time.sethour(time.gethour() + truck->get_ActiveTime().gethour() + 24 * truck->get_ActiveTime().getDAY());
+//		bo = NormalTrucks.enqueue(truck);
+//	}
+//	return time;
+//}
+//
+//Time Company::SpecialTrucks_ActiveTime()
+//{
+//	Time time;
+//	Truck* truck;
+//	bool bo;
+//	for (int i = 0; i < SpecialTrucks.GetCount(); i++)
+//	{
+//		bo = SpecialTrucks.dequeue(truck);
+//		time.sethour(time.gethour() + truck->get_ActiveTime().gethour() + 24 * truck->get_ActiveTime().getDAY());
+//		bo = SpecialTrucks.enqueue(truck);
+//	}
+//	return time;
+//}
+//
+//Time Company::VIPTrucks_ActiveTime()
+//{
+//	Time time;
+//	Truck* truck;
+//	bool bo;
+//	for (int i = 0; i < VIPTrucks.GetCount(); i++)
+//	{
+//		bo = VIPTrucks.dequeue(truck);
+//		time.sethour(time.gethour() + truck->get_ActiveTime().gethour() + 24 * truck->get_ActiveTime().getDAY());
+//		bo = VIPTrucks.enqueue(truck);
+//	}
+//	return time;
+//}
+
+//int Company::NormalTrucks_Utilization()
+//{
+//	Truck* truck;
+//	bool bo;
+//	int count = 0;
+//	for (int i = 0; i < NormalTrucks.GetCount(); i++)
+//	{
+//		bo = NormalTrucks.dequeue(truck);
+//		count = count + truck->Truck_utilization(this->TSM);
+//		bo = NormalTrucks.enqueue(truck);
+//	}
+//	return count;
+//}
+//
+//int Company::SpecialTrucks_Utilization()
+//{
+//	Truck* truck;
+//	bool bo;
+//	int count = 0;
+//	for (int i = 0; i < SpecialTrucks.GetCount(); i++)
+//	{
+//		bo = SpecialTrucks.dequeue(truck);
+//		count = count + truck->Truck_utilization(this->TSM);
+//		bo = SpecialTrucks.enqueue(truck);
+//	}
+//	return count;
+//}
+//
+//int Company::VIPTrucks_Utilization()
+//{
+//	Truck* truck;
+//	bool bo;
+//	int count = 0;
+//	for (int i = 0; i < VIPTrucks.GetCount(); i++)
+//	{
+//		bo = VIPTrucks.dequeue(truck);
+//		count = count + truck->Truck_utilization(this->TSM);
+//		bo = VIPTrucks.enqueue(truck);
+//	}
+//	return count;
+//}
+
+
+
+
+
+
+
 //
 //void Company::cancellID(int id)
 //{
