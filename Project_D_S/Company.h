@@ -53,9 +53,9 @@ class Company
 	Queue<Truck*> VInCheckupTrucks;
 
 	//Queue<Truck*> EmptyTrucks;
-	Queue<Truck*> VIPEmptyTrucks;
-	Queue<Truck*> NormalEmptyTrucks;
-	Queue<Truck*> SpecialEmptyTrucks;
+	PriorityQueue<Truck*> VIPEmptyTrucks;
+    PriorityQueue<Truck*> NormalEmptyTrucks;
+	PriorityQueue<Truck*> SpecialEmptyTrucks;
 	//moving  may be edited under assignment criteria	Queue<Cargo*> MovingCargos;
 
 	//Trucks
@@ -86,7 +86,15 @@ class Company
 	
 	Time CurrentTime;
 	UIClass* pUI;
-	
+
+	//Queues for trucks data
+	Queue<int>VTCs;
+	Queue<int>VSpeeds;
+	Queue<int>SSpeeds;
+	Queue<int>NTCs;
+	Queue<int>NSpeeds;
+	Queue<int>STCs;
+
 	//Utility functions
 	void StepbyStepSimulation();
 	void PrintConsole();
