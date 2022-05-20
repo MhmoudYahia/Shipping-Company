@@ -70,4 +70,5 @@ public:
 	void set_putInMaintenanceTime(Time t);		//shaheen
 	Time get_putInMaintenanceTime();		//shaheen
 	int get_MaintenanceTime();		//shaheen
+	int getTC();
 };

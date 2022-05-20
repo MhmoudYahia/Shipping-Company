@@ -189,4 +189,7 @@ int Truck::get_MaintenanceTime()
 {
 	return this->MaintenanceTime;
 }
+int Truck::getTC() {
+	return TC;
+}
 
