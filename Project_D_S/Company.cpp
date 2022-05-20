@@ -778,8 +778,9 @@ void Company::AssignVIPTruck(int T) {
 		VIPEmptyTrucks.peak(VT);
 		if (T == 0 && VT->getTC() > WaitingVIPCargos.GetCount()) return;
 		if (T == 1 && VT->getTC() > WaitingNormalCargos.GetCount()) return;
+		if (T == 2 && VT->getTC() > VCargosExceededMaxW.GetCount() < 1) return;
+		if (T == 3 && VT->getTC() > NCargosExceededMaxW.GetCount() < 1) return;
 		VIPEmptyTrucks.dequeue(VT);
-
 		if (T == 0) {
 			while (WaitingVIPCargos.dequeue(C) && !VT->isFull()) {
 				C->setDel_T(CurrentTime);
@@ -798,8 +799,8 @@ void Company::AssignVIPTruck(int T) {
 				VT->AddCargo(C);
 			}
 		}
-		else if (T == 3 && SCargosExceededMaxW.GetCount() > 0) {
-			while (SCargosExceededMaxW.dequeue(C) && !VT->isFull()) {
+		else if (T == 3 && NCargosExceededMaxW.GetCount() > 0) {
+			while (NCargosExceededMaxW.dequeue(C) && !VT->isFull()) {
 				C->setDel_T(CurrentTime);
 				VT->AddCargo(C);
 			}
@@ -810,6 +811,7 @@ void Company::AssignVIPTruck(int T) {
 		VT->setTimeforReturn(this->CurrentTime);
 		VT->setTimeforLoading(this->CurrentTime);
 		VT->updateCargosDT();
+		VT->ResetCargoCount();
 		LoadingTrucks.enqueue(VT);
 }
 void Company::AssignNormalTruck(int T) {
@@ -819,6 +821,8 @@ void Company::AssignNormalTruck(int T) {
 		NormalEmptyTrucks.peak(NT); 
 		if (T == 0 && NT->getTC() > WaitingVIPCargos.GetCount()) return;
 		if (T == 1 && NT->getTC() > WaitingNormalCargos.GetCount()) return;
+		if (T == 2 && NT->getTC() > VCargosExceededMaxW.GetCount() < 1) return;
+		if (T == 3 && NT->getTC() > NCargosExceededMaxW.GetCount() < 1) return;
 		NormalEmptyTrucks.dequeue(NT);
 		cout << NT->GetID() << " " << NT->getTC() << endl;
 		bool CangoNow = false; 
@@ -834,14 +838,15 @@ void Company::AssignNormalTruck(int T) {
 					NT->AddCargo(C);
 				}
 			}
-			else if (T == 2 && VCargosExceededMaxW.GetCount() > 0) {
+			else if (T == 2) {
 				while (VCargosExceededMaxW.dequeue(C) && !NT->isFull()) {
 					C->setDel_T(CurrentTime);
 					NT->AddCargo(C);
 				}
 			}
-			else if (T == 3 && NCargosExceededMaxW.GetCount() > 0) {
+			else if (T == 3) {
 				while (NCargosExceededMaxW.dequeue(C) && !NT->isFull()) {
+					cout << "Normal Cargo Exceeded with ID " << C->GetID() << endl;
 					C->setDel_T(CurrentTime);
 					NT->AddCargo(C);
 				}
@@ -853,6 +858,7 @@ void Company::AssignNormalTruck(int T) {
 		NT->setTimeforReturn(this->CurrentTime);
 		NT->setTimeforLoading(this->CurrentTime);
 		NT->updateCargosDT();
+		NT->ResetCargoCount();
 		LoadingTrucks.enqueue(NT);
 }
 void Company::AssignSpecialTruck(int T) {
@@ -863,6 +869,8 @@ void Company::AssignSpecialTruck(int T) {
 	SpecialEmptyTrucks.peak(ST);
 	if (T == 0 && ST->getTC() > WaitingVIPCargos.GetCount()) return;
 	if (T == 1 && ST->getTC() > WaitingSpecialCargos.GetCount()) return;
+	if (T == 2 && ST->getTC() > VCargosExceededMaxW.GetCount() < 1) return;
+	if (T == 3 && ST->getTC() > SCargosExceededMaxW.GetCount() < 1) return;
 	SpecialEmptyTrucks.dequeue(ST);
 	if (T == 0 && WaitingVIPCargos.GetCount() > 0 && WaitingVIPCargos.GetCount() >= ST->getTC()) {
 		while (WaitingVIPCargos.dequeue(C) && !ST->isFull()) {
@@ -894,6 +902,7 @@ void Company::AssignSpecialTruck(int T) {
 	ST->setTimeforReturn(this->CurrentTime);
 	ST->setTimeforLoading(this->CurrentTime);
 	ST->updateCargosDT();
+	ST->ResetCargoCount();
 	LoadingTrucks.enqueue(ST);
 }
 void Company::AssignExceeded() {

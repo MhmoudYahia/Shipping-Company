@@ -162,7 +162,7 @@ Queue<Cargo* > Truck::getDelivered(Time T) {
 		temp.dequeue(C);
 		TruckCargos->enqueue(C);
 	}
-	cout << Q.GetCount() << "xxxxxxxxxxxxx";
+	cout << Q.GetCount() << "Cargos for Delivery for Truck " << ID << endl;
 	 return Q;
 }
 void Truck::updateCargosDT() {
@@ -192,4 +192,6 @@ int Truck::get_MaintenanceTime()
 int Truck::getTC() {
 	return TC;
 }
-
+void Truck::ResetCargoCount() {
+	CargoCount = 0; 
+}

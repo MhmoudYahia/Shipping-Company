@@ -72,4 +72,5 @@ public:
 	Time get_putInMaintenanceTime();		//shaheen
 	int get_MaintenanceTime();		//shaheen
 	int getTC();
+	void ResetCargoCount();
 };
