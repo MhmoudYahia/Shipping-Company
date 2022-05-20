@@ -4,6 +4,6 @@ class NormalTruck :
     public Truck
 {
 public:
-    NormalTruck(int ID, int TC, int TS);   
+    NormalTruck(int ID, int TC, int TS ,bool);   
 };
 

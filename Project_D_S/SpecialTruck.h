@@ -5,6 +5,6 @@ class SpecialTruck :
 {
 public:
 
-	SpecialTruck(int ID, int TC, int TS);
+	SpecialTruck(int ID, int TC, int TS,bool);
 };
 

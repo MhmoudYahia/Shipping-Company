@@ -94,6 +94,9 @@ class Company
 	Queue<int>NTCs;
 	Queue<int>NSpeeds;
 	Queue<int>STCs;
+	Queue<int> N_Night;
+	Queue<int> S_Night;
+	Queue<int> V_Night;
 
 	//Utility functions
 	void StepbyStepSimulation();

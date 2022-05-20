@@ -16,7 +16,7 @@ int Truck::GetID()
 	return ID;
 }
 
-Truck::Truck(int ID, int TC, int TS) {
+Truck::Truck(int ID, int TC, int TS, bool c) {
 	this->ID = ID;
 	this->TC = TC;
 	this->Speed = TS;
@@ -25,6 +25,7 @@ Truck::Truck(int ID, int TC, int TS) {
 	DisofFurthestCargo = 0;
 	LoadTimeofAllcargos = 0;
 	UPdatePriority_s_c();
+	Night = c; 
 }
 
 bool Truck::AddCargo(Cargo* C) {
@@ -194,4 +195,7 @@ int Truck::getTC() {
 }
 void Truck::ResetCargoCount() {
 	CargoCount = 0; 
+}
+bool Truck::CanWorkAtNight() {
+	return Night;
 }

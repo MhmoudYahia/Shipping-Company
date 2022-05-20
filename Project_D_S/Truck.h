@@ -31,12 +31,13 @@ protected:
 	Queue <Cargo* > * TruckCargos;
 	int DI; //Delivery Interval =(Distance of furthest cargo)/ speed + Sum of unload times of all its cargos + time to come back
 	Time putInMaintenanceTime;		//shaheen
+	bool Night;
 public:
 	void UPdatePriority_s_c();
 	double getprio_s_c();
 	int GetID();
 	//void ChangeState(State S);
-	Truck(int ID , int TC , int TS );
+	Truck(int ID , int TC , int TS , bool );
 	bool AddCargo(Cargo* C);
 	int GetCountOFCargosInTRK();
 	void updateDI();
@@ -73,4 +74,5 @@ public:
 	int get_MaintenanceTime();		//shaheen
 	int getTC();
 	void ResetCargoCount();
+	bool CanWorkAtNight();
 };

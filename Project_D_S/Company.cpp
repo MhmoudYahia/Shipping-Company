@@ -355,7 +355,7 @@ void Company::Loading_File()
 	/*Lfile >> NTruckSpeed >> STruckSpeed >> VTruckSpeed;
 	Lfile >> NTruckCapacity >> STruckCapacity >> VTruckCapacity;*/
 	Lfile >> N;
-	int i = N, j = N;
+	int i = N, j = N, k = N;
 	while (i--) {
 		Lfile >> temp;
 		NSpeeds.enqueue(temp);
@@ -364,9 +364,14 @@ void Company::Loading_File()
 		Lfile >> temp;
 		NTCs.enqueue(temp);
 	}
+	while (k--) {
+		Lfile >> temp;
+		N_Night.enqueue(temp);
+	}
+
 	/// </summary>
 	Lfile >> S;
-	 i =  j = S;
+	 i =  j = k =  S;
 	while (i--) {
 		Lfile >> temp;
 		SSpeeds.enqueue(temp);
@@ -375,9 +380,13 @@ void Company::Loading_File()
 		Lfile >> temp;
 		STCs.enqueue(temp);
 	}
+	while (k--) {
+		Lfile >> temp;
+		S_Night.enqueue(temp);
+	}
 	////////////
 	Lfile >> V;
-	 i =j = V;
+	 i =j =k= V;
 	while (i--) {
 		Lfile >> temp;
 		VSpeeds.enqueue(temp);
@@ -385,6 +394,10 @@ void Company::Loading_File()
 	while (j--) {
 		Lfile >> temp;
 		VTCs.enqueue(temp);
+	}
+	while (k--) {
+		Lfile >> temp;
+		V_Night.enqueue(temp);
 	}
 	Lfile >> JourneyCount>> NTruckCheckupDuration>>STruckCheckupDuration>>VTruckChekcupDuration;
 	Lfile >> AutoP >> MaxW;
@@ -934,25 +947,28 @@ void Company::AssignExceeded() {
 }
 void Company::CreateTrucks() {
 		int cnt = N;
-		int s=0, c=0;
+		int s=0, c=0, n = 0;
 		while (cnt--) {
 			NSpeeds.dequeue(s);
 			NTCs.dequeue(c);
-			NormalTruck* N = new NormalTruck(++TruckCount,c,s);
+			N_Night.dequeue(n);
+			NormalTruck* N = new NormalTruck(++TruckCount,c,s,n);
 			NormalEmptyTrucks.enqueue(N,N->getprio_s_c());
 		}
 		cnt = S;
 		while (cnt--) {
 			SSpeeds.dequeue(s);
 			STCs.dequeue(c);
-			SpecialTruck* N = new SpecialTruck(++TruckCount, c, s);
+			S_Night.dequeue(n);
+			SpecialTruck* N = new SpecialTruck(++TruckCount, c, s,n);
 			SpecialEmptyTrucks.enqueue(N,N->getprio_s_c());
 		}
 		cnt = V;
 		while (cnt--) {
 			VSpeeds.dequeue(s);
 			VTCs.dequeue(c);
-			VIPTruck* N = new VIPTruck(++TruckCount, c, s);
+			V_Night.dequeue(n);
+			VIPTruck* N = new VIPTruck(++TruckCount, c, s,n);
 			VIPEmptyTrucks.enqueue(N,N->getprio_s_c());
 		}
 }
