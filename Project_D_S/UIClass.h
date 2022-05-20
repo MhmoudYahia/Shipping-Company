@@ -42,8 +42,6 @@ public:
 	void PrintIn_CheckupTrucks(Company* C);
 	void PrintEmptytrucks(Company* pC);
 	void PrintLoadingTrucks(Company* c);
-	void PrintSilentMode();
-	void PrintLoadingTrucks(Queue<Truck*>);
 	void PrintSilentMode(Company* Cptr);	//ismail
 	void PrintError(string);
 	void openbraceforNormal();

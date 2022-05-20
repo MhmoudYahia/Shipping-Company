@@ -10,6 +10,7 @@ class UIClass;
 class Truck
 {
 protected:
+	
 	Time ActiveTime;
 	int ID; 
 	int State; //  0 for rest , 1 for loading , 2 for moving , 3 for checkup 
