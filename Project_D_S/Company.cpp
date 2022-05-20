@@ -947,7 +947,7 @@ void Company::AssignExceeded() {
 }
 void Company::CreateTrucks() {
 		int cnt = N;
-		int s=0, c=0, n = 0;
+		int s = 0, c = 0; bool  n = 0;
 		while (cnt--) {
 			NSpeeds.dequeue(s);
 			NTCs.dequeue(c);
