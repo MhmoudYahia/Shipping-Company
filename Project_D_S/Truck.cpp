@@ -1,6 +1,16 @@
 #include "Truck.h"
 #include "Company.h"
 
+void Truck::UPdatePriority_s_c()
+{
+	pri_s_c = Speed + TC;
+}
+
+double Truck::getprio_s_c()
+{
+	return pri_s_c;
+}
+
 int Truck::GetID()
 {
 	return ID;
@@ -14,6 +24,7 @@ Truck::Truck(int ID, int TC, int TS) {
 	JourneyCount = 0;
 	DisofFurthestCargo = 0;
 	LoadTimeofAllcargos = 0;
+	UPdatePriority_s_c();
 }
 
 bool Truck::AddCargo(Cargo* C) {
@@ -66,6 +77,7 @@ bool Truck::isFull() {
 }
 void Truck::setSpeed(double s) {
 	if(s>0)Speed = s;
+	UPdatePriority_s_c();
 }
 void Truck::Print(UIClass * UI) {
 	TruckCargos->PrintQ(UI);
@@ -176,5 +188,8 @@ Time Truck::get_putInMaintenanceTime()
 int Truck::get_MaintenanceTime()
 {
 	return this->MaintenanceTime;
+}
+int Truck::getTC() {
+	return TC;
 }
 

@@ -11,6 +11,7 @@ class Truck
 {
 protected:
 	
+	double pri_s_c;
 	Time ActiveTime;
 	int ID; 
 	int State; //  0 for rest , 1 for loading , 2 for moving , 3 for checkup 
@@ -31,6 +32,8 @@ protected:
 	int DI; //Delivery Interval =(Distance of furthest cargo)/ speed + Sum of unload times of all its cargos + time to come back
 	Time putInMaintenanceTime;		//shaheen
 public:
+	void UPdatePriority_s_c();
+	double getprio_s_c();
 	int GetID();
 	//void ChangeState(State S);
 	Truck(int ID , int TC , int TS );
@@ -68,4 +71,5 @@ public:
 	void set_putInMaintenanceTime(Time t);		//shaheen
 	Time get_putInMaintenanceTime();		//shaheen
 	int get_MaintenanceTime();		//shaheen
+	int getTC();
 };
