@@ -464,21 +464,37 @@ bool Company::isClosed() {
 	return true;
 }
 void Company:: ExecuteEvents() {
-	//if (isClosed()) {
-	//	return;
-	//}
 	Event* Eptr;
-	EventsPQ.peak(Eptr);
-	if (!Eptr ||EventsPQ.GetCount()==0) return;
-	Time X = Eptr->getEventTime();
-	if (!(X==CurrentTime)) return;
-	while (EventsPQ.GetCount()>0 &&  Eptr->getEventTime()== CurrentTime)
-		{
-		cout << "Current EventCount: " << EventsPQ.GetCount() << endl;
-		EventsPQ.dequeue(Eptr);
-		Eptr->Execute();
-		EventsPQ.peak(Eptr);
+	if (CurrentTime.gethour() == 5) {
+		while (PreEventswhenClosed.dequeue(Eptr)) {
+			Eptr->Execute();
+			cout <<  "hhhhh\n";
+		}
 	}
+		
+		EventsPQ.peak(Eptr);
+		if (!Eptr || EventsPQ.GetCount() == 0) return;
+		Time X = Eptr->getEventTime();
+		if (!(X == CurrentTime)) return;
+		while (EventsPQ.GetCount() > 0 && Eptr->getEventTime() == CurrentTime)
+		{
+
+			cout << "Current EventCount: " << EventsPQ.GetCount() << endl;
+			EventsPQ.dequeue(Eptr);
+			if (!isClosed()) 
+			Eptr->Execute();
+			else {
+				if (dynamic_cast<PreparationEvent*>(Eptr)) {
+					PreEventswhenClosed.enqueue(Eptr);
+					cout << "mmmm\n";
+				}
+				else if (dynamic_cast<PromotionEvent*>(Eptr))
+					Eptr->Execute();
+			}
+			EventsPQ.peak(Eptr);
+		}
+	
+	
 }
 
 void Company::AddCargotoVIPWaiting(VIPCargo* C) {
@@ -995,19 +1011,52 @@ void Company::CheckforTrucks() {
 	Truck* T;
 	bool bo;
 	Queue<Truck* > temp;
-	while (LoadingTrucks.GetCount() > 0) {
-		LoadingTrucks.dequeue(T);
-		if (T->getTimeforLoading() == CurrentTime) {
+	if (!this->isClosed()) {
+		while (LoadingTrucks.GetCount() > 0) {
+
+			LoadingTrucks.dequeue(T);
+			if (T->getTimeforLoading() == CurrentTime) {
+				T->updatePriority();
+				MovingTrucks.enqueue(T, T->getPriority());
+			}
+			else {
+				temp.enqueue(T);
+
+			}
+
+		}
+		while (temp.dequeue(T))
+			LoadingTrucks.enqueue(T);
+	}
+	else {
+		while (LoadingTrucks.GetCount() > 0) {
+
+			LoadingTrucks.dequeue(T);
+
+			if (T->getTimeforLoading() == CurrentTime && T->CanWorkAtNight()) {
+				T->updatePriority();
+				MovingTrucks.enqueue(T, T->getPriority());
+			}
+			else if (T->getTimeforLoading() == CurrentTime && !T->CanWorkAtNight()) {
+				TRKsWhenClosed.enqueue(T);
+			}
+			else {
+				temp.enqueue(T);
+
+			}
+
+		}
+		while (temp.dequeue(T))
+			LoadingTrucks.enqueue(T);
+	}
+	if (CurrentTime.gethour() == 5) {
+		while (TRKsWhenClosed.dequeue(T)) {
 			T->updatePriority();
 			MovingTrucks.enqueue(T, T->getPriority());
 		}
-		else {
-			temp.enqueue(T);
-		}
 	}
-	while (temp.dequeue(T)) 
-		LoadingTrucks.enqueue(T);
-	
+
+	///==============================================================================
 	Queue<Truck* > temp2;
 	while (MovingTrucks.dequeue(T)) {
 		Queue<Cargo* > Cargos = T->getDelivered(CurrentTime);

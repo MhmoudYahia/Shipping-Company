@@ -97,7 +97,8 @@ class Company
 	Queue<bool> N_Night;
 	Queue<bool> S_Night;
 	Queue<bool> V_Night;
-
+	Queue<Truck*>TRKsWhenClosed;
+	Queue<Event*>PreEventswhenClosed;
 	//Utility functions
 	void StepbyStepSimulation();
 	void PrintConsole();
