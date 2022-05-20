@@ -10,6 +10,7 @@ class UIClass;
 class Truck
 {
 protected:
+	
 	double pri_s_c;
 	Time ActiveTime;
 	int ID; 

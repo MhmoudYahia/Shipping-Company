@@ -1,4 +1,4 @@
-#pragma once
+#pragma once                            //////////////////temp//////////////////////////////////
 #include"UIClass.h"
 #include "Queue.h"
 #include "VIPTruck.h"
@@ -12,9 +12,9 @@
 #include"CancellationEvent.h"
 #include"Event.h"
 #include"Time.h"
-#include"List.h"
+#include"List.h"  //temp
 #include<fstream>
-class Company
+class Company 
 {
 	// Input file variables 
 	
