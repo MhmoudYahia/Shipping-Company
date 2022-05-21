@@ -50,18 +50,18 @@ void Company::StepbyStepSimulation()
 	while (cnt++) {
 		TSM++;
 		ExecuteEvents();
+		//LoadCargos();
+		Assign_Ignore_Loading_Rule();
+		incrementWHs();
 		checkforAutop();
 		CheckFailure();
 		CheckforCheckupTrucks();
 		CheckforTrucks();
-		//LoadCargos();
-		Assign_Ignore_Loading_Rule();
 		PrintConsole();
 		Sleep(1500);
 		++CurrentTime;
 		incrementWHs();
-		this->OutputFile();
-		
+		//this->OutputFile();
 	}
 }
 
@@ -69,7 +69,8 @@ void Company::InteractiveSimulation() {
 	int cnt = 10;
 	while (cnt++) {
 		ExecuteEvents();
-		LoadCargos();
+		//LoadCargos();
+		Assign_Ignore_Loading_Rule();
 		incrementWHs();
 		checkforAutop();
 		CheckFailure();
@@ -1020,7 +1021,6 @@ void Company::CheckforTrucks() {
 	Queue<Truck* > temp;
 	if (!this->isClosed()) {
 		while (LoadingTrucks.GetCount() > 0) {
-
 			LoadingTrucks.dequeue(T);
 			if (T->getTimeforLoading() == CurrentTime) {
 				T->updatePriority();
