@@ -160,6 +160,8 @@ public:
 	void CheckforTrucks(); // Check for moving , loading , checkup 
 	void CheckFailure();
 	void Deliver(Truck* &);
+	void Assign_Ignore_Loading_Rule();
+	void AddtoLoading(Truck*);
 
 								
 	Time AverageWaitingTime_DeliveredNormalCargos();	//ismail

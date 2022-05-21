@@ -54,7 +54,8 @@ void Company::StepbyStepSimulation()
 		CheckFailure();
 		CheckforCheckupTrucks();
 		CheckforTrucks();
-		LoadCargos();
+		//LoadCargos();
+		Assign_Ignore_Loading_Rule();
 		PrintConsole();
 		Sleep(1500);
 		++CurrentTime;
@@ -1244,6 +1245,123 @@ Time Company::AverageWaitingTime_DeliveredVIPCargos()
 	}
 	return time;
 }
+void Company::Assign_Ignore_Loading_Rule() {
+	Truck* NT = nullptr;
+	Truck* VT = nullptr;
+	Truck* ST = nullptr;
+	Cargo* C;
+
+	// VIP Cargos 
+		// VIP Trucks
+	while (VIPEmptyTrucks.GetCount() > 0 && WaitingVIPCargos.GetCount() > 0) {
+		VIPEmptyTrucks.dequeue(VT);
+		while (WaitingVIPCargos.dequeue(C) && !VT->isFull()) {
+			C->setDel_T(CurrentTime);
+			VT->AddCargo(C);
+		}
+		if (VT->isFull()) {
+			AddtoLoading(VT); VT = nullptr;
+		}
+	}
+		// Normal Trucks
+	while (NormalEmptyTrucks.GetCount() > 0 && WaitingVIPCargos.GetCount() > 0) {
+		NormalEmptyTrucks.dequeue(NT);
+		while (WaitingVIPCargos.dequeue(C) && !VT->isFull()) {
+			C->setDel_T(CurrentTime);
+			NT->AddCargo(C);
+		}
+		if (NT->isFull()) {
+			AddtoLoading(NT); NT = nullptr;
+		}
+	}
+		// Special Trucks
+	while (SpecialEmptyTrucks.GetCount() > 0 && WaitingVIPCargos.GetCount() > 0) {
+		SpecialEmptyTrucks.dequeue(ST);
+		while (WaitingVIPCargos.dequeue(C) && !ST->isFull()) {
+			C->setDel_T(CurrentTime);
+			ST->AddCargo(C);
+		}
+		if (ST->isFull()) {
+			AddtoLoading(ST); ST = nullptr;
+		}
+	}
+
+	//Special Cargos 
+	if (ST) {
+		while (!ST->isFull() && WaitingSpecialCargos.dequeue(C)) {
+			C->setDel_T(CurrentTime);
+			ST->AddCargo(C);
+		}	
+		AddtoLoading(ST); ST = nullptr;
+	}
+	while (SpecialEmptyTrucks.GetCount() > 0 && WaitingSpecialCargos.GetCount() > 0) {
+		SpecialEmptyTrucks.dequeue(ST);
+		while (WaitingSpecialCargos.dequeue(C) && !ST->isFull()) {
+			C->setDel_T(CurrentTime);
+			ST->AddCargo(C);
+		}
+		if (ST->isFull()) {
+			AddtoLoading(ST); ST = nullptr;
+		}
+	}
+	// Normal Cargos 
+		// Normal Trucks
+	if (NT) {
+		while (!NT->isFull() && WaitingNormalCargos.DeleteFirst(C)) {
+			C->setDel_T(CurrentTime);
+			NT->AddCargo(C);
+		}
+		AddtoLoading(NT); NT = nullptr;
+	}
+	while (WaitingNormalCargos.GetCount() > 0&& NormalEmptyTrucks.GetCount() > 0) {
+			NormalEmptyTrucks.dequeue(NT);
+			while (WaitingNormalCargos.DeleteFirst(C)&&!NT->isFull()) {
+				C->setDel_T(CurrentTime);
+				NT->AddCargo(C);
+			}
+			if (NT->isFull()) {
+				AddtoLoading(NT); NT = nullptr;
+			}
+	}
+		//VIP Trucks
+	if (VT) {
+		while (!VT->isFull() && WaitingVIPCargos.dequeue(C)) {
+			C->setDel_T(CurrentTime);
+			VT->AddCargo(C);
+		}
+		AddtoLoading(VT); VT = nullptr;
+	}
+	while (WaitingNormalCargos.GetCount() > 0 && VIPEmptyTrucks.GetCount() > 0) {
+		VIPEmptyTrucks.dequeue(VT);
+		while (WaitingNormalCargos.DeleteFirst(C) && !VT->isFull()) {
+			C->setDel_T(CurrentTime);
+			VT->AddCargo(C);
+		}
+		if (VT->isFull()) {
+			AddtoLoading(VT); VT = nullptr;
+		}
+	}
+	if (VT) AddtoLoading(VT);
+	if (NT) AddtoLoading(NT);
+	if (ST) AddtoLoading(ST);
+}
+
+void Company::AddtoLoading(Truck* ST) {
+	ST->incrementJC();
+	ST->updateDI();
+	ST->setTimeforDelivery(this->CurrentTime);
+	ST->setTimeforReturn(this->CurrentTime);
+	ST->setTimeforLoading(this->CurrentTime);
+	ST->updateCargosDT();
+	ST->ResetCargoCount();
+	LoadingTrucks.enqueue(ST);
+}
+
+
+
+
+
+
 //void Company::set_NumberOfAutoPromotedCargos(int i)
 //{
 //	this->NumberOfAutoPromotedCargos = i;
