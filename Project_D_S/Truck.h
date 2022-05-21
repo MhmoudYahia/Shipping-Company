@@ -75,4 +75,5 @@ public:
 	int getTC();
 	void ResetCargoCount();
 	bool CanWorkAtNight();
+	void moveCargostoWaiting(Company* cptr);
 };
