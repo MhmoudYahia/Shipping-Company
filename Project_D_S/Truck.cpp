@@ -1,6 +1,16 @@
 #include "Truck.h"
 #include "Company.h"
 
+int Truck::getCheckCount()
+{
+	return Checkcount;
+}
+
+void Truck::resetCheckcount()
+{
+	Checkcount = 0;
+}
+
 void Truck::UPdatePriority_s_c()
 {
 	pri_s_c = Speed/100 + 1.0/TC;
@@ -16,6 +26,16 @@ int Truck::GetID()
 	return ID;
 }
 
+double Truck::getSpeed()
+{
+	return Speed;
+}
+
+void Truck::setSpeed(int a)
+{
+	Speed = a;
+}
+
 Truck::Truck(int ID, int TC, int TS, bool c) {
 	this->ID = ID;
 	this->TC = TC;
@@ -26,6 +46,7 @@ Truck::Truck(int ID, int TC, int TS, bool c) {
 	LoadTimeofAllcargos = 0;
 	UPdatePriority_s_c();
 	Night = c; 
+	Checkcount = 0;
 }
 
 bool Truck::AddCargo(Cargo* C) {

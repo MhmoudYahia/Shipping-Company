@@ -406,6 +406,7 @@ void Company::Loading_File()
 		V_Night.enqueue(temp);
 	}
 	Lfile >> JourneyCount>> NTruckCheckupDuration>>STruckCheckupDuration>>VTruckChekcupDuration;
+	Lfile >> NumberofCheckupsforMaintenence >> NMaintenceneD >> SMaintenenceD >> VMaintenenceD;
 	Lfile >> AutoP >> MaxW;
 	Lfile >> EventCount;
 	char E;
@@ -806,48 +807,61 @@ bool Company::AssignNormal() {
 	return false;
 }
 void Company::AssignVIPTruck(int T) {
-		Cargo* C = nullptr;
-		Truck* VT;
-		bool CangoNow = false;
-		if (VIPEmptyTrucks.GetCount() == 0) return;
-		VIPEmptyTrucks.peak(VT);
-		if (T == 0 && VT->getTC() > WaitingVIPCargos.GetCount()) return;
-		if (T == 1 && VT->getTC() > WaitingNormalCargos.GetCount()) return;
-		if (T == 2 && VT->getTC() > VCargosExceededMaxW.GetCount() < 1) return;
-		if (T == 3 && VT->getTC() > NCargosExceededMaxW.GetCount() < 1) return;
-		VIPEmptyTrucks.dequeue(VT);
-		if (T == 0) {
-			while (WaitingVIPCargos.dequeue(C) && !VT->isFull()) {
-				C->setDel_T(CurrentTime);
-				VT->AddCargo(C);
-			}
+	Cargo* C = nullptr;
+	Truck* VT;
+	bool CangoNow = false;
+	if (VIPEmptyTrucks.GetCount() == 0) return;
+	VIPEmptyTrucks.peak(VT);
+	if (T == 0 && VT->getTC() > WaitingVIPCargos.GetCount()) return;
+	if (T == 1 && VT->getTC() > WaitingNormalCargos.GetCount()) return;
+	if (T == 2 && VT->getTC() > VCargosExceededMaxW.GetCount() < 1) return;
+	if (T == 3 && VT->getTC() > NCargosExceededMaxW.GetCount() < 1) return;
+	VIPEmptyTrucks.dequeue(VT);
+	//===================================== for bonus
+	if (VT->getCheckCount() > NumberofCheckupsforMaintenence)
+	{
+		VT->resetCheckcount();
+		VMaintenenceTrucks.enqueue(VT);
+		VT->setSpeed(0.5 * VT->getSpeed());
+		AssignVIPTruck(T);
+
+	}
+	//=============================================
+	else {
+	if (T == 0) {
+		while (WaitingVIPCargos.dequeue(C) && !VT->isFull()) {
+			C->setDel_T(CurrentTime);
+			VT->AddCargo(C);
 		}
-		else if (T == 1) {
-			while (WaitingNormalCargos.DeleteFirst(C) && !VT->isFull()) {
-				C->setDel_T(CurrentTime);
-				VT->AddCargo(C);
-			}
+	}
+	else if (T == 1) {
+		while (WaitingNormalCargos.DeleteFirst(C) && !VT->isFull()) {
+			C->setDel_T(CurrentTime);
+			VT->AddCargo(C);
 		}
-		else if (T == 2 && VCargosExceededMaxW.GetCount() > 0) {
-			while (VCargosExceededMaxW.dequeue(C) && !VT->isFull()) {
-				C->setDel_T(CurrentTime);
-				VT->AddCargo(C);
-			}
+	}
+	else if (T == 2 && VCargosExceededMaxW.GetCount() > 0) {
+		while (VCargosExceededMaxW.dequeue(C) && !VT->isFull()) {
+			C->setDel_T(CurrentTime);
+			VT->AddCargo(C);
 		}
-		else if (T == 3 && NCargosExceededMaxW.GetCount() > 0) {
-			while (NCargosExceededMaxW.dequeue(C) && !VT->isFull()) {
-				C->setDel_T(CurrentTime);
-				VT->AddCargo(C);
-			}
+	}
+	else if (T == 3 && NCargosExceededMaxW.GetCount() > 0) {
+		while (NCargosExceededMaxW.dequeue(C) && !VT->isFull()) {
+			C->setDel_T(CurrentTime);
+			VT->AddCargo(C);
 		}
-		VT->incrementJC();
-		VT->updateDI();
-		VT->setTimeforDelivery(this->CurrentTime );
-		VT->setTimeforReturn(this->CurrentTime);
-		VT->setTimeforLoading(this->CurrentTime);
-		VT->updateCargosDT();
-		VT->ResetCargoCount();
-		LoadingTrucks.enqueue(VT);
+	}
+
+	VT->incrementJC();
+	VT->updateDI();
+	VT->setTimeforDelivery(this->CurrentTime);
+	VT->setTimeforReturn(this->CurrentTime);
+	VT->setTimeforLoading(this->CurrentTime);
+	VT->updateCargosDT();
+	VT->ResetCargoCount();
+	LoadingTrucks.enqueue(VT);
+}
 }
 void Company::AssignNormalTruck(int T) {
 		Cargo* C = nullptr;
@@ -859,8 +873,19 @@ void Company::AssignNormalTruck(int T) {
 		if (T == 2 && NT->getTC() > VCargosExceededMaxW.GetCount() < 1) return;
 		if (T == 3 && NT->getTC() > NCargosExceededMaxW.GetCount() < 1) return;
 		NormalEmptyTrucks.dequeue(NT);
-		cout << NT->GetID() << " " << NT->getTC() << endl;
-		bool CangoNow = false; 
+		//=====================================
+		if (NT->getCheckCount() > NumberofCheckupsforMaintenence)
+		{
+			NT->resetCheckcount();
+			NMaintenenceTrucks.enqueue(NT);
+			NT->setSpeed(0.5 * NT->getSpeed());
+			AssignNormalTruck(T);
+
+		}
+		//=============================================
+		else {
+			cout << NT->GetID() << " " << NT->getTC() << endl;
+			bool CangoNow = false;
 			if (T == 0) {
 				while (WaitingVIPCargos.dequeue(C) && !NT->isFull()) {
 					C->setDel_T(CurrentTime);
@@ -885,16 +910,17 @@ void Company::AssignNormalTruck(int T) {
 					C->setDel_T(CurrentTime);
 					NT->AddCargo(C);
 				}
-			}			
+			}
 			//if (!C) return; 
-		NT->incrementJC();
-		NT->updateDI();
-		NT->setTimeforDelivery(this->CurrentTime);
-		NT->setTimeforReturn(this->CurrentTime);
-		NT->setTimeforLoading(this->CurrentTime);
-		NT->updateCargosDT();
-		NT->ResetCargoCount();
-		LoadingTrucks.enqueue(NT);
+			NT->incrementJC();
+			NT->updateDI();
+			NT->setTimeforDelivery(this->CurrentTime);
+			NT->setTimeforReturn(this->CurrentTime);
+			NT->setTimeforLoading(this->CurrentTime);
+			NT->updateCargosDT();
+			NT->ResetCargoCount();
+			LoadingTrucks.enqueue(NT);
+		}
 }
 void Company::AssignSpecialTruck(int T) {
 	Cargo* C = nullptr;
@@ -907,38 +933,51 @@ void Company::AssignSpecialTruck(int T) {
 	if (T == 2 && ST->getTC() > VCargosExceededMaxW.GetCount() < 1) return;
 	if (T == 3 && ST->getTC() > SCargosExceededMaxW.GetCount() < 1) return;
 	SpecialEmptyTrucks.dequeue(ST);
-	if (T == 0 && WaitingVIPCargos.GetCount() > 0 && WaitingVIPCargos.GetCount() >= ST->getTC()) {
-		while (WaitingVIPCargos.dequeue(C) && !ST->isFull()) {
-			C->setDel_T(CurrentTime);
-			ST->AddCargo(C);
-		}
+	//===========================for bonus
+	if (ST->getCheckCount() > NumberofCheckupsforMaintenence)
+	{
+		ST->resetCheckcount();
+		SMaintenenceTrucks.enqueue(ST);
+		ST->setSpeed(0.5*ST->getSpeed());
+		AssignSpecialTruck(T);
+
 	}
-	else if (T == 1 && WaitingSpecialCargos.GetCount() > 0 && WaitingSpecialCargos.GetCount() >= ST->getTC()) {
-		while (WaitingSpecialCargos.dequeue(C) && !ST->isFull()) {
-			C->setDel_T(CurrentTime);
-			ST->AddCargo(C);
+	//===========================
+	else {
+
+		if (T == 0 && WaitingVIPCargos.GetCount() > 0 && WaitingVIPCargos.GetCount() >= ST->getTC()) {
+			while (WaitingVIPCargos.dequeue(C) && !ST->isFull()) {
+				C->setDel_T(CurrentTime);
+				ST->AddCargo(C);
+			}
 		}
-	}
-	else if (T == 2 && VCargosExceededMaxW.GetCount() > 0) {
-		while (VCargosExceededMaxW.dequeue(C) && !ST->isFull()) {
-			C->setDel_T(CurrentTime);
-			ST->AddCargo(C);
+		else if (T == 1 && WaitingSpecialCargos.GetCount() > 0 && WaitingSpecialCargos.GetCount() >= ST->getTC()) {
+			while (WaitingSpecialCargos.dequeue(C) && !ST->isFull()) {
+				C->setDel_T(CurrentTime);
+				ST->AddCargo(C);
+			}
 		}
-	}
-	else if (T == 3 && SCargosExceededMaxW.GetCount() > 0) {
-		while (SCargosExceededMaxW.dequeue(C) && !ST->isFull()) {
-			C->setDel_T(CurrentTime);
-			ST->AddCargo(C);
+		else if (T == 2 && VCargosExceededMaxW.GetCount() > 0) {
+			while (VCargosExceededMaxW.dequeue(C) && !ST->isFull()) {
+				C->setDel_T(CurrentTime);
+				ST->AddCargo(C);
+			}
 		}
+		else if (T == 3 && SCargosExceededMaxW.GetCount() > 0) {
+			while (SCargosExceededMaxW.dequeue(C) && !ST->isFull()) {
+				C->setDel_T(CurrentTime);
+				ST->AddCargo(C);
+			}
+		}
+		ST->incrementJC();
+		ST->updateDI();
+		ST->setTimeforDelivery(this->CurrentTime);
+		ST->setTimeforReturn(this->CurrentTime);
+		ST->setTimeforLoading(this->CurrentTime);
+		ST->updateCargosDT();
+		ST->ResetCargoCount();
+		LoadingTrucks.enqueue(ST);
 	}
-	ST->incrementJC();
-	ST->updateDI();
-	ST->setTimeforDelivery(this->CurrentTime);
-	ST->setTimeforReturn(this->CurrentTime);
-	ST->setTimeforLoading(this->CurrentTime);
-	ST->updateCargosDT();
-	ST->ResetCargoCount();
-	LoadingTrucks.enqueue(ST);
 }
 void Company::AssignExceeded() {
 	Cargo* Cargoptr;
@@ -994,6 +1033,14 @@ void Company::CreateTrucks() {
 			VIPEmptyTrucks.enqueue(N,N->getprio_s_c());
 		}
 }
+
+//void Company::Checkformaintenence() {                  not complete yet
+//	Truck* T;
+//	Queue<Truck*>q;
+//	while (NMaintenenceTrucks.dequeue(T)) {
+//		if()
+//	}
+//}
 void Company::CheckforCheckupTrucks() {
 	Truck* T; 
 	Queue<Truck* >temp;
@@ -1011,7 +1058,10 @@ void Company::CheckforCheckupTrucks() {
 		else temp.enqueue(T);
 	}
 	while (temp.GetCount() > 0 && temp.dequeue(T))NormalEmptyTrucks.enqueue(T,T->getprio_s_c());
+	// Check for SP
+
 	
+
 }
 void Company::CheckforTrucks() {
 	Truck* T;

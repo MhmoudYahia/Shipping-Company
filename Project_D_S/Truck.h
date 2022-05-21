@@ -10,7 +10,7 @@ class UIClass;
 class Truck
 {
 protected:
-	
+	int Checkcount;
 	double pri_s_c;
 	Time ActiveTime;
 	int ID; 
@@ -33,9 +33,13 @@ protected:
 	Time putInMaintenanceTime;		//shaheen
 	bool Night;
 public:
+	int getCheckCount();
+	void resetCheckcount();
 	void UPdatePriority_s_c();
 	double getprio_s_c();
 	int GetID();
+	double getSpeed();
+	void setSpeed(int);
 	//void ChangeState(State S);
 	Truck(int ID , int TC , int TS , bool );
 	bool AddCargo(Cargo* C);
