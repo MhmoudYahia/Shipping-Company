@@ -122,9 +122,9 @@ public:
 	void OutputFile();
 	Time AverageWaitingTime();
 	void ExecuteEvents();
-	void AddCargotoVIPWaiting(VIPCargo* C);
+	void AddCargotoVIPWaiting(Cargo* C);
 	void AddCargotoNormalWaiting(Cargo* n);
-	void AddCargotoSpWaiting(SpecialCargo* n);
+	void AddCargotoSpWaiting(Cargo* n);
 	void PrintEvents();
 	void CancellationID(int id);
 	NormalCargo* GetNormalCargo(int id);
@@ -158,6 +158,7 @@ public:
 	void CreateTrucks(); 
 	void CheckforCheckupTrucks();
 	void CheckforTrucks(); // Check for moving , loading , checkup 
+	void CheckFailure();
 	void Deliver(Truck* &);
 
 								

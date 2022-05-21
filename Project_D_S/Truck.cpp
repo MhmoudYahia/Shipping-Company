@@ -199,3 +199,13 @@ void Truck::ResetCargoCount() {
 bool Truck::CanWorkAtNight() {
 	return Night;
 }
+void Truck::moveCargostoWaiting(Company* cptr) {
+	Cargo* c;
+	while (TruckCargos->dequeue(c)) {
+		if (dynamic_cast<NormalCargo*>(c))
+			cptr->AddCargotoNormalWaiting(c);
+		else if (dynamic_cast<SpecialCargo*>(c))
+			cptr->AddCargotoSpWaiting(c);
+		else cptr->AddCargotoVIPWaiting(c);
+	}
+}

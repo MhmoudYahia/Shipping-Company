@@ -50,6 +50,9 @@ void Company::StepbyStepSimulation()
 	while (cnt++) {
 		TSM++;
 		ExecuteEvents();
+		checkforAutop();
+		CheckFailure();
+		CheckforCheckupTrucks();
 		CheckforTrucks();
 		LoadCargos();
 		PrintConsole();
@@ -58,6 +61,22 @@ void Company::StepbyStepSimulation()
 		incrementWHs();
 		this->OutputFile();
 		
+	}
+}
+
+void Company::InteractiveSimulation() {
+	int cnt = 10;
+	while (cnt++) {
+		ExecuteEvents();
+		LoadCargos();
+		incrementWHs();
+		checkforAutop();
+		CheckFailure();
+		CheckforCheckupTrucks();
+		CheckforTrucks();
+		PrintConsole();
+		++CurrentTime;
+		pUI->getKey();
 	}
 }
 void Company::PrintConsole() {
@@ -76,19 +95,6 @@ void Company::PrintConsole() {
 	pUI->PrintLine();
 }
 
-void Company::InteractiveSimulation() {
-	int cnt = 10;
-	while (cnt++) {
-		ExecuteEvents();
-		LoadCargos();
-		incrementWHs();
-		checkforAutop();
-		CheckforTrucks();
-		PrintConsole();
-		++CurrentTime;
-		pUI->getKey();	
-	}
-}
 
 void Company::checkforAutop() {
 	Cargo* cptr;
@@ -497,14 +503,14 @@ void Company:: ExecuteEvents() {
 	
 }
 
-void Company::AddCargotoVIPWaiting(VIPCargo* C) {
+void Company::AddCargotoVIPWaiting(Cargo* C) {
 	WaitingVIPCargos.enqueue(C, C->Getpriority());
 }
 
 void Company::AddCargotoNormalWaiting(Cargo* n) {
 	WaitingNormalCargos.InsertEnd(n);
 }
-void Company::AddCargotoSpWaiting(SpecialCargo* n) {
+void Company::AddCargotoSpWaiting(Cargo* n) {
 	WaitingSpecialCargos.enqueue(n);
 }
 void Company::PrintEvents() {
@@ -1029,25 +1035,25 @@ void Company::CheckforTrucks() {
 			LoadingTrucks.enqueue(T);
 	}
 	else {
-		while (LoadingTrucks.GetCount() > 0) {
+	while (LoadingTrucks.GetCount() > 0) {
 
-			LoadingTrucks.dequeue(T);
+		LoadingTrucks.dequeue(T);
 
-			if (T->getTimeforLoading() == CurrentTime && T->CanWorkAtNight()) {
-				T->updatePriority();
-				MovingTrucks.enqueue(T, T->getPriority());
-			}
-			else if (T->getTimeforLoading() == CurrentTime && !T->CanWorkAtNight()) {
-				TRKsWhenClosed.enqueue(T);
-			}
-			else {
-				temp.enqueue(T);
-
-			}
+		if (T->getTimeforLoading() == CurrentTime && T->CanWorkAtNight()) {
+			T->updatePriority();
+			MovingTrucks.enqueue(T, T->getPriority());
+		}
+		else if (T->getTimeforLoading() == CurrentTime && !T->CanWorkAtNight()) {
+			TRKsWhenClosed.enqueue(T);
+		}
+		else {
+			temp.enqueue(T);
 
 		}
-		while (temp.dequeue(T))
-			LoadingTrucks.enqueue(T);
+
+	}
+	while (temp.dequeue(T))
+		LoadingTrucks.enqueue(T);
 	}
 	if (CurrentTime.gethour() == 5) {
 		while (TRKsWhenClosed.dequeue(T)) {
@@ -1061,7 +1067,7 @@ void Company::CheckforTrucks() {
 	while (MovingTrucks.dequeue(T)) {
 		Queue<Cargo* > Cargos = T->getDelivered(CurrentTime);
 		cout << T->getTimeforReturn().getDAY() << ":" << T->getTimeforReturn().gethour() << endl;
-		if (Cargos.GetCount()>0) {
+		if (Cargos.GetCount() > 0) {
 			Cargo* C;
 			while (Cargos.GetCount() > 0) {
 				Cargos.dequeue(C);
@@ -1081,9 +1087,9 @@ void Company::CheckforTrucks() {
 				t.sethour(CurrentTime.gethour() + T->get_MaintenanceTime());
 				T->set_putInMaintenanceTime(t);
 			}
-			else if (dynamic_cast<NormalTruck*> (T)) NormalEmptyTrucks.enqueue(T,T->getprio_s_c());
-			else if (dynamic_cast<SpecialTruck*> (T)) SpecialEmptyTrucks.enqueue(T,T->getprio_s_c());
-			else VIPEmptyTrucks.enqueue(T,T->getprio_s_c());
+			else if (dynamic_cast<NormalTruck*> (T)) NormalEmptyTrucks.enqueue(T, T->getprio_s_c());
+			else if (dynamic_cast<SpecialTruck*> (T)) SpecialEmptyTrucks.enqueue(T, T->getprio_s_c());
+			else VIPEmptyTrucks.enqueue(T, T->getprio_s_c());
 		}
 		else {
 			temp2.enqueue(T);
@@ -1093,15 +1099,15 @@ void Company::CheckforTrucks() {
 
 	while (temp2.GetCount() > 0) {
 		temp2.dequeue(T);
-		MovingTrucks.enqueue(T,T->getPriority());
+		MovingTrucks.enqueue(T, T->getPriority());
 	}
 	cout << MovingTrucks.GetCount() << endl;
-	
+
 	for (int i = 0; i < NInCheckupTrucks.GetCount(); i++)	//ismail for N
 	{
 		bo = NInCheckupTrucks.dequeue(T);
 		if (T->get_putInMaintenanceTime() == CurrentTime)
-			bo = NormalEmptyTrucks.enqueue(T,T->getprio_s_c());
+			bo = NormalEmptyTrucks.enqueue(T, T->getprio_s_c());
 		else
 			bo = NInCheckupTrucks.enqueue(T);
 	}
@@ -1109,7 +1115,7 @@ void Company::CheckforTrucks() {
 	{
 		bo = SInCheckupTrucks.dequeue(T);
 		if (T->get_putInMaintenanceTime() == CurrentTime)
-			bo = SpecialEmptyTrucks.enqueue(T,T->getprio_s_c());
+			bo = SpecialEmptyTrucks.enqueue(T, T->getprio_s_c());
 		else
 			bo = SInCheckupTrucks.enqueue(T);
 	}
@@ -1117,10 +1123,30 @@ void Company::CheckforTrucks() {
 	{
 		bo = VInCheckupTrucks.dequeue(T);
 		if (T->get_putInMaintenanceTime() == CurrentTime)
-			bo = VIPEmptyTrucks.enqueue(T,T->getprio_s_c());
+			bo = VIPEmptyTrucks.enqueue(T, T->getprio_s_c());
 		else
 			bo = VInCheckupTrucks.enqueue(T);
 	}
+}
+void Company::CheckFailure() {
+	srand(time(0));
+	Truck* T;
+	Queue<Truck*>q;
+	while (MovingTrucks.dequeue(T)) {
+		int a = (rand() % 20) + 1;
+		if (a == 15) {
+			T->moveCargostoWaiting(this);
+			if (dynamic_cast<NormalTruck*>(T))
+				NInCheckupTrucks.enqueue(T);
+			else if (dynamic_cast<SpecialTruck*>(T))
+				SInCheckupTrucks.enqueue(T);
+			else VInCheckupTrucks.enqueue(T);
+		}
+		else q.enqueue(T);
+
+	}
+	while (q.dequeue(T))
+		MovingTrucks.enqueue(T,T->getPriority());
 }
 
 void Company::Deliver(Truck * &T) {
