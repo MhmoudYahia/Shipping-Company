@@ -144,9 +144,13 @@ public:
 	void PrintNInCheckupTRKs(UIClass* pUI);
 	void PrintSInCheckupTRKs(UIClass* pUI);
 	void PrintVInCheckupTRKs(UIClass* pUI);
+	void PrintNMaintenenceTRKs(UIClass* pUI);
+	void PrintVMaintenenceTRKs(UIClass* pUI);
+	void PrintSMaintenenceTRKs(UIClass* pUI);
 	int GetNumOfLaoding();
 	void PrintLoading(UIClass* pUI);
 	int GetCountTRUCKSincheckup();
+	int GetCountTRKsMaintence();
 	int Getcountall_waiting();
 	int GetnumOfDeliv();
 	void printDelivered(UIClass* pUI);

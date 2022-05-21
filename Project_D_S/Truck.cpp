@@ -1,6 +1,21 @@
 #include "Truck.h"
 #include "Company.h"
 
+int Truck::getTimeMaintenence()
+{
+	return MaintenenceD;
+}
+
+void Truck::Resetmaintenence()
+{
+	MaintenenceD = 0;
+}
+
+void Truck::incrementMNTNENCD()
+{
+	MaintenenceD++;
+}
+
 int Truck::getCheckCount()
 {
 	return Checkcount;
@@ -47,6 +62,7 @@ Truck::Truck(int ID, int TC, int TS, bool c) {
 	UPdatePriority_s_c();
 	Night = c; 
 	Checkcount = 0;
+	MaintenenceD = 0;
 }
 
 bool Truck::AddCargo(Cargo* C) {

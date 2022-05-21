@@ -40,6 +40,7 @@ public:
 	void Printcomma();
 	void PrintDeliveredCargo(Company* Cptr);
 	void PrintIn_CheckupTrucks(Company* C);
+	void PrintMaintenenceTrucks(Company* C);
 	void PrintEmptytrucks(Company* pC);
 	void PrintLoadingTrucks(Company* c);
 	void PrintSilentMode(Company* Cptr);	//ismail

@@ -139,6 +139,13 @@ void UIClass::PrintIn_CheckupTrucks(Company*C)
 	C->PrintSInCheckupTRKs(this);
 	C->PrintVInCheckupTRKs(this);
 }
+void UIClass::PrintMaintenenceTrucks(Company* C)
+{
+	cout << C->GetCountTRKsMaintence() << " Maintenence Trucks: ";
+	C->PrintNMaintenenceTRKs(this);
+	C->PrintSMaintenenceTRKs(this);
+	C->PrintVMaintenenceTRKs(this);
+}
 void UIClass::PrintEmptytrucks(Company* pC)
 {
 	cout << pC->GetNumOfEmptyTrcs() << " Empty Trucks: ";

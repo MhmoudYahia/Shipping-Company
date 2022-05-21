@@ -10,6 +10,7 @@ class UIClass;
 class Truck
 {
 protected:
+	int MaintenenceD;  ///bonus
 	int Checkcount;
 	double pri_s_c;
 	Time ActiveTime;
@@ -32,7 +33,11 @@ protected:
 	int DI; //Delivery Interval =(Distance of furthest cargo)/ speed + Sum of unload times of all its cargos + time to come back
 	Time putInMaintenanceTime;		//shaheen
 	bool Night;
+	
 public:
+	int getTimeMaintenence(); //bonus ...please do not confuse
+	void Resetmaintenence();
+	void incrementMNTNENCD();
 	int getCheckCount();
 	void resetCheckcount();
 	void UPdatePriority_s_c();

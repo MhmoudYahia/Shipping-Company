@@ -93,6 +93,8 @@ void Company::PrintConsole() {
 	pUI->PrintLine();
 	pUI->PrintIn_CheckupTrucks(this);
 	pUI->PrintLine();
+	pUI->PrintMaintenenceTrucks(this);
+	pUI->PrintLine();
 	pUI->PrintDeliveredCargo(this);
 	pUI->PrintLine();
 }
@@ -636,6 +638,28 @@ void Company::PrintVInCheckupTRKs(UIClass* pUI) {
 		pUI->closebraceforVIP();
 	}
 }
+
+void Company::PrintNMaintenenceTRKs(UIClass* pUI) {
+	if (NMaintenenceTrucks.GetCount() > 0) {
+		pUI->openbraceforNormal();
+		NMaintenenceTrucks.PrintQ(pUI);
+		pUI->closebraceforNormal();
+	}
+}
+void Company::PrintVMaintenenceTRKs(UIClass* pUI) {
+	if (VMaintenenceTrucks.GetCount() > 0) {
+		pUI->openbraceforVIP();
+		VMaintenenceTrucks.PrintQ(pUI);
+		pUI->closebraceforVIP();
+	}
+}
+void Company::PrintSMaintenenceTRKs(UIClass* pUI) {
+	if (SMaintenenceTrucks.GetCount() > 0) {
+		pUI->openbraceforSP();
+		SMaintenenceTrucks.PrintQ(pUI);
+		pUI->closebraceforSP();
+	}
+}
 int Company::GetNumOfLaoding() {
 	return LoadingTrucks.GetCount();
 }
@@ -669,6 +693,9 @@ void Company:: PrintLoading(UIClass* pUI) {
 }
 int Company::GetCountTRUCKSincheckup() {
 	return NInCheckupTrucks.GetCount() + SInCheckupTrucks.GetCount() + VInCheckupTrucks.GetCount();
+}
+int Company::GetCountTRKsMaintence() {
+	return NMaintenenceTrucks.GetCount() + VMaintenenceTrucks.GetCount() + SMaintenenceTrucks.GetCount();
 }
 int Company::Getcountall_waiting() {
 	return WaitingVIPCargos.GetCount() + WaitingNormalCargos.GetCount() + WaitingSpecialCargos.GetCount();
@@ -938,6 +965,7 @@ void Company::AssignSpecialTruck(int T) {
 	//===========================for bonus
 	if (ST->getCheckCount() > NumberofCheckupsforMaintenence)
 	{
+		ST->Resetmaintenence();
 		ST->resetCheckcount();
 		SMaintenenceTrucks.enqueue(ST);
 		ST->setSpeed(0.5*ST->getSpeed());
@@ -1036,13 +1064,56 @@ void Company::CreateTrucks() {
 		}
 }
 
-//void Company::Checkformaintenence() {                  not complete yet
-//	Truck* T;
-//	Queue<Truck*>q;
-//	while (NMaintenenceTrucks.dequeue(T)) {
-//		if()
-//	}
-//}
+void Company::Checkformaintenence() {                 
+	Truck* T;
+	Queue<Truck*>q;
+	if (NormalEmptyTrucks.GetCount() == 0&& NMaintenenceTrucks.dequeue(T)) {
+		T->setSpeed(0.5 * T->getSpeed());
+		NMaintenenceTrucks.enqueue(T);
+	}
+	if (VIPEmptyTrucks.GetCount() == 0 && VMaintenenceTrucks.dequeue(T)) {
+		T->setSpeed(0.5 * T->getSpeed());
+		VMaintenenceTrucks.enqueue(T);
+	}
+	if (SpecialEmptyTrucks.GetCount() == 0 && SMaintenenceTrucks.dequeue(T)) {
+		T->setSpeed(0.5 * T->getSpeed());
+		SMaintenenceTrucks.enqueue(T);
+	}
+
+	while (NMaintenenceTrucks.dequeue(T)) {
+		if (T->getTimeMaintenence() >= NMaintenceneD)
+			NormalEmptyTrucks.enqueue(T,T->getprio_s_c());
+		else {
+			T->incrementMNTNENCD();
+			q.enqueue(T);
+		}
+	}
+	while (q.dequeue(T))
+		NMaintenenceTrucks.enqueue(T);
+
+	while (VMaintenenceTrucks.dequeue(T)) {
+		if (T->getTimeMaintenence() >= VMaintenenceD)
+			VIPEmptyTrucks.enqueue(T, T->getprio_s_c());
+		else {
+			T->incrementMNTNENCD();
+			q.enqueue(T);
+		}
+	}
+	while (q.dequeue(T))
+		VMaintenenceTrucks.enqueue(T);
+
+	while (SMaintenenceTrucks.dequeue(T)) {
+		if (T->getTimeMaintenence() >= SMaintenenceD)
+			SpecialEmptyTrucks.enqueue(T, T->getprio_s_c());
+		else {
+			T->incrementMNTNENCD();
+			q.enqueue(T);
+		}
+	}
+	while (q.dequeue(T))
+		SMaintenenceTrucks.enqueue(T);
+
+}
 void Company::CheckforCheckupTrucks() {
 	Truck* T; 
 	Queue<Truck* >temp;
