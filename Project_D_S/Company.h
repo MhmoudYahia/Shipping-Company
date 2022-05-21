@@ -152,9 +152,9 @@ public:
 	bool AssignSpecial();
 	bool AssignVIP();
 	void AssignExceeded();
-	void AssignSpecialTruck(int T); // 0 for VIP Cargos 1 for special Cargos 2 for VExceededCargos 3 for SExceededCargos
-	void AssignNormalTruck(int T); // 0 for VIP Cargos 1 for Normal Cargos 2 for VExceededCargos 3 for NExceededCargos 
-	void AssignVIPTruck(int T); // 0 for VIP Cargos 1 for Normal Cargos 2 for VExceededCargos 3 for NExceededCargos
+	void AssignSpecialTruck(int); // 0 for VIP Cargos 1 for special Cargos 2 for VExceededCargos 3 for SExceededCargos
+	void AssignNormalTruck(int); // 0 for VIP Cargos 1 for Normal Cargos 2 for VExceededCargos 3 for NExceededCargos 
+	void AssignVIPTruck(int); // 0 for VIP Cargos 1 for Normal Cargos 2 for VExceededCargos 3 for NExceededCargos
 	void CreateTrucks(); 
 	void CheckforCheckupTrucks();
 	void CheckforTrucks(); // Check for moving , loading , checkup 
