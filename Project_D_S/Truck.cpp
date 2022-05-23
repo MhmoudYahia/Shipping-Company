@@ -249,9 +249,34 @@ Queue<Cargo* > Truck::getSCargos() {
 	while (temp.enqueue(C))TruckCargos->enqueue(C);
 	return Return; 
 }
+int Truck::getTimeMaintenence()
+{
+	return MaintenenceD;
+}
+
+void Truck::Resetmaintenence()
+{
+	MaintenenceD = 0;
+}
+
+void Truck::incrementMNTNENCD()
+{
+	MaintenenceD++;
+}
 bool Truck::isEmpty() {
 	return (CargoCount == 0);
 }
 void Truck::IncrementActiveTime() {
 	++ActiveTime;
+}
+int Truck::getCheckCount()
+{
+	return Checkcount;
+}
+void Truck::resetCheckcount()
+{
+	Checkcount = 0;
+}
+double Truck::getSpeed() {
+	return Speed;
 }
