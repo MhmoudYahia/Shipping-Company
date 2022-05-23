@@ -203,7 +203,7 @@ double Company::Trucks_ActiveTime()
 		bo = NormalTrucks.dequeue(truck);
 		int t = (truck->get_ActiveTime().getDAY() * 24 + truck->get_ActiveTime().gethour()); 
 		double x = (double)t / TSM;
-		ALL += t;
+		ALL += x;
 		bo = NormalTrucks.enqueue(truck);
 	}
 	for (int i = 0; i < SpecialTrucks.GetCount(); i++)
@@ -211,14 +211,14 @@ double Company::Trucks_ActiveTime()
 		bo = SpecialTrucks.dequeue(truck);
 		int t = (truck->get_ActiveTime().getDAY() * 24 + truck->get_ActiveTime().gethour());
 		double x = (double)t / TSM;
-		ALL += t;		bo = SpecialTrucks.enqueue(truck);
+		ALL += x;		bo = SpecialTrucks.enqueue(truck);
 	}
 	for (int i = 0; i < VIPTrucks.GetCount(); i++)
 	{
 		bo = VIPTrucks.dequeue(truck);
 		int t = (truck->get_ActiveTime().getDAY() * 24 + truck->get_ActiveTime().gethour());
 		double x = (double)t / TSM;
-		ALL += t;		bo = VIPTrucks.enqueue(truck);
+		ALL += x;		bo = VIPTrucks.enqueue(truck);
 	}
 	return ALL/TruckCount;
 }
@@ -295,6 +295,11 @@ double Company::VIPTrucks_Utilization()
 		bo = VIPTrucks.enqueue(truck);
 	}
 	return count;
+}
+double Company::ALL_Utilization()
+{
+	double ans = (VIPTrucks_Utilization() + NormalTrucks_Utilization() + SpecialTrucks_Utilization()) / TruckCount * 100.0;
+	return ans;
 }
 
 void Company::incrementWHs() {
@@ -1372,7 +1377,7 @@ void Company::Assign_Ignore_Loading_Rule() {
 		// Normal Trucks
 	while (NormalEmptyTrucks.GetCount() > 0 && WaitingVIPCargos.GetCount() > 0) {
 		NormalEmptyTrucks.dequeue(NT);
-		while (WaitingVIPCargos.dequeue(C) && !VT->isFull()) {
+		while (WaitingVIPCargos.dequeue(C) && !NT->isFull()) {
 			C->setDel_T(CurrentTime);
 			NT->AddCargo(C);
 		}
@@ -1573,7 +1578,8 @@ void Company::OutputFile() {			//ismail
 		AverageWaitingTime_DeliveredSpecialCargos().gethour() + AverageWaitingTime_DeliveredVIPCargos().gethour() << endl;
 
 	// AutoP
-	Lfile << "Auto-promoted Caros:" <<int((float(this->get_NumberOfAutoPromotedCargos()) / this->get_N_Cargo_Count()) * 100)  << "%\n";
+	int ALL = N_Cargo_Count + S_Cargo_Count + VIP_Cargo_Count;
+	Lfile << "Auto-promoted Cargos:" <<int((float(this->get_NumberOfAutoPromotedCargos()) / ALL) * 100)  << "%\n";
 
 	//Trucks
 	Lfile << "Trucks: " << get_numOf_N_Truck() + get_numOf_S_Truck() + get_numOf_VIP_Truck();
@@ -1581,9 +1587,9 @@ void Company::OutputFile() {			//ismail
 		<< ", " << "V: " << get_numOf_VIP_Truck() << "]\n";
 
 	// Active
-	Lfile << "Avg Active time = " << (int)Trucks_ActiveTime()<<" %\n";
+	Lfile << "Avg Active time = " << Trucks_ActiveTime()*100<<" %\n";
 
-	Lfile << "Avg utilization = " << NormalTrucks_Utilization() + SpecialTrucks_Utilization() + VIPTrucks_Utilization() << "%\n";
+	Lfile << "Avg utilization = " << ALL_Utilization()<<"%\n";
 	Lfile.close();
 }
 
