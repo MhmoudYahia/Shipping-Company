@@ -12,6 +12,7 @@ class Truck
 protected:
 	int MaintenenceD;  ///bonus
 	int Checkcount;
+	int TotalCargos;
 	double pri_s_c;
 	Time ActiveTime;
 	int ID; 

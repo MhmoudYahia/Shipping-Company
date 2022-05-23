@@ -27,6 +27,7 @@ Truck::Truck(int ID, int TC, int TS, bool c) {
 	UPdatePriority_s_c();
 	Night = c; 
 	ActiveTime.setDAY(0); ActiveTime.sethour(0);
+	TotalCargos = 0;
 }
 
 bool Truck::AddCargo(Cargo* C) {
@@ -40,6 +41,7 @@ bool Truck::AddCargo(Cargo* C) {
 	C->setDel_H(Speed);
 	C->set_TrkId(this->GetID());
 	CargoCount++;
+	TotalCargos++;
 	return true;
 }
 int Truck::GetCountOFCargosInTRK() {
@@ -59,8 +61,10 @@ double Truck::Truck_utilization(int T)
 {
 	if (JourneyCount == 0)
 		return 0;
-	else
-		return ((double)this->CargoCount / (this->TC * this->JourneyCount)*((this->ActiveTime.gethour() + 24 *this->ActiveTime.getDAY()) /T));
+	double ActiveHours = ActiveTime.getDAY() * 24 + ActiveTime.gethour();
+	double ans = (double)TotalCargos / (TC * JourneyCount) * (ActiveHours / T);
+	return ans;
+		//return ((double)this->CargoCount / (this->TC * this->JourneyCount)*((this->ActiveTime.gethour() + 24 *this->ActiveTime.getDAY()) /T));
 }
 
 bool Truck::RemoveCargo(Cargo* &C) {

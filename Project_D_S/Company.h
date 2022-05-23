@@ -201,6 +201,8 @@ public:
 	double SpecialTrucks_Utilization();		//ismail
 	double VIPTrucks_Utilization();		//ismail	
 	
+	double ALL_Utilization();		
+
 	int Get_JourneyCount();
 	void Calc_Delivered_Cargos_count();
 	int get_N_Cargo_Count();
