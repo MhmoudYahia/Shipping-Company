@@ -134,7 +134,7 @@ void UIClass::PrintDeliveredCargo(Company*Cptr) //
 }
 void UIClass::PrintIn_CheckupTrucks(Company*C)
 {
-	cout << C->GetCountTRUCKSincheckup() << " IncheckupTrucks: ";
+	cout << C->GetCountTRUCKSincheckup() << " Incheckup Trucks: ";
 	C->PrintNInCheckupTRKs(this);
 	C->PrintSInCheckupTRKs(this);
 	C->PrintVInCheckupTRKs(this);
