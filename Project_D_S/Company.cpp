@@ -376,7 +376,7 @@ void Company::Loading_File()
 	}
 	////////////
 	Lfile >> V;
-	 i =j =k= V;
+	i =j =k= V;
 	while (i--) {
 		Lfile >> temp;
 		VSpeeds.enqueue(temp);
