@@ -162,6 +162,9 @@ public:
 	void Deliver(Truck* &);
 	void Assign_Ignore_Loading_Rule();
 	void AddtoLoading(Truck*);
+	void Organize_Loading();
+	void AddtoEmpty(Truck*);
+	double Trucks_ActiveTime();
 
 								
 	Time AverageWaitingTime_DeliveredNormalCargos();	//ismail
