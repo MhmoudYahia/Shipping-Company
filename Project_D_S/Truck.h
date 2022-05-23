@@ -62,7 +62,7 @@ public:
 	bool isEmpty();
 	void set_ActiveTime();		//ismail
 	Time get_ActiveTime();		//ismail
-	int	Truck_utilization(int);
+	double Truck_utilization(int);
 	int getPriority();
 	Cargo* GetFurthestCargo();
 	void updatePriority();

@@ -255,11 +255,11 @@ Time Company::VIPTrucks_ActiveTime()
 	return time;
 }
 
-int Company::NormalTrucks_Utilization()
+double Company::NormalTrucks_Utilization()
 {
 	Truck* truck;
 	bool bo;
-	int count = 0;
+	double count = 0;
 	for (int i = 0; i < NormalTrucks.GetCount(); i++)
 	{
 		bo = NormalTrucks.dequeue(truck);
@@ -269,11 +269,11 @@ int Company::NormalTrucks_Utilization()
 	return count;
 }
 
-int Company::SpecialTrucks_Utilization()
+double Company::SpecialTrucks_Utilization()
 {
 	Truck* truck;
 	bool bo;
-	int count = 0;
+	double count = 0;
 	for (int i = 0; i < SpecialTrucks.GetCount(); i++)
 	{
 		bo = SpecialTrucks.dequeue(truck);
@@ -283,11 +283,11 @@ int Company::SpecialTrucks_Utilization()
 	return count;
 }
 
-int Company::VIPTrucks_Utilization()
+double Company::VIPTrucks_Utilization()
 {
 	Truck* truck;
 	bool bo;
-	int count = 0;
+	double count = 0;
 	for (int i = 0; i < VIPTrucks.GetCount(); i++)
 	{
 		bo = VIPTrucks.dequeue(truck);

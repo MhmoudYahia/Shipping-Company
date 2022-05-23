@@ -55,12 +55,12 @@ Time Truck::get_ActiveTime()
 	return this->ActiveTime;
 }
 
-int Truck::Truck_utilization(int T)
+double Truck::Truck_utilization(int T)
 {
 	if (JourneyCount == 0)
 		return 0;
 	else
-		return (this->CargoCount / (this->TC * this->JourneyCount)*((this->ActiveTime.gethour() + 24 *this->ActiveTime.getDAY()) /T));
+		return ((double)this->CargoCount / (this->TC * this->JourneyCount)*((this->ActiveTime.gethour() + 24 *this->ActiveTime.getDAY()) /T));
 }
 
 bool Truck::RemoveCargo(Cargo* &C) {

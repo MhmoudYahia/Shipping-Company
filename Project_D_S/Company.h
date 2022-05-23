@@ -197,9 +197,9 @@ public:
 	Time SpecialTrucks_ActiveTime();		//ismail
 	Time VIPTrucks_ActiveTime();		//ismail
 
-	int NormalTrucks_Utilization();		//ismail
-	int SpecialTrucks_Utilization();		//ismail
-	int VIPTrucks_Utilization();		//ismail	
+	double NormalTrucks_Utilization();		//ismail
+	double SpecialTrucks_Utilization();		//ismail
+	double VIPTrucks_Utilization();		//ismail	
 	
 	int Get_JourneyCount();
 	void Calc_Delivered_Cargos_count();
