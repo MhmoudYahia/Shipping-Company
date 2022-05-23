@@ -359,7 +359,7 @@ void Company::Loading_File()
 		N_Night.enqueue(temp);
 	}
 
-	/// </summary>
+	
 	Lfile >> S;
 	 i =  j = k =  S;
 	while (i--) {
