@@ -885,6 +885,7 @@ void Company::AssignNormalTruck(int T) {
 		//=====================================
 		if (NT->getCheckCount() > NumberofCheckupsforMaintenence)
 		{
+
 			NT->resetCheckcount();
 			NMaintenenceTrucks.enqueue(NT);
 			NT->setSpeed(0.5 * NT->getSpeed());
@@ -993,6 +994,7 @@ void Company::AssignExceeded() {
 	Cargo* Cargoptr;
 	if (VCargosExceededMaxW.GetCount() > 0) {
 		if (VIPEmptyTrucks.GetCount() > 0) {
+		
 			AssignVIPTruck(2);
 		}
 		else if (NormalEmptyTrucks.GetCount() > 0) {
