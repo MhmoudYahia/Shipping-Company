@@ -30,6 +30,10 @@ class Company
 	int NTruckCheckupDuration;
 	int STruckCheckupDuration; 
 	int VTruckChekcupDuration; 
+	int NumberofCheckupsforMaintenence;
+	int NMaintenceneD;
+	int VMaintenenceD;
+	int SMaintenenceD;
 	int MaxW;
 	int AutoP; // time for automatic promotion 
 	int EventCount;
@@ -51,6 +55,10 @@ class Company
 	Queue<Truck*> NInCheckupTrucks;
 	Queue<Truck*> SInCheckupTrucks;
 	Queue<Truck*> VInCheckupTrucks;
+
+	Queue<Truck*>NMaintenenceTrucks;
+	Queue<Truck*>VMaintenenceTrucks;
+	Queue<Truck*>SMaintenenceTrucks;
 
 	//Queue<Truck*> EmptyTrucks;
 	PriorityQueue<Truck*> VIPEmptyTrucks;
@@ -136,9 +144,13 @@ public:
 	void PrintNInCheckupTRKs(UIClass* pUI);
 	void PrintSInCheckupTRKs(UIClass* pUI);
 	void PrintVInCheckupTRKs(UIClass* pUI);
+	void PrintNMaintenenceTRKs(UIClass* pUI);
+	void PrintVMaintenenceTRKs(UIClass* pUI);
+	void PrintSMaintenenceTRKs(UIClass* pUI);
 	int GetNumOfLaoding();
 	void PrintLoading(UIClass* pUI);
 	int GetCountTRUCKSincheckup();
+	int GetCountTRKsMaintence();
 	int Getcountall_waiting();
 	int GetnumOfDeliv();
 	void printDelivered(UIClass* pUI);
@@ -152,10 +164,13 @@ public:
 	bool AssignSpecial();
 	bool AssignVIP();
 	void AssignExceeded();
-	void AssignSpecialTruck(int); // 0 for VIP Cargos 1 for special Cargos 2 for VExceededCargos 3 for SExceededCargos
-	void AssignNormalTruck(int); // 0 for VIP Cargos 1 for Normal Cargos 2 for VExceededCargos 3 for NExceededCargos 
-	void AssignVIPTruck(int); // 0 for VIP Cargos 1 for Normal Cargos 2 for VExceededCargos 3 for NExceededCargos
-	void CreateTrucks(); 
+	void AssignSpecialTruck(int T); // 0 for VIP Cargos 1 for special Cargos 2 for VExceededCargos 3 for SExceededCargos
+	void AssignNormalTruck(int T); // 0 for VIP Cargos 1 for Normal Cargos 2 for VExceededCargos 3 for NExceededCargos 
+	void AssignVIPTruck(int T); // 0 for VIP Cargos 1 for Normal Cargos 2 for VExceededCargos 3 for NExceededCargos
+	void CreateTrucks();
+	void Checkformaintenence();
+
+
 	void CheckforCheckupTrucks();
 	void CheckforTrucks(); // Check for moving , loading , checkup 
 	void CheckFailure();
