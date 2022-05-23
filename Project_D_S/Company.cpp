@@ -1370,7 +1370,7 @@ void Company::Assign_Ignore_Loading_Rule() {
 		// Normal Trucks
 	while (NormalEmptyTrucks.GetCount() > 0 && WaitingVIPCargos.GetCount() > 0) {
 		NormalEmptyTrucks.dequeue(NT);
-		while (WaitingVIPCargos.dequeue(C) && !VT->isFull()) {
+		while (WaitingVIPCargos.dequeue(C) && !NT->isFull()) {
 			C->setDel_T(CurrentTime);
 			NT->AddCargo(C);
 		}
