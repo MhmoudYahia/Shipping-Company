@@ -59,6 +59,7 @@ public:
 	int GetnumofCRGS();
 	void setSpeed(double);
 	bool isFull();
+	bool isEmpty();
 	void set_ActiveTime();		//ismail
 	Time get_ActiveTime();		//ismail
 	int	Truck_utilization(int);
@@ -85,4 +86,9 @@ public:
 	void ResetCargoCount();
 	bool CanWorkAtNight();
 	void moveCargostoWaiting(Company* cptr);
+	Queue<Cargo* > getNCargos();
+	Queue<Cargo* > getVCargos();
+	Queue<Cargo* > getSCargos();
+	Queue<Cargo* > * getCargos();
+	void IncrementActiveTime();
 };

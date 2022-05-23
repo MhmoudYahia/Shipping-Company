@@ -110,9 +110,6 @@ void Cargo::IncrementWaitingHours() {
 int Cargo::GetWaitingHours() {
 	return WaitingH;
 }
-void Cargo::resetWaitingHours() {
-	WaitingH = 0;
-}
 void Cargo::setDel_T(Time X) {
 	Del_T =  X + delvr_Hours;
 }

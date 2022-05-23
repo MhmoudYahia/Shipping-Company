@@ -80,7 +80,7 @@ void UIClass::Print(VIPTruck* t) {
 void UIClass::PrintSilentMode(Company* Cptr)
 {
 	cout << "SilentMode\n" << "Simulation Starts...\n" << "Simulation ends, Output file created\n";
-	Cptr->OutputFile();
+	//Cptr->OutputFile();
 }
 
 void UIClass::PrintError(string msg) {

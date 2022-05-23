@@ -1,31 +1,6 @@
 #include "Truck.h"
 #include "Company.h"
 
-int Truck::getTimeMaintenence()
-{
-	return MaintenenceD;
-}
-
-void Truck::Resetmaintenence()
-{
-	MaintenenceD = 0;
-}
-
-void Truck::incrementMNTNENCD()
-{
-	MaintenenceD++;
-}
-
-int Truck::getCheckCount()
-{
-	return Checkcount;
-}
-
-void Truck::resetCheckcount()
-{
-	Checkcount = 0;
-}
-
 void Truck::UPdatePriority_s_c()
 {
 	pri_s_c = Speed/100 + 1.0/TC;
@@ -41,16 +16,6 @@ int Truck::GetID()
 	return ID;
 }
 
-double Truck::getSpeed()
-{
-	return Speed;
-}
-
-void Truck::setSpeed(int a)
-{
-	Speed = a;
-}
-
 Truck::Truck(int ID, int TC, int TS, bool c) {
 	this->ID = ID;
 	this->TC = TC;
@@ -61,8 +26,7 @@ Truck::Truck(int ID, int TC, int TS, bool c) {
 	LoadTimeofAllcargos = 0;
 	UPdatePriority_s_c();
 	Night = c; 
-	Checkcount = 0;
-	MaintenenceD = 0;
+	ActiveTime.setDAY(0); ActiveTime.sethour(0);
 }
 
 bool Truck::AddCargo(Cargo* C) {
@@ -245,4 +209,49 @@ void Truck::moveCargostoWaiting(Company* cptr) {
 			cptr->AddCargotoSpWaiting(c);
 		else cptr->AddCargotoVIPWaiting(c);
 	}
+}
+Queue<Cargo* >* Truck::getCargos() {
+	return TruckCargos;
+}
+Queue<Cargo* > Truck::getNCargos() {
+	Cargo* C;
+	Queue<Cargo* > temp; Queue<Cargo* > Return;
+	while (TruckCargos->dequeue(C)) {
+		if (dynamic_cast<NormalCargo*> (C)) {
+			Return.enqueue(C);
+		}
+		else temp.enqueue(C);
+	}
+	while (temp.enqueue(C))TruckCargos->enqueue(C);
+	return Return;
+}
+Queue<Cargo* > Truck::getVCargos() {
+	Cargo* C;
+	Queue<Cargo* > temp; Queue<Cargo* > Return;
+	while (TruckCargos->dequeue(C)) {
+		if (dynamic_cast<VIPCargo*> (C)) {
+			Return.enqueue(C);
+		}
+		else temp.enqueue(C);
+	}
+	while (temp.enqueue(C))TruckCargos->enqueue(C);
+	return Return;
+}
+Queue<Cargo* > Truck::getSCargos() {
+	Cargo* C;
+	Queue<Cargo* > temp; Queue<Cargo* > Return;
+	while (TruckCargos->dequeue(C)) {
+		if (dynamic_cast<SpecialCargo* > (C)) {
+			Return.enqueue(C);
+		}
+		else temp.enqueue(C);
+	}
+	while (temp.enqueue(C))TruckCargos->enqueue(C);
+	return Return; 
+}
+bool Truck::isEmpty() {
+	return (CargoCount == 0);
+}
+void Truck::IncrementActiveTime() {
+	++ActiveTime;
 }

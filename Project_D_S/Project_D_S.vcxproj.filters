@@ -175,5 +175,8 @@
     <Text Include="Text.txt">
       <Filter>Header Files</Filter>
     </Text>
+    <Text Include="Output.txt">
+      <Filter>Header Files</Filter>
+    </Text>
   </ItemGroup>
 </Project>
