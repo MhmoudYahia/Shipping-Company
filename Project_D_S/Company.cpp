@@ -1234,9 +1234,6 @@ void Company::CheckforCheckupTrucks() {
 	}
 	while (temp.GetCount() > 0 && temp.dequeue(T))NormalEmptyTrucks.enqueue(T,T->getprio_s_c());
 	// Check for SP
-
-	
-
 }
 void Company::CheckforTrucks() {
 	Truck* T;
