@@ -394,7 +394,7 @@ void Company::Loading_File()
 		Lfile >> temp;
 		V_Night.enqueue(temp);
 	}
-	Lfile >> JourneyCount>> NTruckCheckupDuration>>STruckCheckupDuration>>VTruckChekcupDuration;
+	Lfile >> JourneyCount>> NTruckCheckupDuration>>STruckCheckupDuration>>VTruckCheckupDuration;
 	Lfile >> NumberofCheckupsforMaintenence >> NMaintenceneD >> SMaintenenceD >> VMaintenenceD;
 	Lfile >> AutoP >> MaxW;
 	Lfile >> EventCount;
@@ -1307,9 +1307,18 @@ void Company::CheckforTrucks() {
 			if (T->getJC() >= JourneyCount)	//ismail
 			{
 				Check_UP_Cnt++;
-				if (dynamic_cast<NormalTruck*> (T))  bo = NInCheckupTrucks.enqueue(T);
-				else if (dynamic_cast<SpecialTruck*> (T))  bo = SInCheckupTrucks.enqueue(T);
-				else  bo = VInCheckupTrucks.enqueue(T);
+				if (dynamic_cast<NormalTruck*> (T)) {
+					bo = NInCheckupTrucks.enqueue(T);
+					T->setCheckUPTime(CurrentTime, NTruckCheckupDuration);
+				}
+				else if (dynamic_cast<SpecialTruck*> (T)) {
+					bo = SInCheckupTrucks.enqueue(T);
+					T->setCheckUPTime(CurrentTime, STruckCheckupDuration);
+				}
+				else {
+					bo = VInCheckupTrucks.enqueue(T);
+					T->setCheckUPTime(CurrentTime, VTruckCheckupDuration);
+				}
 				Time t;
 				t.setDAY(CurrentTime.getDAY());
 				t.sethour(CurrentTime.gethour() + T->get_MaintenanceTime());
@@ -1330,38 +1339,79 @@ void Company::CheckforTrucks() {
 		MovingTrucks.enqueue(T, T->getPriority());
 	}
 	//cout << MovingTrucks.GetCount() << endl;
+	Queue<Truck* > Temp;
+	while (NInCheckupTrucks.dequeue(T)) {
+			if ( T->getCheckUPTime() == CurrentTime) {
+				NormalEmptyTrucks.enqueue(T, T->getprio_s_c());
+				Returned_From_Checkup++;
+				cout << T->GetID() << " " << CurrentTime.getDAY() << ":" << CurrentTime.gethour() << endl;
+			}
+			else
+				Temp.enqueue(T);
+	}
+	while(Temp.dequeue(T))NInCheckupTrucks.enqueue(T);
+	while (VInCheckupTrucks.dequeue(T)) {
+		if (T->getCheckUPTime() == CurrentTime) {
+			VIPEmptyTrucks.enqueue(T, T->getprio_s_c());
+			Returned_From_Checkup++;
+			//cout << T->GetID() << " " << CurrentTime.getDAY() << ":" << CurrentTime.gethour() << endl;
+		}
+		else
+			Temp.enqueue(T);
+	}
+	while (Temp.dequeue(T))VInCheckupTrucks.enqueue(T);
 
-	for (int i = 0; i < NInCheckupTrucks.GetCount(); i++)	//ismail for N
+	while (SInCheckupTrucks.dequeue(T)) {
+		if (T->getCheckUPTime() == CurrentTime) {
+			SpecialEmptyTrucks.enqueue(T, T->getprio_s_c());
+			Returned_From_Checkup++;
+			//cout << T->GetID() << " " << CurrentTime.getDAY() << ":" << CurrentTime.gethour() << endl;
+		}
+		else
+			Temp.enqueue(T);
+	}
+	while (Temp.dequeue(T))SInCheckupTrucks.enqueue(T);
+
+
+	/*
+
+	int Cnt = NInCheckupTrucks.GetCount();
+	for (int i = 0; i <Cnt; i++)	//ismail for N
 	{
 		bo = NInCheckupTrucks.dequeue(T);
-		if (T->get_putInMaintenanceTime() == CurrentTime) {
+		if ( T->getCheckUPTime() == CurrentTime) {
 			bo = NormalEmptyTrucks.enqueue(T, T->getprio_s_c());
 			Returned_From_Checkup++;
 		}
 		else
 			bo = NInCheckupTrucks.enqueue(T);
 	}
-	for (int i = 0; i < SInCheckupTrucks.GetCount(); i++)	//ismail for S
+	Cnt = SInCheckupTrucks.GetCount();
+	for (int i = 0; i < Cnt; i++)	//ismail for S
 	{
 		bo = SInCheckupTrucks.dequeue(T);
-		if (T->get_putInMaintenanceTime() == CurrentTime) {
+		if ( T->getCheckUPTime() == CurrentTime) {
 			bo = SpecialEmptyTrucks.enqueue(T, T->getprio_s_c());
+			cout << T->GetID() << " " << CurrentTime.getDAY() << ":" << CurrentTime.gethour() << endl;
 			Returned_From_Checkup++;
 		}
 		else
 			bo = SInCheckupTrucks.enqueue(T);
 	}
-	for (int i = 0; i < VInCheckupTrucks.GetCount(); i++)	//ismail for VIP
+	Cnt = VInCheckupTrucks.GetCount();
+	for (int i = 0; i < Cnt; i++)	//ismail for VIP
 	{
 		bo = VInCheckupTrucks.dequeue(T);
-		if (T->get_putInMaintenanceTime() == CurrentTime) {
+		if (T->getCheckUPTime() == CurrentTime  ) {
 			bo = VIPEmptyTrucks.enqueue(T, T->getprio_s_c());
+			cout << T->GetID() << " " << CurrentTime.getDAY() << ":" << CurrentTime.gethour() << endl;
 			Returned_From_Checkup++;
 		}
 		else
 			bo = VInCheckupTrucks.enqueue(T);
-	}
+	}*/
 }
+
 void Company::CheckFailure() {
 	srand(time(0));
 	Truck* T;
@@ -1721,7 +1771,7 @@ void Company::OutputFile() {			//ismail
 	Lfile.close();
 }
 void Company::TestAll() {
-	int cnt = 7000;
+	int cnt = 1500;
 	Loading_File();
 	CreateTrucks();
 	while (cnt--) {
@@ -1732,8 +1782,8 @@ void Company::TestAll() {
 		incrementWHs();
 		//Organize_Loading();
 		checkforAutop();
-		CheckFailure();
-		CheckforCheckupTrucks();
+		//CheckFailure();
+		//CheckforCheckupTrucks();
 		CheckforTrucks();
 		//PrintConsole();
 		++CurrentTime;

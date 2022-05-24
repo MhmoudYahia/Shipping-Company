@@ -29,7 +29,7 @@ class Company
 	int STruckCapacity;
 	int NTruckCheckupDuration;
 	int STruckCheckupDuration; 
-	int VTruckChekcupDuration; 
+	int VTruckCheckupDuration; 
 	int NumberofCheckupsforMaintenence;
 	int NMaintenceneD;
 	int VMaintenenceD;

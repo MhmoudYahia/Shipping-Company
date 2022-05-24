@@ -20,6 +20,7 @@ protected:
 	Time TimeforDelivery;
 	Time TimeforReturn;
 	Time TimeforLoading;
+	Time CheckupTime;
 	int TC; //TruckCapacity
 	//State TruckState;
 	int CargoCount;
@@ -34,6 +35,7 @@ protected:
 	int DI; //Delivery Interval =(Distance of furthest cargo)/ speed + Sum of unload times of all its cargos + time to come back
 	Time putInMaintenanceTime;		//shaheen
 	bool Night;
+	int HoursForCheckUP;
 	
 public:
 	int getTimeMaintenence(); //bonus ...please do not confuse
@@ -47,7 +49,7 @@ public:
 	double getSpeed();
 	void setSpeed(int);
 	//void ChangeState(State S);
-	Truck(int ID , int TC , int TS , bool );
+	Truck(int ID , int TC , int TS , bool);
 	bool AddCargo(Cargo* C);
 	int GetCountOFCargosInTRK();
 	void updateDI();
@@ -92,4 +94,6 @@ public:
 	Queue<Cargo* > getSCargos();
 	Queue<Cargo* > * getCargos();
 	void IncrementActiveTime();
+	Time getCheckUPTime();
+	void setCheckUPTime(Time, int);
 };

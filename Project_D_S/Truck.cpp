@@ -284,3 +284,9 @@ void Truck::resetCheckcount()
 double Truck::getSpeed() {
 	return Speed;
 }
+void Truck::setCheckUPTime(Time X , int H) {
+	CheckupTime = X + H;
+}
+Time Truck::getCheckUPTime() {
+	return CheckupTime;
+}
