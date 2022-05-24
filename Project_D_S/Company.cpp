@@ -993,7 +993,7 @@ void Company::AssignNormalTruck(int T) {
 				}
 				else if (T == 3) {
 					while (NCargosExceededMaxW.dequeue(C) && !NT->isFull()) {
-						cout << "Normal Cargo Exceeded with ID " << C->GetID() << endl;
+						//cout << "Normal Cargo Exceeded with ID " << C->GetID() << endl;
 						C->setDel_T(CurrentTime);
 						NT->AddCargo(C);
 					}
@@ -1292,7 +1292,7 @@ void Company::CheckforTrucks() {
 	while (MovingTrucks.dequeue(T)) {
 		T->IncrementActiveTime();
 		Queue<Cargo* > Cargos = T->getDelivered(CurrentTime);
-		cout << T->getTimeforReturn().getDAY() << ":" << T->getTimeforReturn().gethour() << endl;
+		//cout << T->getTimeforReturn().getDAY() << ":" << T->getTimeforReturn().gethour() << endl;
 		if (Cargos.GetCount() > 0) {
 			Cargo* C;
 			while (Cargos.GetCount() > 0) {
@@ -1302,9 +1302,11 @@ void Company::CheckforTrucks() {
 			temp2.enqueue(T);
 			T->ResetDeliveryTime();
 		}
-		else if (T->getTimeforReturn() == CurrentTime) {
-			if (T->getJC() == this->Get_JourneyCount())	//ismail
+		 if (T->getTimeforReturn() == CurrentTime) {
+			 
+			if (T->getJC() >= JourneyCount)	//ismail
 			{
+				Check_UP_Cnt++;
 				if (dynamic_cast<NormalTruck*> (T))  bo = NInCheckupTrucks.enqueue(T);
 				else if (dynamic_cast<SpecialTruck*> (T))  bo = SInCheckupTrucks.enqueue(T);
 				else  bo = VInCheckupTrucks.enqueue(T);
@@ -1320,36 +1322,42 @@ void Company::CheckforTrucks() {
 		else {
 			temp2.enqueue(T);
 		}
-		cout << T->getTimeforReturn().getDAY() << ":" << T->getTimeforReturn().gethour() << endl;
+		//cout << T->getTimeforReturn().getDAY() << ":" << T->getTimeforReturn().gethour() << endl;
 	}
 
 	while (temp2.GetCount() > 0) {
 		temp2.dequeue(T);
 		MovingTrucks.enqueue(T, T->getPriority());
 	}
-	cout << MovingTrucks.GetCount() << endl;
+	//cout << MovingTrucks.GetCount() << endl;
 
 	for (int i = 0; i < NInCheckupTrucks.GetCount(); i++)	//ismail for N
 	{
 		bo = NInCheckupTrucks.dequeue(T);
-		if (T->get_putInMaintenanceTime() == CurrentTime)
+		if (T->get_putInMaintenanceTime() == CurrentTime) {
 			bo = NormalEmptyTrucks.enqueue(T, T->getprio_s_c());
+			Returned_From_Checkup++;
+		}
 		else
 			bo = NInCheckupTrucks.enqueue(T);
 	}
 	for (int i = 0; i < SInCheckupTrucks.GetCount(); i++)	//ismail for S
 	{
 		bo = SInCheckupTrucks.dequeue(T);
-		if (T->get_putInMaintenanceTime() == CurrentTime)
+		if (T->get_putInMaintenanceTime() == CurrentTime) {
 			bo = SpecialEmptyTrucks.enqueue(T, T->getprio_s_c());
+			Returned_From_Checkup++;
+		}
 		else
 			bo = SInCheckupTrucks.enqueue(T);
 	}
 	for (int i = 0; i < VInCheckupTrucks.GetCount(); i++)	//ismail for VIP
 	{
 		bo = VInCheckupTrucks.dequeue(T);
-		if (T->get_putInMaintenanceTime() == CurrentTime)
+		if (T->get_putInMaintenanceTime() == CurrentTime) {
 			bo = VIPEmptyTrucks.enqueue(T, T->getprio_s_c());
+			Returned_From_Checkup++;
+		}
 		else
 			bo = VInCheckupTrucks.enqueue(T);
 	}
@@ -1668,7 +1676,8 @@ void Company::OutputFile() {			//ismail
 	bool bo;
 	this->Calc_Delivered_Cargos_count();
 	int ALL = N_Cargo_Count + S_Cargo_Count + VIP_Cargo_Count;
-	cout << endl << N_Cargo_Count << endl;
+	ALL = max(ALL, 1);
+	//cout << endl << N_Cargo_Count << endl;
 	for (int i = 0; i < this->DeliveredCargos.GetCount(); i++)
 	{
 
@@ -1707,10 +1716,12 @@ void Company::OutputFile() {			//ismail
 	Lfile << "Avg Active time = " << setprecision(3)<<  Trucks_ActiveTime()*100<<" %\n";
 
 	Lfile << "Avg utilization = " << setprecision(3)<<ALL_Utilization()<<"%\n";
+	Lfile << "No of checkup Trucks " << Check_UP_Cnt << endl ;
+	Lfile << "No of Trucks returned from Checkup " << Returned_From_Checkup << endl;
 	Lfile.close();
 }
 void Company::TestAll() {
-	int cnt = 5000;
+	int cnt = 7000;
 	Loading_File();
 	CreateTrucks();
 	while (cnt--) {

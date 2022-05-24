@@ -114,6 +114,8 @@ class Company
 	void checkforAutop();
 	void incrementWHs();
 public:
+	int Check_UP_Cnt = 0;
+	int Returned_From_Checkup = 0;
 	Company();
 	void LoadCargos();
 	//void IncrementHour();

@@ -54,7 +54,6 @@ void PreparationEvent::Execute()
 	int H = getEventTime().gethour();
 	Time T = Cptr->getcurtime();
 	//if (D != T.getDAY() || H != T.gethour()) return;
-		cout << "Event Executed \n";
 		int ID = getID();
 		switch (TYP)
 		{
