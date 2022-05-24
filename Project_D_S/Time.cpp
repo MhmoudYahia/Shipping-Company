@@ -6,8 +6,8 @@ Time::Time()
 	this->DAY = 0;
 }
 Time::Time(int d, int h) {
-	setDAY(d);
-	sethour(h);
+	setDAY(d + h/24);
+	sethour(h%24);
 }
 
 void Time::sethour(int h)

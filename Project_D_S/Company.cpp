@@ -1667,6 +1667,7 @@ void Company::OutputFile() {			//ismail
 	Cargo* cargo;
 	bool bo;
 	this->Calc_Delivered_Cargos_count();
+	int ALL = N_Cargo_Count + S_Cargo_Count + VIP_Cargo_Count;
 	cout << endl << N_Cargo_Count << endl;
 	for (int i = 0; i < this->DeliveredCargos.GetCount(); i++)
 	{
@@ -1684,14 +1685,18 @@ void Company::OutputFile() {			//ismail
 		<< ", " << "V: " << this->get_VIP_Cargo_Count() << "]\n";
 
 	//WT
-	Lfile << "Cargo Avg Wait = " << AverageWaitingTime_DeliveredNormalCargos().getDAY() +
-		AverageWaitingTime_DeliveredSpecialCargos().getDAY() + AverageWaitingTime_DeliveredVIPCargos().getDAY();
-	Lfile << ':' << AverageWaitingTime_DeliveredNormalCargos().gethour() +
-		AverageWaitingTime_DeliveredSpecialCargos().gethour() + AverageWaitingTime_DeliveredVIPCargos().gethour() << endl;
+	int Total_wait_Day = 0;
+	int Total_wait_Hour = AverageWaitingTime_DeliveredNormalCargos().gethour() +
+		AverageWaitingTime_DeliveredSpecialCargos().gethour() + AverageWaitingTime_DeliveredVIPCargos().gethour()+ AverageWaitingTime_DeliveredNormalCargos().getDAY()*24 +
+		AverageWaitingTime_DeliveredSpecialCargos().getDAY()*24 + AverageWaitingTime_DeliveredVIPCargos().getDAY()*24;
+	Total_wait_Hour /= ALL;
+	Time X(Total_wait_Day, Total_wait_Hour);
+	Total_wait_Day = X.getDAY(); Total_wait_Hour = X.gethour();
+	Lfile << "Cargo Avg Wait = " << Total_wait_Day<< ':' << Total_wait_Hour << endl;
 
 	// AutoP
-	int ALL = N_Cargo_Count + S_Cargo_Count + VIP_Cargo_Count;
-	Lfile << "Auto-promoted Cargos:" <<int((float(this->get_NumberOfAutoPromotedCargos()) / ALL) * 100)  << "%\n";
+	
+	Lfile << "Auto-promoted Cargos:" <<  setprecision(3)<<(float)NumberOfAutoPromotedCargos / ALL * 100  << "%\n";
 
 	//Trucks
 	Lfile << "Trucks: " << get_numOf_N_Truck() + get_numOf_S_Truck() + get_numOf_VIP_Truck();
@@ -1699,20 +1704,20 @@ void Company::OutputFile() {			//ismail
 		<< ", " << "V: " << get_numOf_VIP_Truck() << "]\n";
 
 	// Active
-	Lfile << "Avg Active time = " << Trucks_ActiveTime()*100<<" %\n";
+	Lfile << "Avg Active time = " << setprecision(3)<<  Trucks_ActiveTime()*100<<" %\n";
 
-	Lfile << "Avg utilization = " << ALL_Utilization()<<"%\n";
+	Lfile << "Avg utilization = " << setprecision(3)<<ALL_Utilization()<<"%\n";
 	Lfile.close();
 }
 void Company::TestAll() {
-	int cnt = 1500;
+	int cnt = 5000;
 	Loading_File();
 	CreateTrucks();
 	while (cnt--) {
 		TSM++;
 		ExecuteEvents();
-		LoadCargos();
-		//Assign_Ignore_Loading_Rule();
+		//LoadCargos();
+		Assign_Ignore_Loading_Rule();
 		incrementWHs();
 		//Organize_Loading();
 		checkforAutop();
