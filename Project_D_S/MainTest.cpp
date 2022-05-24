@@ -8,9 +8,10 @@ using namespace std;
 
 int main() {
 	Company* CompanyTest = new Company;
-	CompanyTest->Loading_File();
+	/*CompanyTest->Loading_File();
 	CompanyTest->CreateTrucks();
-	CompanyTest->GeneralSimulate();
+	CompanyTest->GeneralSimulate();*/
+	CompanyTest->TestAll();
 	/*List<Cargo*>L;
 	Cargo *c1= new Cargo();
 	c1->SetID(1);

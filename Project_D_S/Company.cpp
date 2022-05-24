@@ -475,7 +475,7 @@ void Company:: ExecuteEvents() {
 		while (EventsPQ.GetCount() > 0 && Eptr->getEventTime() == CurrentTime)
 		{
 
-			cout << "Current EventCount: " << EventsPQ.GetCount() << endl;
+			//cout << "Current EventCount: " << EventsPQ.GetCount() << endl;
 			EventsPQ.dequeue(Eptr);
 			/*if (!isClosed()) 
 			Eptr->Execute();
@@ -517,8 +517,6 @@ void Company::PrintEvents() {
 	//	cout << "ID: " << E->getID() << endl;
 	//	//EventsPQ.peak(E);
 	//}
-	cout << N << " " << S << " " << V << endl;;
-	cout << NormalEmptyTrucks.GetCount() << " " << SpecialEmptyTrucks.GetCount() << " " << VIPEmptyTrucks.GetCount() << endl;
 }
 
 void Company::CancellationID(int id)
@@ -573,9 +571,9 @@ void Company::PrintMoving(UIClass* pUI) {
 	Truck* tptr;
 
 	while (MovingTrucks.dequeue(tptr)) {
-		cout << tptr->getTimeforDelivery().getDAY() << ":" << tptr->getTimeforDelivery().gethour();
+		/*cout << tptr->getTimeforDelivery().getDAY() << ":" << tptr->getTimeforDelivery().gethour();
 		cout << tptr->getTimeforReturn().getDAY() << ":" << tptr->getTimeforReturn().gethour();
-		cout << " ";
+		cout << " ";*/
 		q.enqueue(tptr);
 		if (tptr->GetCountOFCargosInTRK() > 0) {
 			pUI->Print(tptr);
@@ -772,14 +770,14 @@ void Company::CheckforCargosExceededMaxW() {
 		}
 	}
 	//VIP check 
-	if (WaitingVIPCargos.GetCount() > 0) {
-		WaitingVIPCargos.peak(C);
-		while (WaitingVIPCargos.GetCount()>0&&C->GetWaitingHours() >= MaxW) {
-			WaitingVIPCargos.dequeue(C);
-			VCargosExceededMaxW.enqueue(C);
-			WaitingVIPCargos.peak(C);
-		}
-	}
+	//if (WaitingVIPCargos.GetCount() > 0) {
+	//	WaitingVIPCargos.peak(C);
+	//	while (WaitingVIPCargos.GetCount()>0&&C->GetWaitingHours() >= MaxW) {
+	//		WaitingVIPCargos.dequeue(C);
+	//		VCargosExceededMaxW.enqueue(C);
+	//		WaitingVIPCargos.peak(C);
+	//	}
+	//}
 
 }
 bool Company::AssignVIP() {
@@ -972,8 +970,8 @@ void Company::AssignNormalTruck(int T) {
 			}
 			//=============================================
 			else {
-				cout << NT->GetID() << " 2l" << NT->getTC() << endl;
-				cout << "nnnnnnnnn\n";
+			/*	cout << NT->GetID() << " 2l" << NT->getTC() << endl;
+				cout << "nnnnnnnnn\n";*/
 				bool CangoNow = false;
 				if (T == 0) {
 					while (WaitingVIPCargos.dequeue(C) && !NT->isFull()) {
@@ -1706,7 +1704,26 @@ void Company::OutputFile() {			//ismail
 	Lfile << "Avg utilization = " << ALL_Utilization()<<"%\n";
 	Lfile.close();
 }
-
+void Company::TestAll() {
+	int cnt = 1500;
+	Loading_File();
+	CreateTrucks();
+	while (cnt--) {
+		TSM++;
+		ExecuteEvents();
+		LoadCargos();
+		//Assign_Ignore_Loading_Rule();
+		incrementWHs();
+		//Organize_Loading();
+		checkforAutop();
+		CheckFailure();
+		CheckforCheckupTrucks();
+		CheckforTrucks();
+		//PrintConsole();
+		++CurrentTime;
+	}
+	OutputFile();
+}
 
 //void Company::set_NumberOfAutoPromotedCargos(int i)
 //{
