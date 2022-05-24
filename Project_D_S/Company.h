@@ -175,7 +175,7 @@ public:
 
 	void CheckforCheckupTrucks();
 	void CheckforTrucks(); // Check for moving , loading , checkup 
-	void CheckFailure();
+    void CheckFailure();
 	void Deliver(Truck* &);
 	void Assign_Ignore_Loading_Rule();
 	void AddtoLoading(Truck*);
