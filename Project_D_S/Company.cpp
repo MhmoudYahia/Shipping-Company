@@ -58,7 +58,6 @@ void Company::StepbyStepSimulation()
 		//Organize_Loading();
 		checkforAutop();
 		CheckFailure();
-		//CheckforCheckupTrucks();
 		CheckforTrucks();
 		PrintConsole();
 		Sleep(1500);
@@ -74,7 +73,8 @@ void Company::InteractiveSimulation() {
 		//Assign_Ignore_Loading_Rule();
 		incrementWHs();
 		checkforAutop();
-		//CheckFailure();
+		Checkformaintenence();
+		CheckFailure();
 		CheckforTrucks();
 		PrintConsole();
 		++CurrentTime;
@@ -867,8 +867,8 @@ void Company::AssignVIPTruck(int T) {
 		if (VT->getCheckCount() > NumberofCheckupsforMaintenence)
 		{
 			VT->resetCheckcount();
-			VMaintenenceTrucks.enqueue(VT);
 			VT->setSpeed(0.5 * VT->getSpeed());
+			VMaintenenceTrucks.enqueue(VT);
 			AssignVIPTruck(T);
 
 		}
@@ -958,14 +958,14 @@ void Company::AssignNormalTruck(int T) {
 				NormalEmptyTrucks.enqueue(NT, NT->getprio_s_c());
 				return;
 			}
-			if (NT->getCheckCount() > NumberofCheckupsforMaintenence)
+			if (NT->getCheckCount() >= NumberofCheckupsforMaintenence)
 			{
-
+				cout << "kkkkk\n";
 				NT->resetCheckcount();
-				NMaintenenceTrucks.enqueue(NT);
 				NT->setSpeed(0.5 * NT->getSpeed());
+				NMaintenenceTrucks.enqueue(NT);
 				AssignNormalTruck(T);
-
+				cout << "hhhh\n";
 			}
 			//=============================================
 			else {
@@ -1059,12 +1059,12 @@ void Company::AssignSpecialTruck(int T) {
 			return;
 		}
 
-		if (ST->getCheckCount() > NumberofCheckupsforMaintenence)
+		if (ST->getCheckCount() >= NumberofCheckupsforMaintenence)
 		{
 			ST->Resetmaintenence();
 			ST->resetCheckcount();
-			SMaintenenceTrucks.enqueue(ST);
 			ST->setSpeed(0.5 * ST->getSpeed());
+			SMaintenenceTrucks.enqueue(ST);
 			AssignSpecialTruck(T);
 
 		}
@@ -1295,15 +1295,17 @@ void Company::CheckforTrucks() {
 			{
 				Check_UP_Cnt++;
 				if (dynamic_cast<NormalTruck*> (T)) {
-					T->
+					T->incrementCheckCount();
 					bo = NInCheckupTrucks.enqueue(T);
 					T->setCheckUPTime(CurrentTime, NTruckCheckupDuration);
 				}
 				else if (dynamic_cast<SpecialTruck*> (T)) {
+					T->incrementCheckCount();
 					bo = SInCheckupTrucks.enqueue(T);
 					T->setCheckUPTime(CurrentTime, STruckCheckupDuration);
 				}
 				else {
+					T->incrementCheckCount();
 					bo = VInCheckupTrucks.enqueue(T);
 					T->setCheckUPTime(CurrentTime, VTruckCheckupDuration);
 				}

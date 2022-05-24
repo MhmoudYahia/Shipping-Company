@@ -42,6 +42,7 @@ public:
 	void Resetmaintenence();
 	void incrementMNTNENCD();
 	int getCheckCount();
+	void incrementCheckCount();
 	void resetCheckcount();
 	void UPdatePriority_s_c();
 	double getprio_s_c();
