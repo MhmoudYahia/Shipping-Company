@@ -74,8 +74,7 @@ void Company::InteractiveSimulation() {
 		//Assign_Ignore_Loading_Rule();
 		incrementWHs();
 		checkforAutop();
-		CheckFailure();
-		//CheckforCheckupTrucks();
+		//CheckFailure();
 		CheckforTrucks();
 		PrintConsole();
 		++CurrentTime;
@@ -1290,17 +1289,8 @@ void Company::CheckforTrucks() {
 		T->IncrementActiveTime();
 		Queue<Cargo* > Cargos = T->getDelivered(CurrentTime);
 		//cout << T->getTimeforReturn().getDAY() << ":" << T->getTimeforReturn().gethour() << endl;
-		if (Cargos.GetCount() > 0) {
-			Cargo* C;
-			while (Cargos.GetCount() > 0) {
-				Cargos.dequeue(C);
-				DeliveredCargos.enqueue(C);
-			}
-			temp2.enqueue(T);
-			T->ResetDeliveryTime();
-		}
-		 if (T->getTimeforReturn() == CurrentTime) {
-			 
+		if (T->getTimeforReturn() == CurrentTime) {
+
 			if (T->getJC() >= JourneyCount)	//ismail
 			{
 				Check_UP_Cnt++;
@@ -1325,6 +1315,15 @@ void Company::CheckforTrucks() {
 			else if (dynamic_cast<NormalTruck*> (T)) NormalEmptyTrucks.enqueue(T, T->getprio_s_c());
 			else if (dynamic_cast<SpecialTruck*> (T)) SpecialEmptyTrucks.enqueue(T, T->getprio_s_c());
 			else VIPEmptyTrucks.enqueue(T, T->getprio_s_c());
+		}
+		else if (Cargos.GetCount() > 0) {
+			Cargo* C;
+			while (Cargos.GetCount() > 0) {
+				Cargos.dequeue(C);
+				DeliveredCargos.enqueue(C);
+			}
+			temp2.enqueue(T);
+			T->ResetDeliveryTime();
 		}
 		else {
 			temp2.enqueue(T);
