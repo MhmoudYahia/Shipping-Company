@@ -153,7 +153,7 @@ void UIClass::PrintEmptytrucks(Company* pC)
 
 }
 void UIClass::PrintLoadingTrucks(Company* c) {
-	cout << c->GetNumOfLaoding() << " Loading Cargos: ";
+	cout << c->GetNumOfLaoding() << " Loading Trucks: ";
 	c->PrintLoading(this);
 }
 //void UIClass::printWaitingCargos(PriorityQueue<Cargo*> qWc)
