@@ -28,6 +28,7 @@ Truck::Truck(int ID, int TC, int TS, bool c) {
 	Night = c; 
 	ActiveTime.setDAY(0); ActiveTime.sethour(0);
 	TotalCargos = 0;
+	Checkcount = 0;
 }
 
 bool Truck::AddCargo(Cargo* C) {
@@ -276,6 +277,10 @@ void Truck::IncrementActiveTime() {
 int Truck::getCheckCount()
 {
 	return Checkcount;
+}
+void Truck::incrementCheckCount()
+{
+	Checkcount++;
 }
 void Truck::resetCheckcount()
 {
