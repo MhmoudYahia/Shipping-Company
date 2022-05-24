@@ -208,6 +208,7 @@ public:
 	int get_N_Cargo_Count();
 	int get_S_Cargo_Count();
 	int get_VIP_Cargo_Count();
+	void TestAll();
 	//void AddCargotoVIPWaiting(Cargo* C);
 	//void CancellationIDint id);
    //	void PrintDelivered(UIClass* pUI);
