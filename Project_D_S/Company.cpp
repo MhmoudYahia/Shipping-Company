@@ -772,14 +772,14 @@ void Company::CheckforCargosExceededMaxW() {
 		}
 	}
 	//VIP check 
-	if (WaitingVIPCargos.GetCount() > 0) {
-		WaitingVIPCargos.peak(C);
-		while (WaitingVIPCargos.GetCount()>0&&C->GetWaitingHours() >= MaxW) {
-			WaitingVIPCargos.dequeue(C);
-			VCargosExceededMaxW.enqueue(C);
-			WaitingVIPCargos.peak(C);
-		}
-	}
+	//if (WaitingVIPCargos.GetCount() > 0) {
+	//	WaitingVIPCargos.peak(C);
+	//	while (WaitingVIPCargos.GetCount()>0&&C->GetWaitingHours() >= MaxW) {
+	//		WaitingVIPCargos.dequeue(C);
+	//		VCargosExceededMaxW.enqueue(C);
+	//		WaitingVIPCargos.peak(C);
+	//	}
+	//}
 
 }
 bool Company::AssignVIP() {
