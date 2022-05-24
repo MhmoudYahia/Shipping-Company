@@ -173,7 +173,7 @@ public:
 	void Checkformaintenence();
 
 
-	void CheckforCheckupTrucks();
+	//void CheckforCheckupTrucks();
 	void CheckforTrucks(); // Check for moving , loading , checkup 
     void CheckFailure();
 	void Deliver(Truck* &);

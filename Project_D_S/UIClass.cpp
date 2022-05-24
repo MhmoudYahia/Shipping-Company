@@ -33,7 +33,7 @@ Mode UIClass::SelectMode()
 	int i;
 	//Mode M;//as a default{}{}
 	//cout << "if you want interactive or step-by-step or silent mode write 0 or 1 or 2 respectively\n";
-	cout << "choose what you want\n0=====>iteractive mode\n1=====>stepBystep mode\n2=====>silent mode\n";
+	cout << "choose what you want\n0=====>interactive mode\n1=====>stepBystep mode\n2=====>silent mode\n";
 	cin >> i;
 		if (i == 0)
 			return interactive;
