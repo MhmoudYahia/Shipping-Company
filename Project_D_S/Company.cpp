@@ -58,7 +58,7 @@ void Company::StepbyStepSimulation()
 		//Organize_Loading();
 		checkforAutop();
 		CheckFailure();
-		CheckforCheckupTrucks();
+		//CheckforCheckupTrucks();
 		CheckforTrucks();
 		PrintConsole();
 		Sleep(1500);
@@ -75,7 +75,7 @@ void Company::InteractiveSimulation() {
 		incrementWHs();
 		checkforAutop();
 		CheckFailure();
-		CheckforCheckupTrucks();
+		//CheckforCheckupTrucks();
 		CheckforTrucks();
 		PrintConsole();
 		++CurrentTime;
@@ -1336,6 +1336,7 @@ void Company::CheckforTrucks() {
 		MovingTrucks.enqueue(T, T->getPriority());
 	}
 	//cout << MovingTrucks.GetCount() << endl;
+	//==============================================================================
 	Queue<Truck* > Temp;
 	while (NInCheckupTrucks.dequeue(T)) {
 			if ( T->getCheckUPTime() == CurrentTime) {
@@ -1408,7 +1409,7 @@ void Company::CheckforTrucks() {
 			bo = VInCheckupTrucks.enqueue(T);
 	}*/
 }
-
+//
 void Company::CheckFailure() {
 	srand(time(0));
 	Truck* T;
