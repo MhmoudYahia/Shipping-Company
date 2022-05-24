@@ -1295,7 +1295,6 @@ void Company::CheckforTrucks() {
 			{
 				Check_UP_Cnt++;
 				if (dynamic_cast<NormalTruck*> (T)) {
-					T->
 					bo = NInCheckupTrucks.enqueue(T);
 					T->setCheckUPTime(CurrentTime, NTruckCheckupDuration);
 				}
