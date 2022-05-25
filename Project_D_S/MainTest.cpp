@@ -12,6 +12,6 @@ int main() {
 	CompanyTest->CreateTrucks();
 	CompanyTest->GeneralSimulate();
 
-	CompanyTest->TestAll();
+//	CompanyTest->TestAll();
 		return 0;
 }
