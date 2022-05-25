@@ -1467,6 +1467,7 @@ void Company::CheckFailure() {
 	while (MovingTrucks.dequeue(T)) {
 		int a = (rand() % 20) + 1;
 		if (a == 15) {
+			cout << "failure\n";
 			Check_UP_Cnt++;
 			T->moveCargostoWaiting(this);
 			if (dynamic_cast<NormalTruck*>(T)) {
