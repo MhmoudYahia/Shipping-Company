@@ -44,6 +44,10 @@ class Company
 	int S_Cargo_Count;
 	int VIP_Cargo_Count;
 	int TSM; // total simulationTime
+
+	int VTrucks = 0;
+	int NTrucks = 0;
+	int STrucks = 0;
 	// Cargos for Display
 	//PriorityQueue<Cargo*> WaitingCargos;
 	//Queue<Cargo*> DeliveredCargos;
@@ -182,8 +186,8 @@ public:
 	void Organize_Loading();
 	void AddtoEmpty(Truck*);
 	double Trucks_ActiveTime();
-
-								
+	void AddtoMoving(Truck* T);
+		
 	Time AverageWaitingTime_DeliveredNormalCargos();	//ismail
 	Time AverageWaitingTime_DeliveredSpecialCargos();	//ismail
 	Time AverageWaitingTime_DeliveredVIPCargos();	//ismail

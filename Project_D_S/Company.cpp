@@ -71,8 +71,8 @@ void Company::InteractiveSimulation() {
 	while (cnt--) {
 		ExecuteEvents();
 		Checkformaintenence();
-		//LoadCargos();
-		Assign_Ignore_Loading_Rule();
+		LoadCargos();
+		//Assign_Ignore_Loading_Rule();
 		incrementWHs();
 		checkforAutop();
 		CheckFailure();
@@ -116,8 +116,9 @@ void Company::checkforAutop() {
 				temp->SetLT(cptr->getLT());
 				temp->setPT(cptr->getPT().getDAY(), cptr->getPT().gethour());
 				AddCargotoVIPWaiting(temp);
+				this->set_NumberOfAutoPromotedCargos(this->get_NumberOfAutoPromotedCargos() + 1);
 			}
-			this->set_NumberOfAutoPromotedCargos(this->get_NumberOfAutoPromotedCargos() + 1);
+			
 		}
 		else q.enqueue(cptr);
 		
@@ -220,7 +221,7 @@ double Company::Trucks_ActiveTime()
 		double x = (double)t / TSM;
 		ALL += x;		bo = VIPTrucks.enqueue(truck);
 	}
-	return ALL/TruckCount;
+	return(TruckCount? ALL/TruckCount:0);
 }
 Time Company::NormalTrucks_ActiveTime() {
 	Time x;
@@ -346,7 +347,7 @@ void Company::Loading_File()
 {
 	int temp;
 	ifstream Lfile;
-	Lfile.open("WithoutTrucks.txt");      //start from here to read 			 
+	Lfile.open("Text.txt");      //start from here to read 			 
 	/*Lfile >> NTruckSpeed >> STruckSpeed >> VTruckSpeed;
 	Lfile >> NTruckCapacity >> STruckCapacity >> VTruckCapacity;*/
 	Lfile >> N;
@@ -770,28 +771,28 @@ void Company::CheckforCargosExceededMaxW() {
 		}
 	}
 	//VIP check 
-	//if (WaitingVIPCargos.GetCount() > 0) {
-	//	WaitingVIPCargos.peak(C);
-	//	while (WaitingVIPCargos.GetCount()>0&&C->GetWaitingHours() >= MaxW) {
-	//		WaitingVIPCargos.dequeue(C);
-	//		VCargosExceededMaxW.enqueue(C);
-	//		WaitingVIPCargos.peak(C);
-	//	}
-	//}
+	if (WaitingVIPCargos.GetCount() > 0) {
+		WaitingVIPCargos.peak(C);
+		while (WaitingVIPCargos.GetCount()>0&&C->GetWaitingHours() >= MaxW) {
+			WaitingVIPCargos.dequeue(C);
+			VCargosExceededMaxW.enqueue(C);
+			WaitingVIPCargos.peak(C);
+		}
+	}
 
 }
 bool Company::AssignVIP() {
 	Cargo* VC;
-	if (VIPEmptyTrucks.GetCount() > 0) {
+	if (VIPEmptyTrucks.GetCount() > 0&&VTrucks<1) {
 		AssignVIPTruck(0);
 		return true;
 	}
-	else if (NormalEmptyTrucks.GetCount() > 0) {
+	else if (NormalEmptyTrucks.GetCount() > 0&&NTrucks<1) {
 		AssignNormalTruck(0);
 		return true;
 		
 	}
-	else if (SpecialEmptyTrucks.GetCount() > 0) {
+	else if (SpecialEmptyTrucks.GetCount() > 0&&STrucks<1) {
 		AssignSpecialTruck(0);
 		return true;
 	}
@@ -801,18 +802,18 @@ bool Company::AssignVIP() {
 }
 bool Company::AssignSpecial() {
 	Cargo* SC;
-	if (SpecialEmptyTrucks.GetCount() > 0) {
+	if (SpecialEmptyTrucks.GetCount() > 0&&STrucks<1) {
 		AssignSpecialTruck(1);
 		return true;
 	}
 	return false;
 }
 bool Company::AssignNormal() {
-	if (NormalEmptyTrucks.GetCount() > 0) {
+	if (NormalEmptyTrucks.GetCount() > 0&&NTrucks<1) {
 		AssignNormalTruck(1);
 		return true;
 	}
-	else if (VIPEmptyTrucks.GetCount() > 0) {
+	else if (VIPEmptyTrucks.GetCount() > 0&&VTrucks<1) {
 		AssignVIPTruck(1);
 		return true;
 	}
@@ -899,15 +900,7 @@ void Company::AssignVIPTruck(int T) {
 					VT->AddCargo(C);
 				}
 			}
-
-			VT->incrementJC();
-			VT->updateDI();
-			VT->setTimeforDelivery(this->CurrentTime);
-			VT->setTimeforReturn(this->CurrentTime);
-			VT->setTimeforLoading(this->CurrentTime);
-			VT->updateCargosDT();
-			VT->ResetCargoCount();
-			LoadingTrucks.enqueue(VT);
+			AddtoLoading(VT);
 		
 	}
 }
@@ -973,6 +966,7 @@ void Company::AssignNormalTruck(int T) {
 			/*	cout << NT->GetID() << " 2l" << NT->getTC() << endl;
 				cout << "nnnnnnnnn\n";*/
 				bool CangoNow = false;
+				NormalEmptyTrucks.dequeue(NT);
 				if (T == 0) {
 					while (WaitingVIPCargos.dequeue(C) && !NT->isFull()) {
 						C->setDel_T(CurrentTime);
@@ -999,16 +993,7 @@ void Company::AssignNormalTruck(int T) {
 					}
 				}
 				//if (!C) return; 
-				NT->incrementJC();
-				NT->updateDI();
-				NT->setTimeforDelivery(this->CurrentTime);
-				NT->setTimeforReturn(this->CurrentTime);
-				NT->setTimeforLoading(this->CurrentTime);
-				NT->updateCargosDT();
-				NT->ResetCargoCount();
-				LoadingTrucks.enqueue(NT);
-			
-
+				AddtoLoading(NT);
 		}
 }
 void Company::AssignSpecialTruck(int T) {
@@ -1096,14 +1081,7 @@ void Company::AssignSpecialTruck(int T) {
 					ST->AddCargo(C);
 				}
 			}
-			ST->incrementJC();
-			ST->updateDI();
-			ST->setTimeforDelivery(this->CurrentTime);
-			ST->setTimeforReturn(this->CurrentTime);
-			ST->setTimeforLoading(this->CurrentTime);
-			ST->updateCargosDT();
-			ST->ResetCargoCount();
-			LoadingTrucks.enqueue(ST);
+			AddtoLoading(ST);
 	
 	}
 }
@@ -1111,7 +1089,6 @@ void Company::AssignExceeded() {
 	Cargo* Cargoptr;
 	if (VCargosExceededMaxW.GetCount() > 0) {
 		if (VIPEmptyTrucks.GetCount() > 0) {
-		
 			AssignVIPTruck(2);
 		}
 		else if (NormalEmptyTrucks.GetCount() > 0) {
@@ -1165,7 +1142,13 @@ void Company::CreateTrucks() {
 			VIPTrucks.enqueue(N);
 		}
 }
-
+void Company::AddtoMoving(Truck* T) {
+	cout << "!<CCCC\n";
+	MovingTrucks.enqueue(T, T->getPriority());
+	if (dynamic_cast<NormalTruck*> (T)) NTrucks--;
+	else if (dynamic_cast<SpecialTruck*> (T)) STrucks--;
+	else VTrucks--;
+}
 void Company::Checkformaintenence() {                 
 	Truck* T;
 	Queue<Truck*>q;
@@ -1290,11 +1273,10 @@ void Company::CheckforTrucks() {
 			T->IncrementActiveTime();
 			if (T->getTimeforLoading() == CurrentTime) {
 				T->updatePriority();
-				MovingTrucks.enqueue(T, T->getPriority());
+				AddtoMoving(T);
 			}
 			else {
 				temp.enqueue(T);
-
 			}
 
 		}
@@ -1308,7 +1290,7 @@ void Company::CheckforTrucks() {
 
 		if (T->getTimeforLoading() == CurrentTime && T->CanWorkAtNight()) {
 			T->updatePriority();
-			MovingTrucks.enqueue(T, T->getPriority());
+			AddtoMoving(T);
 		}
 		else if (T->getTimeforLoading() == CurrentTime && !T->CanWorkAtNight()) {
 			TRKsWhenClosed.enqueue(T);
@@ -1325,7 +1307,7 @@ void Company::CheckforTrucks() {
 	if (CurrentTime.gethour() == 5) {
 		while (TRKsWhenClosed.dequeue(T)) {
 			T->updatePriority();
-			MovingTrucks.enqueue(T, T->getPriority());
+			AddtoMoving(T);
 		}
 	}
 
@@ -1751,6 +1733,10 @@ void Company::AddtoLoading(Truck* ST) {
 	ST->updateCargosDT();
 	ST->ResetCargoCount();
 	LoadingTrucks.enqueue(ST);
+	if (dynamic_cast<NormalTruck*> (ST)) NTrucks++;
+	else if (dynamic_cast<SpecialTruck*> (ST)) STrucks++;
+	else VTrucks++;
+
 }
 void Company::Organize_Loading() {
 	Truck* VT = nullptr;
@@ -1822,7 +1808,7 @@ void Company::OutputFile() {			//ismail
 
 	// AutoP
 	
-	Lfile << "Auto-promoted Cargos:" <<  setprecision(3)<<(float)NumberOfAutoPromotedCargos / ALL * 100  << "%\n";
+	Lfile << "Auto-promoted Cargos:" <<  setprecision(3)<<(float)NumberOfAutoPromotedCargos /*/ ALL * 100 */ << "%\n";
 
 	//Trucks
 	Lfile << "Trucks: " << get_numOf_N_Truck() + get_numOf_S_Truck() + get_numOf_VIP_Truck();
@@ -1838,7 +1824,7 @@ void Company::OutputFile() {			//ismail
 	Lfile.close();
 }
 void Company::TestAll() {
-	int cnt = 1500;
+	int cnt = 5000;
 	Loading_File();
 	CreateTrucks();
 	while (cnt--) {
@@ -1851,7 +1837,7 @@ void Company::TestAll() {
 		checkforAutop();
 		CheckFailure();
 		CheckforTrucks();
-		//PrintConsole();
+		PrintConsole();
 		++CurrentTime;
 	}
 	OutputFile();
