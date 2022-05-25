@@ -57,6 +57,7 @@ void Company::StepbyStepSimulation()
 		incrementWHs();
 		//Organize_Loading();
 		checkforAutop();
+		Checkformaintenence();
 		CheckFailure();
 		CheckforTrucks();
 		PrintConsole();
@@ -864,16 +865,16 @@ void Company::AssignVIPTruck(int T) {
 			return;
 		}
 		//===================================== for bonus
-		if (VT->getCheckCount() > NumberofCheckupsforMaintenence)
+		/*if (VT->getCheckCount() > NumberofCheckupsforMaintenence)
 		{
 			VT->resetCheckcount();
 			VT->setSpeed(0.5 * VT->getSpeed());
 			VMaintenenceTrucks.enqueue(VT);
 			AssignVIPTruck(T);
 
-		}
+		}*/
 		//=============================================
-		else {
+		/*else*/ 
 			if (T == 0) {
 				while (WaitingVIPCargos.dequeue(C) && !VT->isFull()) {
 					C->setDel_T(CurrentTime);
@@ -907,7 +908,7 @@ void Company::AssignVIPTruck(int T) {
 			VT->updateCargosDT();
 			VT->ResetCargoCount();
 			LoadingTrucks.enqueue(VT);
-		}
+		
 	}
 }
 void Company::AssignNormalTruck(int T) {
@@ -958,7 +959,7 @@ void Company::AssignNormalTruck(int T) {
 				NormalEmptyTrucks.enqueue(NT, NT->getprio_s_c());
 				return;
 			}
-			if (NT->getCheckCount() >= NumberofCheckupsforMaintenence)
+			/*if (NT->getCheckCount() >= NumberofCheckupsforMaintenence)
 			{
 				cout << "kkkkk\n";
 				NT->resetCheckcount();
@@ -966,9 +967,9 @@ void Company::AssignNormalTruck(int T) {
 				NMaintenenceTrucks.enqueue(NT);
 				AssignNormalTruck(T);
 				cout << "hhhh\n";
-			}
+			}*/
 			//=============================================
-			else {
+			/*else*/ 
 			/*	cout << NT->GetID() << " 2l" << NT->getTC() << endl;
 				cout << "nnnnnnnnn\n";*/
 				bool CangoNow = false;
@@ -1006,7 +1007,7 @@ void Company::AssignNormalTruck(int T) {
 				NT->updateCargosDT();
 				NT->ResetCargoCount();
 				LoadingTrucks.enqueue(NT);
-			}
+			
 
 		}
 }
@@ -1059,7 +1060,7 @@ void Company::AssignSpecialTruck(int T) {
 			return;
 		}
 
-		if (ST->getCheckCount() >= NumberofCheckupsforMaintenence)
+		/*if (ST->getCheckCount() >= NumberofCheckupsforMaintenence)
 		{
 			ST->Resetmaintenence();
 			ST->resetCheckcount();
@@ -1067,9 +1068,9 @@ void Company::AssignSpecialTruck(int T) {
 			SMaintenenceTrucks.enqueue(ST);
 			AssignSpecialTruck(T);
 
-		}
+		}*/
 		//===========================
-		else {
+		/*else*/ 
 
 			if (T == 0 && WaitingVIPCargos.GetCount() > 0 && WaitingVIPCargos.GetCount() >= ST->getTC()) {
 				while (WaitingVIPCargos.dequeue(C) && !ST->isFull()) {
@@ -1103,7 +1104,7 @@ void Company::AssignSpecialTruck(int T) {
 			ST->updateCargosDT();
 			ST->ResetCargoCount();
 			LoadingTrucks.enqueue(ST);
-		}
+	
 	}
 }
 void Company::AssignExceeded() {
@@ -1168,8 +1169,44 @@ void Company::CreateTrucks() {
 void Company::Checkformaintenence() {                 
 	Truck* T;
 	Queue<Truck*>q;
+	while (NormalEmptyTrucks.dequeue(T)) {
+		if (T->getCheckCount() >= NumberofCheckupsforMaintenence)
+		{
+			T->setSpeed(0.5 * T->getSpeed());
+			NMaintenenceTrucks.enqueue(T);
+		}
+		else q.enqueue(T);
+	}
+	while (q.dequeue(T))
+		NormalEmptyTrucks.enqueue(T, T->getprio_s_c());
+
+	while (SpecialEmptyTrucks.dequeue(T)) {
+		if (T->getCheckCount() >= NumberofCheckupsforMaintenence)
+		{
+			T->setSpeed(0.5 * T->getSpeed());
+			SMaintenenceTrucks.enqueue(T);
+		}
+		else q.enqueue(T);
+	}
+	while (q.dequeue(T))
+		SpecialEmptyTrucks.enqueue(T, T->getprio_s_c());
+
+	while (VIPEmptyTrucks.dequeue(T)) {
+		if (T->getCheckCount() >= NumberofCheckupsforMaintenence)
+		{
+			T->setSpeed(0.5 * T->getSpeed());
+			VMaintenenceTrucks.enqueue(T);
+		}
+		else q.enqueue(T);
+	}
+	while (q.dequeue(T))
+		VIPEmptyTrucks.enqueue(T, T->getprio_s_c());
+
 	if (NormalEmptyTrucks.GetCount() == 0&& NMaintenenceTrucks.dequeue(T)) {
-		T->setSpeed(0.5 * T->getSpeed());
+		{
+			T->setSpeed(0.5 * T->getSpeed());
+			NMaintenenceTrucks.enqueue(T);
+		}
 		NMaintenenceTrucks.enqueue(T);
 	}
 	if (VIPEmptyTrucks.GetCount() == 0 && VMaintenenceTrucks.dequeue(T)) {
@@ -1182,8 +1219,11 @@ void Company::Checkformaintenence() {
 	}
 
 	while (NMaintenenceTrucks.dequeue(T)) {
-		if (T->getTimeMaintenence() >= NMaintenceneD)
-			NormalEmptyTrucks.enqueue(T,T->getprio_s_c());
+		if (T->getTimeMaintenence() >= NMaintenceneD) {
+			T->resetCheckcount();
+			T->Resetmaintenence();
+			NormalEmptyTrucks.enqueue(T, T->getprio_s_c());
+		}
 		else {
 			T->incrementMNTNENCD();
 			q.enqueue(T);
@@ -1193,8 +1233,11 @@ void Company::Checkformaintenence() {
 		NMaintenenceTrucks.enqueue(T);
 
 	while (VMaintenenceTrucks.dequeue(T)) {
-		if (T->getTimeMaintenence() >= VMaintenenceD)
+		if (T->getTimeMaintenence() >= VMaintenenceD) {
+			T->resetCheckcount();
+			T->Resetmaintenence();
 			VIPEmptyTrucks.enqueue(T, T->getprio_s_c());
+		}
 		else {
 			T->incrementMNTNENCD();
 			q.enqueue(T);
@@ -1204,8 +1247,11 @@ void Company::Checkformaintenence() {
 		VMaintenenceTrucks.enqueue(T);
 
 	while (SMaintenenceTrucks.dequeue(T)) {
-		if (T->getTimeMaintenence() >= SMaintenenceD)
+		if (T->getTimeMaintenence() >= SMaintenenceD) {
+			T->resetCheckcount();
+			T->Resetmaintenence();
 			SpecialEmptyTrucks.enqueue(T, T->getprio_s_c());
+		}
 		else {
 			T->incrementMNTNENCD();
 			q.enqueue(T);
@@ -1340,40 +1386,42 @@ void Company::CheckforTrucks() {
 	//cout << MovingTrucks.GetCount() << endl;
 	//==============================================================================
 	Queue<Truck* > Temp;
-	while (NInCheckupTrucks.dequeue(T)) {
-			if ( T->getCheckUPTime() == CurrentTime) {
-				NormalEmptyTrucks.enqueue(T, T->getprio_s_c());
-				Returned_From_Checkup++;
-				cout << T->GetID() << " " << CurrentTime.getDAY() << ":" << CurrentTime.gethour() << endl;
-			}
-			else
-				Temp.enqueue(T);
-	}
-	while(Temp.dequeue(T))NInCheckupTrucks.enqueue(T);
-	while (VInCheckupTrucks.dequeue(T)) {
-		if (T->getCheckUPTime() == CurrentTime) {
-			VIPEmptyTrucks.enqueue(T, T->getprio_s_c());
-			Returned_From_Checkup++;
-			//cout << T->GetID() << " " << CurrentTime.getDAY() << ":" << CurrentTime.gethour() << endl;
-		}
-		else
-			Temp.enqueue(T);
-	}
-	while (Temp.dequeue(T))VInCheckupTrucks.enqueue(T);
+	//while (NInCheckupTrucks.dequeue(T)) {
+	//		if ( T->getCheckUPTime() == CurrentTime) {
+	//			NormalEmptyTrucks.enqueue(T, T->getprio_s_c());
+	//			Returned_From_Checkup++;
+	//			cout << T->GetID() << " " << CurrentTime.getDAY() << ":" << CurrentTime.gethour() << endl;
+	//		}
+	//		else
+	//			Temp.enqueue(T);
+	//}
+	//while(Temp.dequeue(T))NInCheckupTrucks.enqueue(T);
 
-	while (SInCheckupTrucks.dequeue(T)) {
-		if (T->getCheckUPTime() == CurrentTime) {
-			SpecialEmptyTrucks.enqueue(T, T->getprio_s_c());
-			Returned_From_Checkup++;
-			//cout << T->GetID() << " " << CurrentTime.getDAY() << ":" << CurrentTime.gethour() << endl;
-		}
-		else
-			Temp.enqueue(T);
-	}
-	while (Temp.dequeue(T))SInCheckupTrucks.enqueue(T);
+	//while (VInCheckupTrucks.dequeue(T)) {
+	//	if (T->getCheckUPTime() == CurrentTime) {
+	//		VIPEmptyTrucks.enqueue(T, T->getprio_s_c());
+	//		Returned_From_Checkup++;
+	//		//cout << T->GetID() << " " << CurrentTime.getDAY() << ":" << CurrentTime.gethour() << endl;
+	//	}
+	//	else
+	//		Temp.enqueue(T);
+	//}
+	//while (Temp.dequeue(T))VInCheckupTrucks.enqueue(T);
+
+	//while (SInCheckupTrucks.dequeue(T)) {
+	//	if (T->getCheckUPTime() == CurrentTime) {
+	//		SpecialEmptyTrucks.enqueue(T, T->getprio_s_c());
+	//		Returned_From_Checkup++;
+	//		//cout << T->GetID() << " " << CurrentTime.getDAY() << ":" << CurrentTime.gethour() << endl;
+	//	}
+	//	else
+	//		Temp.enqueue(T);
+	//}
+	//while (Temp.dequeue(T))
+	//	SInCheckupTrucks.enqueue(T);
 
 
-	/*
+	
 
 	int Cnt = NInCheckupTrucks.GetCount();
 	for (int i = 0; i <Cnt; i++)	//ismail for N
@@ -1409,7 +1457,7 @@ void Company::CheckforTrucks() {
 		}
 		else
 			bo = VInCheckupTrucks.enqueue(T);
-	}*/
+	}
 }
 //
 void Company::CheckFailure() {
@@ -1419,12 +1467,27 @@ void Company::CheckFailure() {
 	while (MovingTrucks.dequeue(T)) {
 		int a = (rand() % 20) + 1;
 		if (a == 15) {
+			Check_UP_Cnt++;
 			T->moveCargostoWaiting(this);
-			if (dynamic_cast<NormalTruck*>(T))
+			if (dynamic_cast<NormalTruck*>(T)) {
+				T->incrementCheckCount();
 				NInCheckupTrucks.enqueue(T);
-			else if (dynamic_cast<SpecialTruck*>(T))
+				T->setCheckUPTime(CurrentTime, NTruckCheckupDuration);
+			}
+			else if (dynamic_cast<SpecialTruck*>(T)) {
+				T->incrementCheckCount();
 				SInCheckupTrucks.enqueue(T);
-			else VInCheckupTrucks.enqueue(T);
+				T->setCheckUPTime(CurrentTime, STruckCheckupDuration);
+			}
+			else {
+				T->incrementCheckCount();
+				VInCheckupTrucks.enqueue(T);
+				T->setCheckUPTime(CurrentTime, VTruckCheckupDuration);
+			}
+			Time t;
+			t.setDAY(CurrentTime.getDAY());
+			t.sethour(CurrentTime.gethour() + T->get_MaintenanceTime());
+			T->set_putInMaintenanceTime(t);
 		}
 		else q.enqueue(T);
 

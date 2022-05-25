@@ -120,7 +120,9 @@ Time Cargo::getDel_T() {
 	return Del_T;
 }
 void Cargo::setDel_H(int s) {
-	delvr_Hours = ceil(delvr_Dis / s);
+	if (s != 0)
+		delvr_Hours = ceil(delvr_Dis / s);
+	else delvr_Hours = 0;
 }
 Cargo::~Cargo()
 {
