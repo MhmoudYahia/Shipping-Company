@@ -158,7 +158,7 @@ Queue<Cargo* > Truck::getDelivered(Time T) {
 	Cargo* C;
 	while (TruckCargos->GetCount() > 0) {
 		TruckCargos->dequeue(C);
-		if (C->getDel_T() == T) {
+		if (C->getDel_T() <= T) {
 			Q.enqueue(C);
 		}
 		else {

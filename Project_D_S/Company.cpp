@@ -67,14 +67,14 @@ void Company::StepbyStepSimulation()
 }
 
 void Company::InteractiveSimulation() {
-	int cnt = 90;
+	int cnt = 90000000000;
 	while (cnt--) {
 		ExecuteEvents();
+		Checkformaintenence();
 		LoadCargos();
 		//Assign_Ignore_Loading_Rule();
 		incrementWHs();
 		checkforAutop();
-		Checkformaintenence();
 		CheckFailure();
 		CheckforTrucks();
 		PrintConsole();
@@ -1334,9 +1334,9 @@ void Company::CheckforTrucks() {
 	while (MovingTrucks.dequeue(T)) {
 		T->IncrementActiveTime();
 		Queue<Cargo* > Cargos = T->getDelivered(CurrentTime);
-		//cout << T->getTimeforReturn().getDAY() << ":" << T->getTimeforReturn().gethour() << endl;
-		if (T->getTimeforReturn() == CurrentTime) {
-
+		//cout <<T->GetID()<<" "<< T->getTimeforReturn().getDAY() << ":" << T->getTimeforReturn().gethour() << endl;
+		if (T->getTimeforReturn() <= CurrentTime) {
+			cout << T->GetID() << endl;
 			if (T->getJC() >= JourneyCount)	//ismail
 			{
 				Check_UP_Cnt++;
@@ -1472,16 +1472,19 @@ void Company::CheckFailure() {
 			if (dynamic_cast<NormalTruck*>(T)) {
 				T->incrementCheckCount();
 				NInCheckupTrucks.enqueue(T);
+				pUI->PrintError("Failure Truck " + to_string(T->GetID()) + "\n");
 				T->setCheckUPTime(CurrentTime, NTruckCheckupDuration);
 			}
 			else if (dynamic_cast<SpecialTruck*>(T)) {
 				T->incrementCheckCount();
 				SInCheckupTrucks.enqueue(T);
+				pUI->PrintError("Failure Truck " + to_string(T->GetID()) + "\n");
 				T->setCheckUPTime(CurrentTime, STruckCheckupDuration);
 			}
 			else {
 				T->incrementCheckCount();
 				VInCheckupTrucks.enqueue(T);
+				pUI->PrintError("Failure Truck " + to_string(T->GetID()) + "\n");
 				T->setCheckUPTime(CurrentTime, VTruckCheckupDuration);
 			}
 			Time t;
@@ -1594,100 +1597,148 @@ void Company::Assign_Ignore_Loading_Rule() {
 	Truck* VT = nullptr;
 	Truck* ST = nullptr;
 	Cargo* C;
+	
+	Queue<Truck*> TempV;
+	Queue<Truck*> TempN;
+	Queue<Truck*> TempS;
+
+
 
 	// VIP Cargos 
 		// VIP Trucks
+	Queue<Truck* > Temp;
 	while (VIPEmptyTrucks.GetCount() > 0 && WaitingVIPCargos.GetCount() > 0) {
 		VIPEmptyTrucks.dequeue(VT);
-		while (WaitingVIPCargos.dequeue(C) && !VT->isFull()) {
-			C->setDel_T(CurrentTime);
-			VT->AddCargo(C);
+		if (!isClosed() || (VT->CanWorkAtNight())) {
+			while (WaitingVIPCargos.dequeue(C) && !VT->isFull()) {
+				C->setDel_T(CurrentTime);
+					VT->AddCargo(C);
+			}
+			if (VT->isFull()) {
+				AddtoLoading(VT); VT = nullptr;
+			}
+			else TempV.enqueue(VT);
 		}
-		if (VT->isFull()) {
-			AddtoLoading(VT); VT = nullptr;
-		}
+		else Temp.enqueue(VT);
 	}
+	while (Temp.dequeue(VT)) VIPEmptyTrucks.enqueue(VT, VT->getprio_s_c());
 		// Normal Trucks
 	while (NormalEmptyTrucks.GetCount() > 0 && WaitingVIPCargos.GetCount() > 0) {
 		NormalEmptyTrucks.dequeue(NT);
-		while (WaitingVIPCargos.dequeue(C) && !NT->isFull()) {
-			C->setDel_T(CurrentTime);
-			NT->AddCargo(C);
-		}
-		if (NT->isFull()) {
-			AddtoLoading(NT); NT = nullptr;
-		}
-	}
-		// Special Trucks
-	while (SpecialEmptyTrucks.GetCount() > 0 && WaitingVIPCargos.GetCount() > 0) {
-		SpecialEmptyTrucks.dequeue(ST);
-		while (WaitingVIPCargos.dequeue(C) && !ST->isFull()) {
-			C->setDel_T(CurrentTime);
-			ST->AddCargo(C);
-		}
-		if (ST->isFull()) {
-			AddtoLoading(ST); ST = nullptr;
-		}
-	}
-
-	//Special Cargos 
-	if (ST) {
-		while (!ST->isFull() && WaitingSpecialCargos.dequeue(C)) {
-			C->setDel_T(CurrentTime);
-			ST->AddCargo(C);
-		}	
-		AddtoLoading(ST); ST = nullptr;
-	}
-	while (SpecialEmptyTrucks.GetCount() > 0 && WaitingSpecialCargos.GetCount() > 0) {
-		SpecialEmptyTrucks.dequeue(ST);
-		while (WaitingSpecialCargos.dequeue(C) && !ST->isFull()) {
-			C->setDel_T(CurrentTime);
-			ST->AddCargo(C);
-		}
-		if (ST->isFull()) {
-			AddtoLoading(ST); ST = nullptr;
-		}
-	}
-	// Normal Cargos 
-		// Normal Trucks
-	if (NT) {
-		while (!NT->isFull() && WaitingNormalCargos.DeleteFirst(C)) {
-			C->setDel_T(CurrentTime);
-			NT->AddCargo(C);
-		}
-		AddtoLoading(NT); NT = nullptr;
-	}
-	while (WaitingNormalCargos.GetCount() > 0&& NormalEmptyTrucks.GetCount() > 0) {
-			NormalEmptyTrucks.dequeue(NT);
-			while (WaitingNormalCargos.DeleteFirst(C)&&!NT->isFull()) {
+		if (!isClosed() || (NT->CanWorkAtNight())) {
+			while (WaitingVIPCargos.dequeue(C) && !NT->isFull()) {
 				C->setDel_T(CurrentTime);
 				NT->AddCargo(C);
 			}
 			if (NT->isFull()) {
 				AddtoLoading(NT); NT = nullptr;
-			}
+			} else TempN.enqueue(NT);
+		}else Temp.enqueue(NT);
 	}
+	while (Temp.dequeue(NT)) NormalEmptyTrucks.enqueue(NT, NT->getprio_s_c());
+
+		// Special Trucks
+	while (SpecialEmptyTrucks.GetCount() > 0 && WaitingVIPCargos.GetCount() > 0) {
+		SpecialEmptyTrucks.dequeue(ST);
+		if (!isClosed() || (ST->CanWorkAtNight())) {
+			while (WaitingVIPCargos.dequeue(C) && !ST->isFull()) {
+				C->setDel_T(CurrentTime);
+				ST->AddCargo(C);
+			}
+			if (ST->isFull()) {
+				AddtoLoading(ST); ST = nullptr;
+			}
+			else TempS.enqueue(ST);
+		}
+		else Temp.enqueue(ST);
+	}
+	while (Temp.dequeue(ST)) SpecialEmptyTrucks.enqueue(ST, ST->getprio_s_c());
+	//Special Cargos 
+	if(TempS.GetCount() > 0) {
+		TempS.dequeue(ST);
+		while (!ST->isFull()&&WaitingSpecialCargos.GetCount()>0) {
+			while (WaitingSpecialCargos.dequeue(C)) {
+				C->setDel_T(CurrentTime);
+				ST->AddCargo(C);
+			}
+		}
+		AddtoLoading(ST); ST = nullptr;
+	}
+	while (SpecialEmptyTrucks.GetCount() > 0 && WaitingSpecialCargos.GetCount() > 0) {
+		SpecialEmptyTrucks.dequeue(ST);
+		if (!isClosed() || (ST->CanWorkAtNight())) {
+			while (WaitingSpecialCargos.dequeue(C) && !ST->isFull()) {
+				C->setDel_T(CurrentTime);
+				ST->AddCargo(C);
+			}
+			if (ST->isFull()) {
+				AddtoLoading(ST); ST = nullptr;
+			}
+			else TempS.enqueue(ST);
+		}
+		else Temp.enqueue(ST);
+	}
+	while (Temp.dequeue(ST)) SpecialEmptyTrucks.enqueue(ST, ST->getprio_s_c());
+
+	// Normal Cargos 
+		// Normal Trucks
+	if (TempN.GetCount() > 0 && WaitingNormalCargos.GetCount() > 0) {
+		cout << "x\n";
+		TempN.dequeue(NT);
+		while (!NT->isFull()&&WaitingNormalCargos.GetCount()>0) {
+			while (WaitingNormalCargos.DeleteFirst(C)) {
+				C->setDel_T(CurrentTime);
+				NT->AddCargo(C);
+			}
+		}
+		AddtoLoading(NT); NT = nullptr;
+	}
+	while (WaitingNormalCargos.GetCount() > 0&& NormalEmptyTrucks.GetCount() > 0) {
+		cout << "y\n";
+			NormalEmptyTrucks.dequeue(NT);
+			if (!isClosed() || (NT->CanWorkAtNight())) {
+				while (WaitingNormalCargos.DeleteFirst(C) && !NT->isFull()) {
+					C->setDel_T(CurrentTime);
+					NT->AddCargo(C);
+				}
+				if (NT->isFull()) {
+					AddtoLoading(NT); NT = nullptr;
+				}
+				else TempN.enqueue(NT);
+			}
+			else Temp.enqueue(NT);
+	}
+	while (Temp.dequeue(NT)) NormalEmptyTrucks.enqueue(NT, NT->getprio_s_c());
 		//VIP Trucks
-	if (VT) {
-		while (!VT->isFull() && WaitingVIPCargos.dequeue(C)) {
-			C->setDel_T(CurrentTime);
-			VT->AddCargo(C);
+	if (TempV.GetCount()>0) {
+		TempV.dequeue(VT);
+		while (!VT->isFull()&&WaitingVIPCargos.GetCount()>0) {
+			while (WaitingVIPCargos.dequeue(C)) {
+				C->setDel_T(CurrentTime);
+				VT->AddCargo(C);
+			}
 		}
 		AddtoLoading(VT); VT = nullptr;
 	}
 	while (WaitingNormalCargos.GetCount() > 0 && VIPEmptyTrucks.GetCount() > 0) {
 		VIPEmptyTrucks.dequeue(VT);
-		while (WaitingNormalCargos.DeleteFirst(C) && !VT->isFull()) {
-			C->setDel_T(CurrentTime);
-			VT->AddCargo(C);
+		cout << "z\n";
+		if (!isClosed() || (VT->CanWorkAtNight())) {
+			while (WaitingNormalCargos.DeleteFirst(C) && !VT->isFull()) {
+				C->setDel_T(CurrentTime);
+				VT->AddCargo(C);
+			}
+			if (VT->isFull()) {
+				AddtoLoading(VT); VT = nullptr;
+			}
+			else TempV.enqueue(VT);
 		}
-		if (VT->isFull()) {
-			AddtoLoading(VT); VT = nullptr;
-		}
+		else Temp.enqueue(VT);
 	}
-	if (VT) AddtoLoading(VT);
-	if (NT) AddtoLoading(NT);
-	if (ST) AddtoLoading(ST);
+	while (Temp.dequeue(VT)) SpecialEmptyTrucks.enqueue(VT, VT->getprio_s_c());
+	while (TempN.dequeue(NT))  AddtoLoading(NT);
+	while (TempV.dequeue(VT))  AddtoLoading(VT);
+	while (TempS.dequeue(ST))  AddtoLoading(ST);
 }
 
 void Company::AddtoLoading(Truck* ST) {
@@ -1701,79 +1752,31 @@ void Company::AddtoLoading(Truck* ST) {
 	LoadingTrucks.enqueue(ST);
 }
 void Company::Organize_Loading() {
-	Truck* NT; Truck* VT; Truck* ST; Cargo* C; Truck* T;
-	if (NormalEmptyTrucks.dequeue(NT)) {
-		Queue<Cargo* > NCargos;
-		Queue<Truck* > Trucks;
-		bool CargoRealoaded = false;
-		if (NCargos.isEmpty() && LoadingTrucks.dequeue(T)) {
-			if (!dynamic_cast<NormalTruck*> (T)) {
-				NCargos = T->getNCargos();
-				while (NCargos.dequeue(C)) {
-					NT->AddCargo(C);
-					CargoRealoaded = true; 
-				}
-			}
-			if (!T->isEmpty())Trucks.enqueue(T);
-			else AddtoEmpty(T);
+	Truck* VT = nullptr;
+	Queue<Cargo*> NCargos;
+	Queue<Truck* > Temp;
+	while (LoadingTrucks.dequeue(VT)) {
+		if (dynamic_cast<VIPTruck*>(VT)) {
+			NCargos = VT->getNCargos();
+		if(NCargos.GetCount()>0)
+			break;
 		}
-		//while (Trucks.dequeue(T)) LoadingTrucks.enqueue(T);
-		if (CargoRealoaded) {
-			AddtoLoading(NT); NT = nullptr; 
+		else Temp.enqueue(VT);
+		VT = nullptr;
+	}
+	Truck* NT;
+	Cargo* C;
+	while (Temp.dequeue(NT))LoadingTrucks.enqueue(NT);
+	if (VT) {
+		if (NormalEmptyTrucks.dequeue(NT) ){
+			while (NCargos.dequeue(C)) NT->AddCargo(C);
+			cout << "HOOOOO\n";
 		}
 		else {
-			NormalEmptyTrucks.enqueue(NT, NT->getPriority());
-			//break; 
+			while (NCargos.dequeue(C))VT->AddCargo(C);
 		}
 	}
-	//while (VIPEmptyTrucks.dequeue(VT)) {
-	//	Queue<Cargo* > VCargos;
-	//	Queue<Truck* > Trucks;
-	//	bool CargoRealoaded = false;
-	//	while (VCargos.isEmpty() && LoadingTrucks.dequeue(T)) {
-	//		if (!dynamic_cast<VIPTruck*> (T)) {
-	//			VCargos = T->getVCargos();
-	//			while (VCargos.dequeue(C)) {
-	//				VT->AddCargo(C);
-	//				CargoRealoaded = true;
-	//			}
-	//		}
-	//		if (!T->isEmpty())Trucks.enqueue(T);
-	//		else AddtoEmpty(T);
-	//	}
-	//	while (Trucks.dequeue(T)) LoadingTrucks.enqueue(T);
-	//	if (CargoRealoaded) {
-	//		AddtoLoading(VT); VT = nullptr;
-	//	}
-	//	else {
-	//		VIPEmptyTrucks.enqueue(VT, VT->getPriority());
-	//		break;
-	//	}
-	//}
-	//while (SpecialEmptyTrucks.dequeue(ST)) {
-	//	Queue<Cargo* > SCargos;
-	//	Queue<Truck* > Trucks;
-	//	bool CargoRealoaded = false;
-	//	while (SCargos.isEmpty() && LoadingTrucks.dequeue(T)) {
-	//		if (!dynamic_cast<SpecialTruck*> (T)) {
-	//			SCargos = T->getVCargos();
-	//			while (SCargos.dequeue(C)) {
-	//				ST->AddCargo(C);
-	//				CargoRealoaded = true;
-	//			}
-	//		}
-	//		if (!T->isEmpty())Trucks.enqueue(T);
-	//		else AddtoEmpty(T);
-	//	}
-	//	while (Trucks.dequeue(T)) LoadingTrucks.enqueue(T);
-	//	if (CargoRealoaded) {
-	//		AddtoLoading(ST); ST = nullptr;
-	//	}
-	//	else {
-	//		SpecialEmptyTrucks.enqueue(ST, ST->getPriority());
-	//		break;
-	//	}
-	//}
+	
 }
 void Company::AddtoEmpty(Truck* T) {
 	if (dynamic_cast<NormalTruck*>(T)) NormalEmptyTrucks.enqueue(T,T->getPriority());
