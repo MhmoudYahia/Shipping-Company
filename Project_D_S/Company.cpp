@@ -71,8 +71,8 @@ void Company::InteractiveSimulation() {
 	while (cnt--) {
 		ExecuteEvents();
 		Checkformaintenence();
-		LoadCargos();
-		//Assign_Ignore_Loading_Rule();
+		//LoadCargos();
+		Assign_Ignore_Loading_Rule();
 		incrementWHs();
 		checkforAutop();
 		CheckFailure();
@@ -346,7 +346,7 @@ void Company::Loading_File()
 {
 	int temp;
 	ifstream Lfile;
-	Lfile.open("Text.txt");      //start from here to read 			 
+	Lfile.open("WithoutTrucks.txt");      //start from here to read 			 
 	/*Lfile >> NTruckSpeed >> STruckSpeed >> VTruckSpeed;
 	Lfile >> NTruckCapacity >> STruckCapacity >> VTruckCapacity;*/
 	Lfile >> N;
@@ -1843,13 +1843,12 @@ void Company::TestAll() {
 	while (cnt--) {
 		TSM++;
 		ExecuteEvents();
-		//LoadCargos();
-		Assign_Ignore_Loading_Rule();
+		LoadCargos();
+		//Assign_Ignore_Loading_Rule();
 		incrementWHs();
 		//Organize_Loading();
 		checkforAutop();
-		//CheckFailure();
-		//CheckforCheckupTrucks();
+		CheckFailure();
 		CheckforTrucks();
 		//PrintConsole();
 		++CurrentTime;

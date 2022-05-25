@@ -8,9 +8,9 @@ using namespace std;
 
 int main() {
 	Company* CompanyTest = new Company;
-	CompanyTest->Loading_File();
+	/*CompanyTest->Loading_File();
 	CompanyTest->CreateTrucks();
-	CompanyTest->GeneralSimulate();
+	CompanyTest->GeneralSimulate();*/
 
 	CompanyTest->TestAll();
 		return 0;
