@@ -529,8 +529,11 @@ NormalCargo* Company::GetNormalCargo(int id) {
 	else return nullptr;
 }
 void Company::printWaitingVIP(UIClass* pUI) {
+	
 	if (WaitingVIPCargos.GetCount() > 0) {
 		pUI->openbraceforVIP();
+		if (VCargosExceededMaxW.GetCount() > 0)
+			VCargosExceededMaxW.PrintQ(pUI);
 		WaitingVIPCargos.PrintQ(pUI);
 		pUI->closebraceforVIP();
 	}
@@ -538,6 +541,8 @@ void Company::printWaitingVIP(UIClass* pUI) {
 void Company::printWaitingNormal(UIClass* pUI) {
 	if (WaitingNormalCargos.GetCount() > 0){
 	   pUI->openbraceforNormal();
+	   if (NCargosExceededMaxW.GetCount() > 0)
+		   NCargosExceededMaxW.PrintQ(pUI);
 	   WaitingNormalCargos.PrintL(pUI);
 	   pUI->closebraceforNormal();
     }
@@ -546,6 +551,8 @@ void Company::printWaitingNormal(UIClass* pUI) {
 void Company::printWaitingSP(UIClass* pUI) {
 	if (WaitingSpecialCargos.GetCount() > 0) {
 		pUI->openbraceforSP();
+		if (SCargosExceededMaxW.GetCount() > 0)
+			SCargosExceededMaxW.PrintQ(pUI);
 		WaitingSpecialCargos.PrintQ(pUI);
 		pUI->closebraceforSP();
 	}

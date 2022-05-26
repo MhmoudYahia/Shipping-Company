@@ -3,7 +3,10 @@
 
 void Truck::UPdatePriority_s_c()
 {
-	pri_s_c = Speed/100 + 1.0/TC;
+	if (TC != 0) {
+		pri_s_c = Speed / 100 + 1.0 / TC;
+	}
+	else pri_s_c = Speed;
 }
 
 double Truck::getprio_s_c()
