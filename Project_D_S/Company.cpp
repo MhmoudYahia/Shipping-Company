@@ -533,8 +533,10 @@ void Company::printWaitingVIP(UIClass* pUI) {
 	
 	if (WaitingVIPCargos.GetCount() > 0) {
 		pUI->openbraceforVIP();
-		if (VCargosExceededMaxW.GetCount() > 0)
+		if (VCargosExceededMaxW.GetCount() > 0) {
 			VCargosExceededMaxW.PrintQ(pUI);
+			pUI->Printcomma();
+		}
 		WaitingVIPCargos.PrintQ(pUI);
 		pUI->closebraceforVIP();
 	}
@@ -542,8 +544,10 @@ void Company::printWaitingVIP(UIClass* pUI) {
 void Company::printWaitingNormal(UIClass* pUI) {
 	if (WaitingNormalCargos.GetCount() > 0){
 	   pUI->openbraceforNormal();
-	   if (NCargosExceededMaxW.GetCount() > 0)
+	   if (NCargosExceededMaxW.GetCount() > 0) {
 		   NCargosExceededMaxW.PrintQ(pUI);
+		   pUI->Printcomma();
+	   }
 	   WaitingNormalCargos.PrintL(pUI);
 	   pUI->closebraceforNormal();
     }
@@ -552,8 +556,10 @@ void Company::printWaitingNormal(UIClass* pUI) {
 void Company::printWaitingSP(UIClass* pUI) {
 	if (WaitingSpecialCargos.GetCount() > 0) {
 		pUI->openbraceforSP();
-		if (SCargosExceededMaxW.GetCount() > 0)
+		if (SCargosExceededMaxW.GetCount() > 0){
 			SCargosExceededMaxW.PrintQ(pUI);
+			pUI->Printcomma();
+	}
 		WaitingSpecialCargos.PrintQ(pUI);
 		pUI->closebraceforSP();
 	}
@@ -688,7 +694,8 @@ int Company::GetCountTRKsMaintence() {
 	return NMaintenenceTrucks.GetCount() + VMaintenenceTrucks.GetCount() + SMaintenenceTrucks.GetCount();
 }
 int Company::Getcountall_waiting() {
-	return WaitingVIPCargos.GetCount() + WaitingNormalCargos.GetCount() + WaitingSpecialCargos.GetCount();
+	return WaitingVIPCargos.GetCount() + WaitingNormalCargos.GetCount() + WaitingSpecialCargos.GetCount()
+		+ VCargosExceededMaxW.GetCount() + NCargosExceededMaxW.GetCount() + SCargosExceededMaxW.GetCount();
 }
 
 int Company::GetnumOfDeliv() {
