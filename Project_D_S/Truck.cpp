@@ -75,9 +75,6 @@ bool Truck::RemoveCargo(Cargo* &C) {
 	return true;
 }
 
-//void Truck::Print(UIClass * UI) {
-//	UI->Print(this);
-//}
 
 bool Truck::isFull() {
 	return (CargoCount == TC);
@@ -289,6 +286,7 @@ void Truck::resetCheckcount()
 double Truck::getSpeed() {
 	return Speed;
 }
+
 void Truck::setCheckUPTime(Time X , int H) {
 	CheckupTime = X + H;
 }

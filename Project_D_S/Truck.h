@@ -48,7 +48,7 @@ public:
 	double getprio_s_c();
 	int GetID();
 	double getSpeed();
-	void setSpeed(int);
+//	void setSpeed(int);
 	//void ChangeState(State S);
 	Truck(int ID , int TC , int TS , bool);
 	bool AddCargo(Cargo* C);

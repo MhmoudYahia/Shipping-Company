@@ -107,7 +107,7 @@ void Company::checkforAutop() {
 	while (WaitingNormalCargos.DeleteFirst(cptr))
 	{
 		
-		if (cptr->GetWaitingHours() > AutoP) {
+		if (cptr->GetWaitingHours()/24.0 > AutoP) {
 			if (cptr) {
 				VIPCargo* temp = new VIPCargo();
 				temp->SetCost(cptr->getCost());
@@ -364,8 +364,6 @@ void Company::Loading_File()
 		Lfile >> temp;
 		N_Night.enqueue(temp);
 	}
-
-	
 	Lfile >> S;
 	 i =  j = k =  S;
 	while (i--) {
