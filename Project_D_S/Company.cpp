@@ -111,8 +111,6 @@ void Company::checkforAutop() {
 			
 				AddCargotoVIPWaiting(cptr);
 				this->set_NumberOfAutoPromotedCargos(this->get_NumberOfAutoPromotedCargos() + 1);
-			
-			
 		}
 		else q.enqueue(cptr);
 		
@@ -369,7 +367,7 @@ void Company::Loading_File()
 {
 	int temp;
 	ifstream Lfile;
-	Lfile.open("Text.txt");      //start from here to read 			 
+	Lfile.open("Input_4.txt");      //start from here to read 			 
 	/*Lfile >> NTruckSpeed >> STruckSpeed >> VTruckSpeed;
 	Lfile >> NTruckCapacity >> STruckCapacity >> VTruckCapacity;*/
 	Lfile >> N;
@@ -1834,7 +1832,7 @@ void Company::AddtoEmpty(Truck* T) {
 
 void Company::OutputFile() {			//ismail
 	ofstream Lfile;
-	Lfile.open("Output.txt", ios::binary);
+	Lfile.open("Output_4.txt", ios::binary);
 	Lfile << "CDT" << setw(7) << "ID" << setw(7) << "PT" << setw(7) << "WT" << setw(7) << "TID\n";
 	Cargo* cargo;
 	bool bo;
@@ -1869,7 +1867,7 @@ void Company::OutputFile() {			//ismail
 
 	// AutoP
 	
-	Lfile << "Auto-promoted Cargos:" <<  setprecision(3)<<(float)NumberOfAutoPromotedCargos /*/ ALL * 100 */ << "%\n";
+	Lfile << "Auto-promoted Cargos:" <<  setprecision(3)<<(float)NumberOfAutoPromotedCargos/N_Cargo_Count << "%\n";
 
 	//Trucks
 	Lfile << "Trucks: " << get_numOf_N_Truck() + get_numOf_S_Truck() + get_numOf_VIP_Truck();
@@ -1891,6 +1889,7 @@ void Company::TestAll() {
 	while (cnt--) {
 		TSM++;
 		ExecuteEvents();
+		Checkformaintenence();
 		LoadCargos();
 		//Assign_Ignore_Loading_Rule();
 		incrementWHs();
@@ -1898,7 +1897,7 @@ void Company::TestAll() {
 		checkforAutop();
 		CheckFailure();
 		CheckforTrucks();
-		PrintConsole();
+		//PrintConsole();
 		++CurrentTime;
 	}
 	OutputFile();
