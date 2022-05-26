@@ -1215,8 +1215,9 @@ void Company::Checkformaintenence() {
 	Truck* T;
 	Queue<Truck*>q;
 	while (NormalEmptyTrucks.dequeue(T)) {
-		if (T->getCheckCount() >= NumberofCheckupsforMaintenence)
+		if (T->getCheckCount() == NumberofCheckupsforMaintenence)
 		{
+			T->resetCheckcount();
 			T->setSpeed(0.5 * T->getSpeed());
 			NMaintenenceTrucks.enqueue(T);
 		}
@@ -1226,8 +1227,9 @@ void Company::Checkformaintenence() {
 		NormalEmptyTrucks.enqueue(T, T->getprio_s_c());
 
 	while (SpecialEmptyTrucks.dequeue(T)) {
-		if (T->getCheckCount() >= NumberofCheckupsforMaintenence)
+		if (T->getCheckCount() == NumberofCheckupsforMaintenence)
 		{
+			T->resetCheckcount();
 			T->setSpeed(0.5 * T->getSpeed());
 			SMaintenenceTrucks.enqueue(T);
 		}
@@ -1239,6 +1241,7 @@ void Company::Checkformaintenence() {
 	while (VIPEmptyTrucks.dequeue(T)) {
 		if (T->getCheckCount() >= NumberofCheckupsforMaintenence)
 		{
+			T->resetCheckcount();
 			T->setSpeed(0.5 * T->getSpeed());
 			VMaintenenceTrucks.enqueue(T);
 		}
@@ -1248,11 +1251,10 @@ void Company::Checkformaintenence() {
 		VIPEmptyTrucks.enqueue(T, T->getprio_s_c());
 
 	if (NormalEmptyTrucks.GetCount() == 0&& NMaintenenceTrucks.dequeue(T)) {
-		{
+		
 			T->setSpeed(0.5 * T->getSpeed());
 			NMaintenenceTrucks.enqueue(T);
-		}
-		NMaintenenceTrucks.enqueue(T);
+		
 	}
 	if (VIPEmptyTrucks.GetCount() == 0 && VMaintenenceTrucks.dequeue(T)) {
 		T->setSpeed(0.5 * T->getSpeed());
@@ -1264,7 +1266,7 @@ void Company::Checkformaintenence() {
 	}
 
 	while (NMaintenenceTrucks.dequeue(T)) {
-		if (T->getTimeMaintenence() >= NMaintenceneD) {
+		if (T->getTimeMaintenence() == NMaintenceneD) {
 			T->resetCheckcount();
 			T->Resetmaintenence();
 			NormalEmptyTrucks.enqueue(T, T->getprio_s_c());
@@ -1278,7 +1280,7 @@ void Company::Checkformaintenence() {
 		NMaintenenceTrucks.enqueue(T);
 
 	while (VMaintenenceTrucks.dequeue(T)) {
-		if (T->getTimeMaintenence() >= VMaintenenceD) {
+		if (T->getTimeMaintenence() == VMaintenenceD) {
 			T->resetCheckcount();
 			T->Resetmaintenence();
 			VIPEmptyTrucks.enqueue(T, T->getprio_s_c());
@@ -1292,7 +1294,7 @@ void Company::Checkformaintenence() {
 		VMaintenenceTrucks.enqueue(T);
 
 	while (SMaintenenceTrucks.dequeue(T)) {
-		if (T->getTimeMaintenence() >= SMaintenenceD) {
+		if (T->getTimeMaintenence() == SMaintenenceD) {
 			T->resetCheckcount();
 			T->Resetmaintenence();
 			SpecialEmptyTrucks.enqueue(T, T->getprio_s_c());
