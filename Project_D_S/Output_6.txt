@@ -51,3 +51,4 @@ Avg Active time = 0.883 %
 Avg utilization = 0.771%
 No of checkup Trucks 8
 No of Trucks returned from Checkup 8
+ 

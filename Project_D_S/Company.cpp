@@ -34,7 +34,18 @@ void Company::LoadCargos() {
 	AssignSpecial();
 	AssignNormal();
 }
+void Company:: UpdateLoadingCnt(int& N, int& V, int& S) {
+	Truck* T;
+	Queue<Truck* > X;
+	while (LoadingTrucks.dequeue(T)) {
+		if (dynamic_cast<NormalTruck*>(T)) N++;
+		else if (dynamic_cast<SpecialTruck*>(T)) S++;
+		else if (dynamic_cast<VIPTruck*>(T)) V++;
 
+		X.enqueue(T);
+	}
+	while (X.dequeue(T)) LoadingTrucks.enqueue(T);
+}
 void Company::setcurtime(Time time)
 {
 	this->CurrentTime.sethour(time.gethour());
@@ -367,7 +378,7 @@ void Company::Loading_File()
 {
 	int temp;
 	ifstream Lfile;
-	Lfile.open("Input_6.txt");      //start from here to read 			 
+	Lfile.open("Input_5.txt");      //start from here to read 			 
 	/*Lfile >> NTruckSpeed >> STruckSpeed >> VTruckSpeed;
 	Lfile >> NTruckCapacity >> STruckCapacity >> VTruckCapacity;*/
 	Lfile >> N;
@@ -883,6 +894,8 @@ bool Company::AssignNormal() {
 	return false;
 }
 void Company::AssignVIPTruck(int T) {
+	int N = 0, S = 0, V = 0;
+	UpdateLoadingCnt(N, V, S);
 	Cargo* C = nullptr;
 	Truck* VT,*t;
 	bool CangoNow = false;
@@ -908,12 +921,12 @@ void Company::AssignVIPTruck(int T) {
 
 	if (flag) {
 
-		if (T == 0 && (VT->getTC() > WaitingVIPCargos.GetCount()|| VT->getTC() < 1))
+		if (T == 0 && (VT->getTC() > WaitingVIPCargos.GetCount()|| VT->getTC() < 1||V))
 		{
 			VIPEmptyTrucks.enqueue(VT, VT->getprio_s_c());
 			return;
 		}
-		if (T == 1 && (VT->getTC() > WaitingNormalCargos.GetCount() || VT->getTC() < 1))
+		if (T == 1 && (VT->getTC() > WaitingNormalCargos.GetCount() || VT->getTC() < 1||V))
 		{
 			VIPEmptyTrucks.enqueue(VT, VT->getprio_s_c());
 			return;
@@ -970,7 +983,8 @@ void Company::AssignVIPTruck(int T) {
 	}
 }
 void Company::AssignNormalTruck(int T) {
-
+	int N = 0, S = 0, V = 0;
+	UpdateLoadingCnt(N, V, S);
 		Cargo* C = nullptr;
 		Truck* t;
 		Truck* NT = nullptr;
@@ -997,12 +1011,12 @@ void Company::AssignNormalTruck(int T) {
 
 		if(flag){
 		
-			if (T == 0 && (NT->getTC() > WaitingVIPCargos.GetCount() || NT->getTC() < 1))
+			if (T == 0 && (NT->getTC() > WaitingVIPCargos.GetCount() || NT->getTC() < 1||N))
 			{
 				NormalEmptyTrucks.enqueue(NT, NT->getprio_s_c());
 				return;
 			}
-		    if (T == 1 && (NT->getTC() > WaitingNormalCargos.GetCount() || NT->getTC() < 1))
+		    if (T == 1 && (NT->getTC() > WaitingNormalCargos.GetCount() || NT->getTC() < 1||N))
 			{
 				NormalEmptyTrucks.enqueue(NT, NT->getprio_s_c());
 				return;
@@ -1061,6 +1075,8 @@ void Company::AssignNormalTruck(int T) {
 		}
 }
 void Company::AssignSpecialTruck(int T) {
+	int N = 0, S = 0, V = 0;
+	UpdateLoadingCnt(N, V, S);
 	Truck* t;
 	Cargo* C = nullptr;
 	Truck* ST;
@@ -1088,12 +1104,12 @@ void Company::AssignSpecialTruck(int T) {
 	//===========================for bonus
 	if (flag) {
 
-		if (T == 0 && (ST->getTC() > WaitingVIPCargos.GetCount() || ST->getTC() < 1))
+		if (T == 0 && (ST->getTC() > WaitingVIPCargos.GetCount() || ST->getTC() < 1||S))
 		{
 			SpecialEmptyTrucks.enqueue(ST, ST->getprio_s_c());
 			return;
 		}
-		if (T == 1 && (ST->getTC() > WaitingSpecialCargos.GetCount() || ST->getTC() < 1))
+		if (T == 1 && (ST->getTC() > WaitingSpecialCargos.GetCount() || ST->getTC() < 1||S))
 		{
 			SpecialEmptyTrucks.enqueue(ST, ST->getprio_s_c());
 			return;
