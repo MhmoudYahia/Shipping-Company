@@ -474,7 +474,7 @@ void Company:: ExecuteEvents() {
 		while (EventsPQ.GetCount() > 0 && Eptr->getEventTime() == CurrentTime)
 		{
 
-			//cout << "Current EventCount: " << EventsPQ.GetCount() << endl;
+			cout << "Current EventCount: " << EventsPQ.GetCount() << endl;
 			EventsPQ.dequeue(Eptr);
 			/*if (!isClosed()) 
 			Eptr->Execute();
@@ -484,9 +484,10 @@ void Company:: ExecuteEvents() {
 					cout << "mmmm\n";
 				}
 				else if (dynamic_cast<PromotionEvent*>(Eptr))*/
-					Eptr->Execute();
+			Eptr->Execute(); 
 			//}
 			EventsPQ.peak(Eptr);
+			cout << Eptr->getID() << endl;
 		}
 	
 	
@@ -850,22 +851,22 @@ void Company::AssignVIPTruck(int T) {
 
 	if (flag) {
 
-		if (T == 0 && VT->getTC() > WaitingVIPCargos.GetCount())
+		if (T == 0 && (VT->getTC() > WaitingVIPCargos.GetCount()|| VT->getTC() < 1))
 		{
 			VIPEmptyTrucks.enqueue(VT, VT->getprio_s_c());
 			return;
 		}
-		if (T == 1 && VT->getTC() > WaitingNormalCargos.GetCount())
+		if (T == 1 && (VT->getTC() > WaitingNormalCargos.GetCount() || VT->getTC() < 1))
 		{
 			VIPEmptyTrucks.enqueue(VT, VT->getprio_s_c());
 			return;
 		}
-		if (T == 2 && VT->getTC() > VCargosExceededMaxW.GetCount() < 1)
+		if (T == 2 && (VCargosExceededMaxW.GetCount() < 1 || VT->getTC() < 1))
 		{
 			VIPEmptyTrucks.enqueue(VT, VT->getprio_s_c());
 			return;
 		}
-		if (T == 3 && VT->getTC() > NCargosExceededMaxW.GetCount() < 1)
+		if (T == 3 && (NCargosExceededMaxW.GetCount() < 1 || VT->getTC() < 1))
 		{
 			VIPEmptyTrucks.enqueue(VT, VT->getprio_s_c());
 			return;
@@ -922,7 +923,7 @@ void Company::AssignNormalTruck(int T) {
 		if (isClosed()) {			
 			Queue<Truck*>q;
 			while (NormalEmptyTrucks.dequeue(NT)) {
-				if (NT->CanWorkAtNight()) {
+				if (NT->CanWorkAtNight()&&NT->getTC()>=1) {
 					flag = true;
 					break;
 				}
@@ -939,22 +940,22 @@ void Company::AssignNormalTruck(int T) {
 
 		if(flag){
 		
-			if (T == 0 && NT->getTC() > WaitingVIPCargos.GetCount())
+			if (T == 0 && (NT->getTC() > WaitingVIPCargos.GetCount() || NT->getTC() < 1))
 			{
 				NormalEmptyTrucks.enqueue(NT, NT->getprio_s_c());
 				return;
 			}
-		    if (T == 1 && NT->getTC() > WaitingNormalCargos.GetCount())
+		    if (T == 1 && (NT->getTC() > WaitingNormalCargos.GetCount() || NT->getTC() < 1))
 			{
 				NormalEmptyTrucks.enqueue(NT, NT->getprio_s_c());
 				return;
 			}
-		    if (T == 2 && NT->getTC() > VCargosExceededMaxW.GetCount() < 1) 
+		    if (T == 2 &&(NCargosExceededMaxW.GetCount() < 1 || NT->getTC() < 1))
 			{
 				NormalEmptyTrucks.enqueue(NT, NT->getprio_s_c());
 				return;
 			}
-		    if (T == 3 && NT->getTC() > NCargosExceededMaxW.GetCount() < 1)
+		    if (T == 3 && (NCargosExceededMaxW.GetCount() < 1 || NT->getTC()<1))
 			{
 				NormalEmptyTrucks.enqueue(NT, NT->getprio_s_c());
 				return;
@@ -1030,22 +1031,22 @@ void Company::AssignSpecialTruck(int T) {
 	//===========================for bonus
 	if (flag) {
 
-		if (T == 0 && ST->getTC() > WaitingVIPCargos.GetCount())
+		if (T == 0 && (ST->getTC() > WaitingVIPCargos.GetCount() || ST->getTC() < 1))
 		{
 			SpecialEmptyTrucks.enqueue(ST, ST->getprio_s_c());
 			return;
 		}
-		if (T == 1 && ST->getTC() > WaitingSpecialCargos.GetCount())
+		if (T == 1 && (ST->getTC() > WaitingSpecialCargos.GetCount() || ST->getTC() < 1))
 		{
 			SpecialEmptyTrucks.enqueue(ST, ST->getprio_s_c());
 			return;
 		}
-		if (T == 2 && ST->getTC() > VCargosExceededMaxW.GetCount() < 1)
+		if (T == 2 && (VCargosExceededMaxW.GetCount() < 1 || ST->getTC() < 1))
 		{
 			SpecialEmptyTrucks.enqueue(ST, ST->getprio_s_c());
 			return;
 		}
-		if (T == 3 && ST->getTC() > SCargosExceededMaxW.GetCount() < 1)
+		if (T == 3 && (SCargosExceededMaxW.GetCount() < 1 || ST->getTC() < 1))
 		{
 			SpecialEmptyTrucks.enqueue(ST, ST->getprio_s_c());
 			return;
