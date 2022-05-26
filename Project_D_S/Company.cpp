@@ -321,6 +321,21 @@ void Company::incrementWHs() {
 	}
 	while (tq.dequeue(ct))
 		WaitingVIPCargos.enqueue(ct, ct->Getpriority());
+	while (NCargosExceededMaxW.dequeue(ct)) {
+		ct->IncrementWaitingHours();
+		tq.enqueue(ct);
+	}
+	while (tq.dequeue(ct)) NCargosExceededMaxW.enqueue(ct);
+	while (SCargosExceededMaxW.dequeue(ct)) {
+		ct->IncrementWaitingHours();
+		tq.enqueue(ct);
+	}
+	while (tq.dequeue(ct)) SCargosExceededMaxW.enqueue(ct);
+	while (VCargosExceededMaxW.dequeue(ct)) {
+		ct->IncrementWaitingHours();
+		tq.enqueue(ct);
+	}
+	while (tq.dequeue(ct)) VCargosExceededMaxW.enqueue(ct);
 }
 
 void Company::GeneralSimulate() {
