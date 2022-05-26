@@ -367,7 +367,7 @@ void Company::Loading_File()
 {
 	int temp;
 	ifstream Lfile;
-	Lfile.open("Input_4.txt");      //start from here to read 			 
+	Lfile.open("Input_6.txt");      //start from here to read 			 
 	/*Lfile >> NTruckSpeed >> STruckSpeed >> VTruckSpeed;
 	Lfile >> NTruckCapacity >> STruckCapacity >> VTruckCapacity;*/
 	Lfile >> N;
@@ -1832,7 +1832,7 @@ void Company::AddtoEmpty(Truck* T) {
 
 void Company::OutputFile() {			//ismail
 	ofstream Lfile;
-	Lfile.open("Output_4.txt", ios::binary);
+	Lfile.open("Output_6.txt", ios::binary);
 	Lfile << "CDT" << setw(7) << "ID" << setw(7) << "PT" << setw(7) << "WT" << setw(7) << "TID\n";
 	Cargo* cargo;
 	bool bo;
