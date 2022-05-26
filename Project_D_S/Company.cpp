@@ -546,7 +546,7 @@ NormalCargo* Company::GetNormalCargo(int id) {
 }
 void Company::printWaitingVIP(UIClass* pUI) {
 	
-	if (WaitingVIPCargos.GetCount() > 0) {
+	if (WaitingVIPCargos.GetCount() > 0||VCargosExceededMaxW.GetCount()>0) {
 		pUI->openbraceforVIP();
 		if (VCargosExceededMaxW.GetCount() > 0) {
 			VCargosExceededMaxW.PrintQ(pUI);
@@ -557,24 +557,25 @@ void Company::printWaitingVIP(UIClass* pUI) {
 	}
 }
 void Company::printWaitingNormal(UIClass* pUI) {
-	if (WaitingNormalCargos.GetCount() > 0){
+	if (WaitingNormalCargos.GetCount() > 0 || NCargosExceededMaxW.GetCount() > 0){
 	   pUI->openbraceforNormal();
 	   if (NCargosExceededMaxW.GetCount() > 0) {
 		   NCargosExceededMaxW.PrintQ(pUI);
 		   pUI->Printcomma();
 	   }
-	   WaitingNormalCargos.PrintL(pUI);
+	   if(WaitingNormalCargos.GetCount()>0)
+		   WaitingNormalCargos.PrintL(pUI);
 	   pUI->closebraceforNormal();
     }
 }
 
 void Company::printWaitingSP(UIClass* pUI) {
-	if (WaitingSpecialCargos.GetCount() > 0) {
+	if (WaitingSpecialCargos.GetCount() > 0 || SCargosExceededMaxW.GetCount() > 0) {
 		pUI->openbraceforSP();
 		if (SCargosExceededMaxW.GetCount() > 0){
 			SCargosExceededMaxW.PrintQ(pUI);
 			pUI->Printcomma();
-	}
+		}	
 		WaitingSpecialCargos.PrintQ(pUI);
 		pUI->closebraceforSP();
 	}
