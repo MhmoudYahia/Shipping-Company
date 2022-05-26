@@ -1308,25 +1308,7 @@ void Company::Checkformaintenence() {
 		SMaintenenceTrucks.enqueue(T);
 
 }
-//void Company::CheckforCheckupTrucks() {
-//	Truck* T; 
-//	Queue<Truck* >temp;
-//	// Check for normal
-//	while (NormalEmptyTrucks.GetCount() > 0 && NormalEmptyTrucks.dequeue(T)) {
-//		if (T->getJC() >= JourneyCount)NInCheckupTrucks.enqueue(T);
-//		else temp.enqueue(T);
-//		}
-//	while (temp.GetCount() > 0 && temp.dequeue(T))NormalEmptyTrucks.enqueue(T,T->getprio_s_c());
-//
-//	// Check for VIP
-//
-//	while (NormalEmptyTrucks.GetCount() > 0 && NormalEmptyTrucks.dequeue(T)) {
-//		if (T->getJC() >= JourneyCount)NInCheckupTrucks.enqueue(T);
-//		else temp.enqueue(T);
-//	}
-//	while (temp.GetCount() > 0 && temp.dequeue(T))NormalEmptyTrucks.enqueue(T,T->getprio_s_c());
-//	// Check for SP
-//}
+
 void Company::CheckforTrucks() {
 	Truck* T;
 	bool bo;
@@ -1430,7 +1412,7 @@ void Company::CheckforTrucks() {
 		temp2.dequeue(T);
 		MovingTrucks.enqueue(T, T->getPriority());
 	}
-	//cout << MovingTrucks.GetCount() << endl;
+	
 	//==============================================================================
 	Queue<Truck* > Temp;
 	//while (NInCheckupTrucks.dequeue(T)) {

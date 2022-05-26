@@ -117,6 +117,10 @@ class Company
 	void InteractiveSimulation();
 	void checkforAutop();
 	void incrementWHs();
+	void CheckforTrucks(); // Check for moving , loading , checkup 
+	void CheckFailure();
+	void Deliver(Truck*&);
+	void Assign_Ignore_Loading_Rule();
 public:
 	int Check_UP_Cnt = 0;
 	int Returned_From_Checkup = 0;
@@ -127,9 +131,6 @@ public:
 	void setcurtime(Time time);
 	Time getcurtime();
 	bool isClosed();
-	/*bool AddtoVIPTruck(Cargo*);
-	bool AddtoNormalTruck(Cargo*);
-	bool AddtoSpecialTruck(Cargo*);*/
 //	void Update_UI_Interface(Time T);
 	void Loading_File();
 	void GeneralSimulate();
@@ -163,9 +164,6 @@ public:
 	int Getcountall_waiting();
 	int GetnumOfDeliv();
 	void printDelivered(UIClass* pUI);
-	//void printDeliveredVIP(UIClass* pUI);
-	//void printDeliveredNormal(UIClass* pUI);
-	//void printDeliveredSP(UIClass* pUI);
 	void printEmptyTrucks(UIClass* pUI);
 	int GetNumOfEmptyTrcs();
 	void CheckforCargosExceededMaxW();
@@ -181,10 +179,7 @@ public:
 
 
 	//void CheckforCheckupTrucks();
-	void CheckforTrucks(); // Check for moving , loading , checkup 
-    void CheckFailure();
-	void Deliver(Truck* &);
-	void Assign_Ignore_Loading_Rule();
+	
 	void AddtoLoading(Truck*);
 	void Organize_Loading();
 	void AddtoEmpty(Truck*);
@@ -218,10 +213,6 @@ public:
 	int get_S_Cargo_Count();
 	int get_VIP_Cargo_Count();
 	void TestAll();
-	//void AddCargotoVIPWaiting(Cargo* C);
-	//void CancellationIDint id);
-   //	void PrintDelivered(UIClass* pUI);
-	//void AddCargotoWaiting(Cargo*);
-//	bool UpdatetoVIP(int ID);
+	
 };
 
