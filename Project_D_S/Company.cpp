@@ -926,7 +926,7 @@ void Company::AssignVIPTruck(int T) {
 			VIPEmptyTrucks.enqueue(VT, VT->getprio_s_c());
 			return;
 		}
-		if (T == 1 && (VT->getTC() > WaitingNormalCargos.GetCount() || VT->getTC() < 1)
+		if (T == 1 && (VT->getTC() > WaitingNormalCargos.GetCount() || VT->getTC() < 1))
 		{
 			VIPEmptyTrucks.enqueue(VT, VT->getprio_s_c());
 			return;
