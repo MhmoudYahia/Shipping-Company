@@ -116,8 +116,9 @@ void Company::checkforAutop() {
 				temp->SetLT(cptr->getLT());
 				temp->setPT(cptr->getPT().getDAY(), cptr->getPT().gethour());
 				AddCargotoVIPWaiting(temp);
+				this->set_NumberOfAutoPromotedCargos(this->get_NumberOfAutoPromotedCargos() + 1);
 			}
-			this->set_NumberOfAutoPromotedCargos(this->get_NumberOfAutoPromotedCargos() + 1);
+			
 		}
 		else q.enqueue(cptr);
 		
@@ -220,7 +221,7 @@ double Company::Trucks_ActiveTime()
 		double x = (double)t / TSM;
 		ALL += x;		bo = VIPTrucks.enqueue(truck);
 	}
-	return ALL/TruckCount;
+	return(TruckCount? ALL/TruckCount:0);
 }
 Time Company::NormalTrucks_ActiveTime() {
 	Time x;
@@ -898,14 +899,8 @@ void Company::AssignVIPTruck(int T) {
 				}
 			}
 
-			VT->incrementJC();
-			VT->updateDI();
-			VT->setTimeforDelivery(this->CurrentTime);
-			VT->setTimeforReturn(this->CurrentTime);
-			VT->setTimeforLoading(this->CurrentTime);
-			VT->updateCargosDT();
-			VT->ResetCargoCount();
-			LoadingTrucks.enqueue(VT);
+			AddtoLoading(VT);
+			VTrucks++;
 		
 	}
 }
@@ -997,16 +992,7 @@ void Company::AssignNormalTruck(int T) {
 					}
 				}
 				//if (!C) return; 
-				NT->incrementJC();
-				NT->updateDI();
-				NT->setTimeforDelivery(this->CurrentTime);
-				NT->setTimeforReturn(this->CurrentTime);
-				NT->setTimeforLoading(this->CurrentTime);
-				NT->updateCargosDT();
-				NT->ResetCargoCount();
-				LoadingTrucks.enqueue(NT);
-			
-
+				AddtoLoading(NT);
 		}
 }
 void Company::AssignSpecialTruck(int T) {
@@ -1094,14 +1080,8 @@ void Company::AssignSpecialTruck(int T) {
 					ST->AddCargo(C);
 				}
 			}
-			ST->incrementJC();
-			ST->updateDI();
-			ST->setTimeforDelivery(this->CurrentTime);
-			ST->setTimeforReturn(this->CurrentTime);
-			ST->setTimeforLoading(this->CurrentTime);
-			ST->updateCargosDT();
-			ST->ResetCargoCount();
-			LoadingTrucks.enqueue(ST);
+			AddtoLoading(ST);
+			STrucks++;
 	
 	}
 }
@@ -1358,9 +1338,9 @@ void Company::CheckforTrucks() {
 				t.sethour(CurrentTime.gethour() + T->get_MaintenanceTime());
 				T->set_putInMaintenanceTime(t);
 			}
-			else if (dynamic_cast<NormalTruck*> (T)) NormalEmptyTrucks.enqueue(T, T->getprio_s_c());
-			else if (dynamic_cast<SpecialTruck*> (T)) SpecialEmptyTrucks.enqueue(T, T->getprio_s_c());
-			else VIPEmptyTrucks.enqueue(T, T->getprio_s_c());
+			else if (dynamic_cast<NormalTruck*> (T)) NTrucks--,NormalEmptyTrucks.enqueue(T, T->getprio_s_c());
+			else if (dynamic_cast<SpecialTruck*> (T)) STrucks--,SpecialEmptyTrucks.enqueue(T, T->getprio_s_c());
+			else VTrucks--,VIPEmptyTrucks.enqueue(T, T->getprio_s_c());
 		}
 		else if (Cargos.GetCount() > 0) {
 			Cargo* C;
@@ -1820,7 +1800,7 @@ void Company::OutputFile() {			//ismail
 
 	// AutoP
 	
-	Lfile << "Auto-promoted Cargos:" <<  setprecision(3)<<(float)NumberOfAutoPromotedCargos / ALL * 100  << "%\n";
+	Lfile << "Auto-promoted Cargos:" <<  setprecision(3)<<(float)NumberOfAutoPromotedCargos /*/ ALL * 100 */ << "%\n";
 
 	//Trucks
 	Lfile << "Trucks: " << get_numOf_N_Truck() + get_numOf_S_Truck() + get_numOf_VIP_Truck();
@@ -1836,21 +1816,20 @@ void Company::OutputFile() {			//ismail
 	Lfile.close();
 }
 void Company::TestAll() {
-	int cnt = 1500;
+	int cnt = 5000;
 	Loading_File();
 	CreateTrucks();
 	while (cnt--) {
 		TSM++;
 		ExecuteEvents();
-		//LoadCargos();
-		Assign_Ignore_Loading_Rule();
+		LoadCargos();
+		//Assign_Ignore_Loading_Rule();
 		incrementWHs();
 		//Organize_Loading();
 		checkforAutop();
-		//CheckFailure();
-		//CheckforCheckupTrucks();
+		CheckFailure();
 		CheckforTrucks();
-		//PrintConsole();
+		PrintConsole();
 		++CurrentTime;
 	}
 	OutputFile();
