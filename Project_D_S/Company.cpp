@@ -108,16 +108,10 @@ void Company::checkforAutop() {
 	{
 		
 		if (cptr->GetWaitingHours()/24.0 > AutoP) {
-			if (cptr) {
-				VIPCargo* temp = new VIPCargo();
-				temp->SetCost(cptr->getCost());
-				temp->SetDdes(cptr->getDis());
-				temp->SetID(cptr->GetID());
-				temp->SetLT(cptr->getLT());
-				temp->setPT(cptr->getPT().getDAY(), cptr->getPT().gethour());
-				AddCargotoVIPWaiting(temp);
+			
+				AddCargotoVIPWaiting(cptr);
 				this->set_NumberOfAutoPromotedCargos(this->get_NumberOfAutoPromotedCargos() + 1);
-			}
+			
 			
 		}
 		else q.enqueue(cptr);
@@ -125,6 +119,19 @@ void Company::checkforAutop() {
 	}
 	while (q.dequeue(cptr))
 		WaitingNormalCargos.InsertEnd(cptr);
+
+	while (NCargosExceededMaxW.dequeue(cptr)) {
+		if (cptr->GetWaitingHours() / 24.0 > AutoP) {
+
+			AddToVIPexceeded(cptr);
+			this->set_NumberOfAutoPromotedCargos(this->get_NumberOfAutoPromotedCargos() + 1);
+
+
+		}
+		else q.enqueue(cptr);
+	}
+	while (q.dequeue(cptr))
+		NCargosExceededMaxW.enqueue(cptr);
 }
 
 Time Company::AverageWaitingTime()
