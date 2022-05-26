@@ -474,7 +474,7 @@ void Company:: ExecuteEvents() {
 		while (EventsPQ.GetCount() > 0 && Eptr->getEventTime() == CurrentTime)
 		{
 
-			//cout << "Current EventCount: " << EventsPQ.GetCount() << endl;
+			cout << "Current EventCount: " << EventsPQ.GetCount() << endl;
 			EventsPQ.dequeue(Eptr);
 			/*if (!isClosed()) 
 			Eptr->Execute();
@@ -484,9 +484,10 @@ void Company:: ExecuteEvents() {
 					cout << "mmmm\n";
 				}
 				else if (dynamic_cast<PromotionEvent*>(Eptr))*/
-					Eptr->Execute();
+			Eptr->Execute(); 
 			//}
 			EventsPQ.peak(Eptr);
+			cout << Eptr->getID() << endl;
 		}
 	
 	
