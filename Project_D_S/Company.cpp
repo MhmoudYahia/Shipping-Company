@@ -921,12 +921,12 @@ void Company::AssignVIPTruck(int T) {
 
 	if (flag) {
 
-		if (T == 0 && (VT->getTC() > WaitingVIPCargos.GetCount()|| VT->getTC() < 1||V))
+		if (T == 0 && (VT->getTC() > WaitingVIPCargos.GetCount()|| VT->getTC() < 1))
 		{
 			VIPEmptyTrucks.enqueue(VT, VT->getprio_s_c());
 			return;
 		}
-		if (T == 1 && (VT->getTC() > WaitingNormalCargos.GetCount() || VT->getTC() < 1||V))
+		if (T == 1 && (VT->getTC() > WaitingNormalCargos.GetCount() || VT->getTC() < 1)
 		{
 			VIPEmptyTrucks.enqueue(VT, VT->getprio_s_c());
 			return;
@@ -1011,12 +1011,12 @@ void Company::AssignNormalTruck(int T) {
 
 		if(flag){
 		
-			if (T == 0 && (NT->getTC() > WaitingVIPCargos.GetCount() || NT->getTC() < 1||N))
+			if (T == 0 && (NT->getTC() > WaitingVIPCargos.GetCount() || NT->getTC() < 1))
 			{
 				NormalEmptyTrucks.enqueue(NT, NT->getprio_s_c());
 				return;
 			}
-		    if (T == 1 && (NT->getTC() > WaitingNormalCargos.GetCount() || NT->getTC() < 1||N))
+		    if (T == 1 && (NT->getTC() > WaitingNormalCargos.GetCount() || NT->getTC() < 1))
 			{
 				NormalEmptyTrucks.enqueue(NT, NT->getprio_s_c());
 				return;
@@ -1104,12 +1104,12 @@ void Company::AssignSpecialTruck(int T) {
 	//===========================for bonus
 	if (flag) {
 
-		if (T == 0 && (ST->getTC() > WaitingVIPCargos.GetCount() || ST->getTC() < 1||S))
+		if (T == 0 && (ST->getTC() > WaitingVIPCargos.GetCount() || ST->getTC() < 1))
 		{
 			SpecialEmptyTrucks.enqueue(ST, ST->getprio_s_c());
 			return;
 		}
-		if (T == 1 && (ST->getTC() > WaitingSpecialCargos.GetCount() || ST->getTC() < 1||S))
+		if (T == 1 && (ST->getTC() > WaitingSpecialCargos.GetCount() || ST->getTC() < 1))
 		{
 			SpecialEmptyTrucks.enqueue(ST, ST->getprio_s_c());
 			return;
