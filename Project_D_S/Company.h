@@ -140,9 +140,12 @@ public:
 	void AddCargotoNormalWaiting(Cargo* n);
 	void AddCargotoSpWaiting(Cargo* n);
 	void PrintEvents();
-	void CancellationID(int id);
-	NormalCargo* GetNormalCargo(int id);
+	bool CancellationID(int id);
+	void ExceededCancellation(int ID);
+	Cargo* PromotionExceeded(int ID);
+	Cargo* GetNormalCargo(int id);
 	void printWaitingVIP(UIClass *);
+	void AddToVIPexceeded(Cargo* c);
 	void printWaitingNormal(UIClass* pUI);
 	void printWaitingSP(UIClass* pUI);
 	int GetnumMoving();

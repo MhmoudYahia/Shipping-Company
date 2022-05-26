@@ -19,16 +19,18 @@ VIPCargo* PromotionEvent::getVIPCargo() {
 void PromotionEvent::Execute()
 {
 
-	NormalCargo *Nptr= Cptr->GetNormalCargo(ID);
+	Cargo *Nptr= Cptr->GetNormalCargo(ID);
 	if (Nptr) {
-		VIPCargo* temp = new VIPCargo();
-		temp->SetCost(Nptr->getCost() + this->getExtraMoney());
-		temp->SetDdes(Nptr->getDis());
-		temp->SetID(Nptr->GetID());
-		temp->SetLT(Nptr->getLT());
-		temp->setPT(Nptr->getPT().getDAY(), Nptr->getPT().gethour());
-		Cptr->AddCargotoVIPWaiting(temp);
+		Nptr->SetCost(Nptr->getCost() + getExtraMoney());
+		Cptr->AddCargotoVIPWaiting(Nptr);
 		Cptr->CancellationID(ID);
+	}
+	else {
+		Cargo* c = Cptr->PromotionExceeded(ID);
+		if (c) {
+			c->SetCost(c->getCost() + getExtraMoney());
+			Cptr->AddToVIPexceeded(c);
+		}
 	}
 }
 
